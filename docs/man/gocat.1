@@ -1,0 +1,87 @@
+.TH GOCAT 1 "December 2024" "GoCat 1.0.0" "User Commands"
+.SH NAME
+gocat \- modern, feature-rich netcat alternative written in Go
+.SH SYNOPSIS
+.B gocat
+[\fIOPTIONS\fR] \fICOMMAND\fR [\fIARGS\fR]
+.SH DESCRIPTION
+.B GoCat
+is a modern, cross-platform netcat alternative written in Go. It provides
+all the functionality of traditional netcat with additional features,
+better performance, and enhanced security.
+.SH COMMANDS
+.TP
+.B connect \fIHOST\fR \fIPORT\fR
+Connect to a remote host
+.TP
+.B listen \fIPORT\fR
+Listen for incoming connections
+.TP
+.B scan \fIHOST\fR \fIPORTS\fR
+Scan ports on a host
+.TP
+.B proxy
+Start HTTP reverse proxy
+.TP
+.B tunnel
+Create SSH tunnel
+.TP
+.B sniffer
+Capture network packets
+.TP
+.B transfer
+Transfer files
+.TP
+.B ws
+WebSocket operations
+.TP
+.B unix
+Unix domain socket operations
+.TP
+.B metrics
+Start Prometheus metrics exporter
+.SH GLOBAL OPTIONS
+.TP
+.BR \-v ", " \-\-verbose
+Enable verbose output
+.TP
+.BR \-\-debug
+Enable debug mode
+.TP
+.BR \-\-ssl
+Use SSL/TLS encryption
+.TP
+.BR \-\-udp
+Use UDP instead of TCP
+.TP
+.BR \-4 ", " \-\-ipv4
+Force IPv4
+.TP
+.BR \-6 ", " \-\-ipv6
+Force IPv6
+.TP
+.BR \-w ", " \-\-wait " " \fIDURATION\fR
+Connection timeout
+.SH EXAMPLES
+.TP
+Connect to a server:
+.B gocat connect example.com 80
+.TP
+Listen on port 8080:
+.B gocat listen 8080
+.TP
+Scan ports 1-1000:
+.B gocat scan example.com 1-1000
+.TP
+Start packet capture:
+.B sudo gocat sniffer -i eth0
+.SH SEE ALSO
+.BR nc (1),
+.BR ncat (1),
+.BR socat (1)
+.SH AUTHOR
+Written by the GoCat team.
+.SH BUGS
+Report bugs at https://github.com/realibrahimsql/Gocat/issues
+.SH COPYRIGHT
+MIT License

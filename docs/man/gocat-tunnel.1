@@ -1,0 +1,47 @@
+.TH GOCAT-TUNNEL 1 "December 2024" "GoCat 1.0.0" "User Commands"
+.SH NAME
+gocat-tunnel \- SSH tunneling
+.SH SYNOPSIS
+.B gocat tunnel
+[\fIOPTIONS\fR]
+.SH DESCRIPTION
+Create SSH tunnels for local, remote, and dynamic port forwarding.
+Supports SOCKS proxy mode for dynamic tunneling.
+.SH OPTIONS
+.TP
+.BR \-\-ssh " " \fIUSER@HOST\fR
+SSH server to connect to
+.TP
+.BR \-\-local " " \fIPORT\fR
+Local port for forwarding
+.TP
+.BR \-\-remote " " \fIHOST:PORT\fR
+Remote host and port
+.TP
+.BR \-\-reverse
+Enable reverse (remote) port forwarding
+.TP
+.BR \-\-dynamic " " \fIPORT\fR
+Enable dynamic SOCKS proxy on port
+.TP
+.BR \-\-key " " \fIFILE\fR
+SSH private key file
+.TP
+.BR \-\-password
+Prompt for password authentication
+.SH EXAMPLES
+.TP
+Local port forwarding:
+.B gocat tunnel --ssh user@server --local 8080 --remote localhost:80
+.TP
+Remote port forwarding:
+.B gocat tunnel --ssh user@server --reverse --local 3000 --remote 8080
+.TP
+Dynamic SOCKS proxy:
+.B gocat tunnel --ssh user@server --dynamic 1080
+.TP
+With SSH key:
+.B gocat tunnel --ssh user@server --key ~/.ssh/id_rsa --local 8080 --remote 80
+.SH SEE ALSO
+.BR gocat (1),
+.BR ssh (1)

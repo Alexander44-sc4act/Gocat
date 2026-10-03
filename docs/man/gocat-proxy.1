@@ -1,0 +1,47 @@
+.TH GOCAT-PROXY 1 "December 2024" "GoCat 1.0.0" "User Commands"
+.SH NAME
+gocat-proxy \- HTTP reverse proxy with load balancing
+.SH SYNOPSIS
+.B gocat proxy
+[\fIOPTIONS\fR]
+.SH DESCRIPTION
+Start an HTTP reverse proxy with load balancing, health checks,
+and SSL/TLS support.
+.SH OPTIONS
+.TP
+.BR \-\-listen " " \fIADDRESS\fR
+Listen address (default: :8080)
+.TP
+.BR \-\-target " " \fIURL\fR
+Target backend URL
+.TP
+.BR \-\-backends " " \fIURLs\fR
+Comma-separated list of backend URLs
+.TP
+.BR \-\-health\-check " " \fIPATH\fR
+Health check endpoint path
+.TP
+.BR \-\-lb\-algorithm " " \fIALGO\fR
+Load balancing algorithm (round-robin, least-connections, random)
+.TP
+.BR \-\-ssl
+Enable SSL/TLS
+.TP
+.BR \-\-cert " " \fIFILE\fR
+SSL certificate file
+.TP
+.BR \-\-key " " \fIFILE\fR
+SSL private key file
+.SH EXAMPLES
+.TP
+Simple reverse proxy:
+.B gocat proxy --listen :8080 --target http://backend:80
+.TP
+Load balancing:
+.B gocat proxy --listen :8080 --backends http://b1:80,http://b2:80
+.TP
+With health checks:
+.B gocat proxy --listen :8080 --backends http://b1:80,http://b2:80 --health-check /health
+.SH SEE ALSO
+.BR gocat (1),
+.BR nginx (1)

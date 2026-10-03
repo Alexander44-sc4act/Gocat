@@ -1,0 +1,64 @@
+.TH GOCAT-SCAN 1 "December 2024" "GoCat 1.0.0" "User Commands"
+.SH NAME
+gocat-scan \- port scanner
+.SH SYNOPSIS
+.B gocat scan
+[\fIOPTIONS\fR] \fIHOST\fR \fIPORTS\fR
+.SH DESCRIPTION
+Scan ports on a target host. Supports TCP and UDP scanning
+with configurable concurrency and timeout.
+.SH OPTIONS
+.TP
+.BR \-t ", " \-\-timeout " " \fIDURATION\fR
+Port scan timeout (default: 3s)
+.TP
+.BR \-c ", " \-\-concurrent " " \fICOUNT\fR
+Concurrent scans (default: 100)
+.TP
+.BR \-u ", " \-\-udp
+Scan UDP ports
+.TP
+.BR \-T ", " \-\-tcp
+Scan TCP ports (default)
+.TP
+.BR \-A ", " \-\-all
+Scan both TCP and UDP
+.TP
+.BR \-o ", " \-\-output " " \fIFORMAT\fR
+Output format (text, json, xml)
+.TP
+.BR \-v ", " \-\-verbose
+Verbose output
+.TP
+.BR \-q ", " \-\-quiet
+Quiet mode (only open ports)
+.SH PORT SPECIFICATION
+Ports can be specified in several formats:
+.TP
+.B Single port
+80
+.TP
+.B Multiple ports
+80,443,8080
+.TP
+.B Port range
+1-1000
+.TP
+.B Combined
+22,80,443,8000-9000
+.SH EXAMPLES
+.TP
+Scan single port:
+.B gocat scan example.com 80
+.TP
+Scan port range:
+.B gocat scan example.com 1-1000
+.TP
+Scan with timeout:
+.B gocat scan --timeout 5s example.com 1-65535
+.TP
+JSON output:
+.B gocat scan -o json example.com 1-1000
+.SH SEE ALSO
+.BR gocat (1),
+.BR nmap (1)

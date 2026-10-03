@@ -1,0 +1,49 @@
+.TH GOCAT-WS 1 "December 2024" "GoCat 1.0.0" "User Commands"
+.SH NAME
+gocat-ws \- WebSocket operations
+.SH SYNOPSIS
+.B gocat ws
+\fICOMMAND\fR [\fIOPTIONS\fR]
+.SH DESCRIPTION
+WebSocket server and client operations with compression support.
+.SH COMMANDS
+.TP
+.B server
+Start a WebSocket server
+.TP
+.B connect
+Connect to a WebSocket server
+.TP
+.B echo
+Start a WebSocket echo server
+.SH OPTIONS
+.TP
+.BR \-\-port " " \fIPORT\fR
+Port number (default: 8080)
+.TP
+.BR \-\-compress
+Enable compression
+.TP
+.BR \-\-origin " " \fIURL\fR
+Set Origin header
+.TP
+.BR \-\-subprotocol " " \fIPROTOCOL\fR
+WebSocket subprotocol
+.SH EXAMPLES
+.TP
+Start WebSocket server:
+.B gocat ws server --port 8080
+.TP
+Echo server:
+.B gocat ws echo --port 8080
+.TP
+Connect to server:
+.B gocat ws connect ws://localhost:8080
+.TP
+With compression:
+.B gocat ws server --port 8080 --compress
+.TP
+Secure WebSocket:
+.B gocat ws connect wss://secure.example.com/ws
+.SH SEE ALSO
+.BR gocat (1)

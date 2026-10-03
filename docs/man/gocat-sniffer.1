@@ -1,0 +1,71 @@
+.TH GOCAT-SNIFFER 1 "December 2024" "GoCat 1.0.0" "User Commands"
+.SH NAME
+gocat-sniffer \- network packet sniffer
+.SH SYNOPSIS
+.B gocat sniffer
+[\fIOPTIONS\fR]
+.SH DESCRIPTION
+Capture and analyze network packets with BPF filtering support.
+Requires root/administrator privileges for packet capture.
+.SH OPTIONS
+.TP
+.BR \-i ", " \-\-interface " " \fINAME\fR
+Network interface to sniff
+.TP
+.BR \-f ", " \-\-filter " " \fIEXPRESSION\fR
+BPF filter expression
+.TP
+.BR \-\-promisc
+Enable promiscuous mode (default: true)
+.TP
+.BR \-\-snaplen " " \fILENGTH\fR
+Snapshot length (default: 65535)
+.TP
+.BR \-\-timeout " " \fIDURATION\fR
+Read timeout (default: 30s)
+.TP
+.BR \-c ", " \-\-count " " \fINUM\fR
+Number of packets to capture (0=unlimited)
+.TP
+.BR \-\-sniff\-verbose
+Verbose output
+.TP
+.BR \-\-decode
+Decode packet contents
+.TP
+.BR \-o ", " \-\-output " " \fIFILE\fR
+Save packets to pcap file
+.SH FILTER EXPRESSIONS
+BPF filter expressions can be used to filter packets:
+.TP
+.B tcp
+Capture only TCP packets
+.TP
+.B udp
+Capture only UDP packets
+.TP
+.B port 80
+Capture packets on port 80
+.TP
+.B host 192.168.1.1
+Capture packets to/from host
+.TP
+.B net 192.168.1.0/24
+Capture packets in network
+.SH EXAMPLES
+.TP
+List interfaces:
+.B sudo gocat sniffer
+.TP
+Capture on eth0:
+.B sudo gocat sniffer -i eth0
+.TP
+Capture HTTP traffic:
+.B sudo gocat sniffer -i eth0 -f "tcp port 80"
+.TP
+Save to file:
+.B sudo gocat sniffer -i eth0 -o capture.pcap
+.SH SEE ALSO
+.BR gocat (1),
+.BR tcpdump (1),
+.BR wireshark (1)

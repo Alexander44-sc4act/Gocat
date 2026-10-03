@@ -1,0 +1,66 @@
+name: Bug Report
+description: Report a bug or unexpected behavior in GoCat
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: GoCat Version
+      description: What version are you using? (run 'gocat --version')
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Linux
+        - macOS (Intel)
+        - macOS (Apple Silicon)
+        - Windows
+        - FreeBSD
+        - Other (specify below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: What happened, and what did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1. Run: `gocat listen 8080`
+        2. Connect: `gocat connect localhost 8080`
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs / Output
+      render: shell
+      placeholder: |
+        ```
+        $ gocat listen 8080
+        error: connection failed...
+        ```
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues for duplicates
+          required: true
+        - label: I provided the version, OS, and reproduction steps
+          required: true

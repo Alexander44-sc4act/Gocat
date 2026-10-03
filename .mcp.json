@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "graft": {
+      "command": "/home/ibrahim/.npm-global/bin/graft",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}

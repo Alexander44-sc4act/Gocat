@@ -1,0 +1,56 @@
+.TH GOCAT-LISTEN 1 "December 2024" "GoCat 1.0.0" "User Commands"
+.SH NAME
+gocat-listen \- listen for incoming connections
+.SH SYNOPSIS
+.B gocat listen
+[\fIOPTIONS\fR] \fIPORT\fR
+.SH DESCRIPTION
+Listen for incoming network connections on the specified port.
+Supports TCP, UDP, SSL/TLS, and multiple concurrent connections.
+.SH OPTIONS
+.TP
+.BR \-e ", " \-\-exec " " \fICOMMAND\fR
+Execute command for each connection
+.TP
+.BR \-i ", " \-\-interactive
+Interactive mode
+.TP
+.BR \-l ", " \-\-local
+Local interactive mode
+.TP
+.BR \-b ", " \-\-bind " " \fIADDRESS\fR
+Bind to specific address (default: 0.0.0.0)
+.TP
+.BR \-k ", " \-\-keep\-alive
+Keep connections alive
+.TP
+.BR \-m ", " \-\-max\-conn " " \fICOUNT\fR
+Maximum concurrent connections (default: 10)
+.TP
+.BR \-t ", " \-\-timeout " " \fIDURATION\fR
+Connection timeout (default: 0 = no timeout)
+.TP
+.BR \-u ", " \-\-udp
+Use UDP instead of TCP
+.TP
+.BR \-S ", " \-\-ssl
+Use SSL/TLS
+.TP
+.BR \-K ", " \-\-ssl\-key " " \fIFILE\fR
+SSL private key file
+.TP
+.BR \-C ", " \-\-ssl\-cert " " \fIFILE\fR
+SSL certificate file
+.SH EXAMPLES
+.TP
+Listen on port 8080:
+.B gocat listen 8080
+.TP
+Listen with command execution:
+.B gocat listen -e /bin/bash 8080
+.TP
+SSL listener:
+.B gocat listen --ssl --ssl-cert cert.pem --ssl-key key.pem 443
+.SH SEE ALSO
+.BR gocat (1),
+.BR gocat-connect (1)

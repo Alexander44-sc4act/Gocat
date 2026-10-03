@@ -1,0 +1,53 @@
+.TH GOCAT-CONNECT 1 "December 2024" "GoCat 1.0.0" "User Commands"
+.SH NAME
+gocat-connect \- connect to a remote host
+.SH SYNOPSIS
+.B gocat connect
+[\fIOPTIONS\fR] \fIHOST\fR \fIPORT\fR
+.SH DESCRIPTION
+Connect to a remote host and establish a network connection.
+Supports TCP, UDP, SSL/TLS, and proxy connections.
+.SH OPTIONS
+.TP
+.BR \-s ", " \-\-shell " " \fISHELL\fR
+Shell to use for command execution (default: /bin/sh)
+.TP
+.BR \-t ", " \-\-timeout " " \fIDURATION\fR
+Connection timeout (default: 30s)
+.TP
+.BR \-r ", " \-\-retry " " \fICOUNT\fR
+Number of retry attempts (default: 3)
+.TP
+.BR \-\-auto\-reconnect
+Enable automatic reconnection on disconnect
+.TP
+.BR \-k ", " \-\-keep\-alive
+Enable TCP keep-alive
+.TP
+.BR \-p ", " \-\-proxy " " \fIURL\fR
+Proxy URL (socks5:// or http://)
+.TP
+.BR \-S ", " \-\-ssl
+Use SSL/TLS
+.TP
+.BR \-C ", " \-\-verify\-cert
+Verify SSL certificate
+.TP
+.BR \-\-ca\-cert " " \fIFILE\fR
+CA certificate file
+.TP
+.BR \-u ", " \-\-udp
+Use UDP instead of TCP
+.SH EXAMPLES
+.TP
+Basic TCP connection:
+.B gocat connect example.com 80
+.TP
+SSL connection:
+.B gocat connect --ssl example.com 443
+.TP
+Through SOCKS5 proxy:
+.B gocat connect --proxy socks5://proxy:1080 target.com 80
+.SH SEE ALSO
+.BR gocat (1),
+.BR gocat-listen (1)
