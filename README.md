@@ -1,7 +1,7 @@
 # GoCat
 
 [![Go Version](https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go)](https://golang.org)
-[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/realibrahimsql/Gocat)](https://github.com/realibrahimsql/Gocat/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/realibrahimsql/Gocat/ci.yml)](https://github.com/realibrahimsql/Gocat/actions)
 
@@ -300,6 +300,6 @@ Report security issues privately through a GitHub security advisory instead of a
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+Apache-2.0. See [LICENSE](LICENSE).
 
 Netcat was written by Hobbit; GoCat is an independent reimplementation of the idea in Go.

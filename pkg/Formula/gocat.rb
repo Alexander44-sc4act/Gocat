@@ -3,7 +3,7 @@ class Gocat < Formula
   homepage "https://github.com/realibrahimsql/Gocat"
   url "https://github.com/realibrahimsql/Gocat/archive/refs/tags/v#{version}.tar.gz"
   sha256 "" # This will be updated when creating releases 
-  license "MIT"
+  license "Apache-2.0"
   head "https://github.com/realibrahimsql/Gocat.git", branch: "main"
 
   depends_on "go" => :build
@@ -58,7 +58,7 @@ class Gocat < Formula
       .SH REPORTING BUGS
       Report bugs to: https://github.com/realibrahimsql/Gocat/issues
       .SH COPYRIGHT
-      Copyright © 2025 ibrahimsql. License MIT.
+      Copyright © 2025 ibrahimsql. License Apache-2.0.
     EOS
 
     # Install bash completion

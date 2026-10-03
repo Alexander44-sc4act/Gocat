@@ -49,3 +49,9 @@ demos/*.tape
 
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/
+
+# Local assistant and session scratch (personal tooling, not project content)
+/.claude/
+/.gemini/
+/.vscode/
+/.planning/

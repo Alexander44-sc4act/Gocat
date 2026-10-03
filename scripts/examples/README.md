@@ -145,4 +145,4 @@ print("Option: " .. option)
 
 ## License
 
-MIT License - See main project LICENSE file.
+Apache-2.0 License - See main project LICENSE file.
