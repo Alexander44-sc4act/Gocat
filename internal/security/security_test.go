@@ -217,7 +217,7 @@ func TestInputValidator_ValidateCommand(t *testing.T) {
 
 func absTestPath() string {
 	if runtime.GOOS == "windows" {
-		return `C:\Users\test\file.txt`
+		return `C:\Temp\file.txt`
 	}
 	return "/home/user/file.txt"
 }
