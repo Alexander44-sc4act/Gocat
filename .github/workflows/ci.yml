@@ -50,8 +50,8 @@ jobs:
       - name: Smoke test binary
         shell: bash
         run: |
-          BIN="gocat-smoke"
-          if [ "$RUNNER_OS" = "Windows" ]; then BIN="gocat-smoke.exe"; fi
+          BIN="./gocat-smoke"
+          if [ "$RUNNER_OS" = "Windows" ]; then BIN="./gocat-smoke.exe"; fi
           go build -o "$BIN" .
           "$BIN" --help >/dev/null
           "$BIN" version
