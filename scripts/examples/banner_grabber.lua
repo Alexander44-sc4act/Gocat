@@ -9,7 +9,6 @@ local ports_arg = arg[2] or "21,22,25,80,110,143,443"
 -- Validate
 if not target then
     print("GoCat Banner Grabber")
-    print("====================")
     print("")
     print("Usage: gocat script run banner_grabber.lua <target> [ports]")
     print("")
@@ -97,7 +96,6 @@ local function main()
     local ports = parse_ports(ports_arg)
     
     print("GoCat Banner Grabber")
-    print("====================")
     print("")
     print("Target: " .. target)
     print("Ports: " .. table.concat(ports, ", "))

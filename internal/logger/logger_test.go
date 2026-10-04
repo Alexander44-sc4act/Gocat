@@ -128,7 +128,6 @@ func TestDefaultLoggerFunctions(t *testing.T) {
 }
 
 func TestSetupLogger(t *testing.T) {
-	// This function just calls log.SetFlags(0)
 	// We can't easily test the effect, but we can ensure it doesn't panic
 	SetupLogger()
 }

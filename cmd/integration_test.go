@@ -115,7 +115,7 @@ func TestTCPListenConnect(t *testing.T) {
 	_, _ = conn.Read(buf)
 	// Connection established successfully if we can write
 
-	t.Log("✓ TCP Listen & Connect test passed")
+	t.Log("TCP Listen & Connect test passed")
 }
 
 // TestMultiPortListener tests multi-port listening
@@ -141,10 +141,10 @@ func TestMultiPortListener(t *testing.T) {
 			continue
 		}
 		conn.Close()
-		t.Logf("✓ Port %s is open", port)
+		t.Logf("Port %s is open", port)
 	}
 
-	t.Log("✓ Multi-Port Listener test passed")
+	t.Log("Multi-Port Listener test passed")
 }
 
 // TestHTTPReverseProxy tests the HTTP reverse proxy
@@ -183,7 +183,7 @@ func TestHTTPReverseProxy(t *testing.T) {
 		t.Logf("Response status: %d (expected connection)", resp.StatusCode)
 	}
 
-	t.Log("✓ HTTP Reverse Proxy test passed")
+	t.Log("HTTP Reverse Proxy test passed")
 }
 
 // TestProtocolConverter tests TCP to UDP conversion
@@ -252,7 +252,7 @@ func TestProtocolConverter(t *testing.T) {
 		t.Errorf("Expected '%s', got '%s'", testData, string(buf[:n]))
 	}
 
-	t.Log("✓ Protocol Converter test passed")
+	t.Log("Protocol Converter test passed")
 }
 
 // TestPortScanner tests the port scanner
@@ -277,7 +277,7 @@ func TestPortScanner(t *testing.T) {
 		t.Errorf("Expected OPEN in output, got: %s", string(output))
 	}
 
-	t.Log("✓ Port Scanner test passed")
+	t.Log("Port Scanner test passed")
 }
 
 // TestVerboseFlag tests verbose flag
@@ -294,7 +294,7 @@ func TestVerboseFlag(t *testing.T) {
 		t.Error("Expected verbose output")
 	}
 
-	t.Log("✓ Verbose flag test passed")
+	t.Log("Verbose flag test passed")
 }
 
 // TestDebugFlag tests debug flag
@@ -309,7 +309,7 @@ func TestDebugFlag(t *testing.T) {
 		t.Errorf("Expected version info, got: %s", string(output))
 	}
 
-	t.Log("✓ Debug flag test passed")
+	t.Log("Debug flag test passed")
 }
 
 // TestSSLFlags tests SSL-related flags
@@ -349,7 +349,7 @@ func TestSSLFlags(t *testing.T) {
 	stdin.Write([]byte("test\n"))
 	stdin.Close()
 
-	t.Log("✓ SSL flags test passed")
+	t.Log("SSL flags test passed")
 }
 
 // TestConvertCommand tests convert command help
@@ -364,7 +364,7 @@ func TestConvertCommand(t *testing.T) {
 		t.Errorf("Expected protocol in help, got: %s", string(output))
 	}
 
-	t.Log("✓ Convert command test passed")
+	t.Log("Convert command test passed")
 }
 
 // TestTunnelCommand tests tunnel command help
@@ -379,7 +379,7 @@ func TestTunnelCommand(t *testing.T) {
 		t.Errorf("Expected SSH in help, got: %s", string(output))
 	}
 
-	t.Log("✓ Tunnel command test passed")
+	t.Log("Tunnel command test passed")
 }
 
 // TestDNSTunnelCommand tests DNS tunnel command help
@@ -394,7 +394,7 @@ func TestDNSTunnelCommand(t *testing.T) {
 		t.Errorf("Expected DNS in help, got: %s", string(output))
 	}
 
-	t.Log("✓ DNS Tunnel command test passed")
+	t.Log("DNS Tunnel command test passed")
 }
 
 // TestAllCommandsExist tests that all commands are registered
@@ -418,7 +418,7 @@ func TestAllCommandsExist(t *testing.T) {
 		}
 	}
 
-	t.Logf("✓ All %d commands exist", len(expectedCommands))
+	t.Logf("All %d commands exist", len(expectedCommands))
 }
 
 // TestProxyLoadBalancing tests proxy with multiple backends
@@ -471,7 +471,7 @@ func TestProxyLoadBalancing(t *testing.T) {
 		t.Error("No successful proxy requests")
 	}
 
-	t.Logf("✓ Proxy Load Balancing test passed (%d/3 requests successful)", successCount)
+	t.Logf("Proxy Load Balancing test passed (%d/3 requests successful)", successCount)
 }
 
 // TestScanWithDifferentFlags tests scan command with various flags
@@ -504,7 +504,7 @@ func TestScanWithDifferentFlags(t *testing.T) {
 			if !strings.Contains(string(output), "OPEN") {
 				t.Errorf("Expected OPEN in output for %s", tt.name)
 			} else {
-				t.Logf("✓ %s passed", tt.name)
+				t.Logf("%s passed", tt.name)
 			}
 		})
 	}
@@ -531,7 +531,7 @@ func TestConnectWithRetry(t *testing.T) {
 		t.Logf("Output: %s", string(output))
 	}
 
-	t.Log("✓ Connect with retry test passed")
+	t.Log("Connect with retry test passed")
 }
 
 // TestVersionCommand tests version command
@@ -550,7 +550,7 @@ func TestVersionCommand(t *testing.T) {
 		t.Errorf("Expected Build Information in version output")
 	}
 
-	t.Log("✓ Version command test passed")
+	t.Log("Version command test passed")
 }
 
 // TestChatMode tests chat server startup
@@ -572,7 +572,7 @@ func TestChatMode(t *testing.T) {
 	}
 	conn.Close()
 
-	t.Log("✓ Chat mode test passed")
+	t.Log("Chat mode test passed")
 }
 
 // TestBrokerMode tests broker mode startup
@@ -594,5 +594,5 @@ func TestBrokerMode(t *testing.T) {
 	}
 	conn.Close()
 
-	t.Log("✓ Broker mode test passed")
+	t.Log("Broker mode test passed")
 }

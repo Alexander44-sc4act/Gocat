@@ -153,7 +153,7 @@ func listInterfaces() {
 
 	color.Cyan("Available network interfaces:\n")
 	for _, device := range devices {
-		fmt.Printf("\n📡 %s", color.GreenString(device.Name))
+		fmt.Printf("\n%s", color.GreenString(device.Name))
 		if device.Description != "" {
 			fmt.Printf(" - %s", device.Description)
 		}
@@ -332,14 +332,14 @@ func analyzeApplicationLayer(appLayer gopacket.ApplicationLayer, srcIP, dstIP ne
 
 	// Try to detect protocol
 	if isHTTP(payload) {
-		color.Magenta("🌐 HTTP Traffic detected: %s:%d -> %s:%d", srcIP, srcPort, dstIP, dstPort)
+		color.Magenta("HTTP Traffic detected: %s:%d -> %s:%d", srcIP, srcPort, dstIP, dstPort)
 		printHTTPContent(payload)
 	} else if isDNS(srcPort, dstPort) {
-		color.Magenta("🔍 DNS Traffic detected")
+		color.Magenta("DNS Traffic detected")
 	} else if isSSH(srcPort, dstPort) {
-		color.Magenta("🔐 SSH Traffic detected")
+		color.Magenta("SSH Traffic detected")
 	} else if isTLS(payload) {
-		color.Magenta("🔒 TLS/SSL Traffic detected")
+		color.Magenta("TLS/SSL Traffic detected")
 	}
 
 	// Show hex dump for small payloads
@@ -402,7 +402,7 @@ func reportPacketStats() {
 		duration := time.Since(packetStats.StartTime)
 		pps := float64(packetStats.Total) / duration.Seconds()
 
-		fmt.Printf("\n📊 Packet Statistics:\n")
+		fmt.Printf("\nPacket Statistics:\n")
 		fmt.Printf("  Total: %d packets (%.1f pps)\n", packetStats.Total, pps)
 		fmt.Printf("  TCP: %d | UDP: %d | ICMP: %d | ARP: %d | Other: %d\n",
 			packetStats.TCP, packetStats.UDP, packetStats.ICMP,
@@ -418,27 +418,23 @@ func printFinalStats() {
 
 	duration := time.Since(packetStats.StartTime)
 
-	// Modern header with box drawing
 	fmt.Println()
-	color.New(color.FgCyan, color.Bold).Println("╔══════════════════════════════════════════════╗")
-	color.New(color.FgCyan, color.Bold).Println("║          📊 CAPTURE STATISTICS              ║")
-	color.New(color.FgCyan, color.Bold).Println("╚══════════════════════════════════════════════╝")
+	color.New(color.FgCyan, color.Bold).Println("Capture statistics:")
 
 	// Time and volume stats with icons
 	fmt.Println()
-	color.New(color.FgWhite, color.Bold).Print("⏱️  Capture Duration: ")
+	color.New(color.FgWhite, color.Bold).Print("Capture Duration: ")
 	color.Yellow("%v\n", duration)
 
-	color.New(color.FgWhite, color.Bold).Print("📦 Total Packets: ")
+	color.New(color.FgWhite, color.Bold).Print("Total Packets: ")
 	color.Green("%s\n", formatNumber(packetStats.Total))
 
-	color.New(color.FgWhite, color.Bold).Print("💾 Total Data: ")
+	color.New(color.FgWhite, color.Bold).Print("Total Data: ")
 	color.Blue("%s\n", formatBytes(packetStats.Bytes))
 
 	// Protocol distribution with progress bars
 	fmt.Println()
-	color.New(color.FgWhite, color.Bold).Println("📡 Protocol Distribution:")
-	fmt.Println(strings.Repeat("─", 48))
+	color.New(color.FgWhite, color.Bold).Println("Protocol Distribution:")
 
 	// TCP with progress bar
 	tcpPercent := percent(packetStats.TCP, packetStats.Total)
@@ -480,15 +476,13 @@ func printFinalStats() {
 		color.WhiteString("%6d", packetStats.Other),
 		otherPercent)
 
-	fmt.Println(strings.Repeat("─", 48))
-
 	// Performance metrics
 	if duration.Seconds() > 0 {
 		pps := float64(packetStats.Total) / duration.Seconds()
 		bps := float64(packetStats.Bytes) / duration.Seconds()
 
 		fmt.Println()
-		color.New(color.FgWhite, color.Bold).Println("⚡ Performance Metrics:")
+		color.New(color.FgWhite, color.Bold).Println("Performance Metrics:")
 		fmt.Printf("  Packets/sec: %s\n", color.YellowString("%.2f", pps))
 		fmt.Printf("  Throughput:  %s/s\n", color.GreenString("%s", formatBytes(int64(bps))))
 	}

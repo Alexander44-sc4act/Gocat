@@ -1,42 +1,42 @@
-# 🤝 Contributing to GoCat
+# Contributing to GoCat
 
-First off, thank you for considering contributing to GoCat! It's people like you that make GoCat such a great tool. 🎉
+Thank you for considering contributing to GoCat.
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [Code of Conduct](#-code-of-conduct)
-- [Getting Started](#-getting-started)
-- [Development Setup](#-development-setup)
-- [How to Contribute](#-how-to-contribute)
-- [Pull Request Process](#-pull-request-process)
-- [Coding Standards](#-coding-standards)
-- [Testing Guidelines](#-testing-guidelines)
-- [Documentation](#-documentation)
-- [Community](#-community)
-
----
-
-## 📜 Code of Conduct
-
-This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [conduct@gocat.dev](mailto:conduct@gocat.dev).
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
+- [Development Setup](#development-setup)
+- [How to Contribute](#how-to-contribute)
+- [Pull Request Process](#pull-request-process)
+- [Coding Standards](#coding-standards)
+- [Testing Guidelines](#testing-guidelines)
+- [Documentation](#documentation)
+- [Community](#community)
 
 ---
 
-## 🚀 Getting Started
+## Code of Conduct
 
-### 🔍 Ways to Contribute
+This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [ibrahimsql@proton.me](mailto:ibrahimsql@proton.me).
+
+---
+
+## Getting Started
+
+### Ways to Contribute
 
 There are many ways to contribute to GoCat:
 
-- 🐛 **Bug Reports**: Found a bug? Let us know!
-- 💡 **Feature Requests**: Have an idea? We'd love to hear it!
-- 📝 **Documentation**: Help improve our docs
-- 🧪 **Testing**: Help us test new features
-- 💻 **Code**: Submit patches and new features
-- 🌍 **Translation**: Help translate GoCat to other languages
-- 📢 **Advocacy**: Tell others about GoCat
+- **Bug Reports**: Found a bug? Let us know!
+- **Feature Requests**: Have an idea? We'd love to hear it!
+- **Documentation**: Help improve our docs
+- **Testing**: Help us test new features
+- **Code**: Submit patches and new features
+- **Translation**: Help translate GoCat to other languages
+- **Advocacy**: Tell others about GoCat
 
-### 🎯 Good First Issues
+### Good First Issues
 
 Looking for a place to start? Check out issues labeled with:
 - `good first issue` - Perfect for newcomers
@@ -46,16 +46,16 @@ Looking for a place to start? Check out issues labeled with:
 
 ---
 
-## 🛠️ Development Setup
+## Development Setup
 
-### 📋 Prerequisites
+### Prerequisites
 
-- **Go 1.21+**: [Download Go](https://golang.org/dl/)
+- **Go 1.24+**: [Download Go](https://golang.org/dl/)
 - **Git**: [Install Git](https://git-scm.com/downloads)
 - **Make**: Usually pre-installed on Unix systems
 - **Docker** (optional): [Install Docker](https://docs.docker.com/get-docker/)
 
-### 🏗️ Setup Instructions
+### Setup Instructions
 
 1. **Fork the repository**
    ```bash
@@ -85,7 +85,7 @@ Looking for a place to start? Check out issues labeled with:
    ./build/gocat --help
    ```
 
-### 🔧 Development Tools
+### Development Tools
 
 We recommend these tools for development:
 
@@ -96,9 +96,9 @@ We recommend these tools for development:
 
 ---
 
-## 🎯 How to Contribute
+## How to Contribute
 
-### 🐛 Reporting Bugs
+### Reporting Bugs
 
 Before creating a bug report, please:
 
@@ -115,7 +115,7 @@ When creating a bug report:
 5. Include **log output** if applicable
 6. Add **screenshots** if relevant
 
-### 💡 Suggesting Features
+### Suggesting Features
 
 We love new ideas! When suggesting a feature:
 
@@ -125,24 +125,21 @@ We love new ideas! When suggesting a feature:
 4. **Consider alternatives** and explain why your solution is best
 5. **Provide examples** of how the feature would be used
 
-### 💻 Contributing Code
+### Contributing Code
 
-#### 🌿 Branching Strategy
-
-We use a simplified Git flow:
+#### Branching Strategy
 
 - `main` - Stable release branch
-- `develop` - Development branch (default)
 - `feature/*` - Feature branches
 - `bugfix/*` - Bug fix branches
 - `hotfix/*` - Critical fixes for production
 
-#### 🔄 Workflow
+#### Workflow
 
 1. **Create a branch**
    ```bash
-   git checkout develop
-   git pull upstream develop
+   git checkout main
+   git pull upstream main
    git checkout -b feature/your-feature-name
    ```
 
@@ -173,9 +170,9 @@ We use a simplified Git flow:
 
 ---
 
-## 🔄 Pull Request Process
+## Pull Request Process
 
-### 📝 Before Submitting
+### Before Submitting
 
 - [ ] **Read the contributing guidelines** (this document)
 - [ ] **Search existing PRs** to avoid duplicates
@@ -184,7 +181,7 @@ We use a simplified Git flow:
 - [ ] **Update documentation** if needed
 - [ ] **Follow commit message conventions**
 
-### 📋 PR Checklist
+### PR Checklist
 
 Your PR should:
 
@@ -196,7 +193,7 @@ Your PR should:
 - [ ] **Follow coding standards**
 - [ ] **Be focused** - one feature/fix per PR
 
-### 🔍 Review Process
+### Review Process
 
 1. **Automated checks** run first (CI, tests, linting)
 2. **Code review** by maintainers
@@ -213,9 +210,9 @@ Your PR should:
 
 ---
 
-## 📏 Coding Standards
+## Coding Standards
 
-### 🎨 Code Style
+### Code Style
 
 We follow standard Go conventions:
 
@@ -226,24 +223,26 @@ We follow standard Go conventions:
 - **Keep functions small** and focused
 - **Handle errors properly** - don't ignore them
 
-### 📁 Project Structure
+### Project Structure
 
 ```
 gocat/
 ├── cmd/                 # CLI commands
 ├── internal/            # Private application code
 │   ├── config/         # Configuration handling
-│   ├── connection/     # Connection management
-│   ├── input/          # Input handling
-│   └── logger/         # Logging utilities
-├── pkg/                # Public packages
+│   ├── network/        # Network utilities
+│   ├── session/        # Session management
+│   ├── shell/          # Shell upgrade logic
+│   ├── modules/        # Post-exploitation modules
+│   ├── logger/         # Logging utilities
+│   └── ...             # One directory per concern (network, crypto, mcp, ...)
 ├── docs/               # Documentation
 ├── scripts/            # Build and utility scripts
 ├── .github/            # GitHub workflows and templates
 └── Makefile           # Build automation
 ```
 
-### 🏷️ Naming Conventions
+### Naming Conventions
 
 - **Packages**: lowercase, single word when possible
 - **Files**: lowercase with underscores (e.g., `connection_handler.go`)
@@ -252,7 +251,7 @@ gocat/
 - **Constants**: ALL_CAPS with underscores
 - **Interfaces**: end with "-er" when possible (e.g., `Handler`, `Reader`)
 
-### 📝 Comments
+### Comments
 
 - **Package comments**: Describe the package purpose
 - **Function comments**: Start with function name, describe what it does
@@ -272,7 +271,7 @@ type Handler interface {
 }
 ```
 
-### 🚨 Error Handling
+### Error Handling
 
 - **Always handle errors** - don't use `_` to ignore them
 - **Wrap errors** with context using `fmt.Errorf`
@@ -291,16 +290,16 @@ doSomething() // ignoring error
 
 ---
 
-## 🧪 Testing Guidelines
+## Testing Guidelines
 
-### 📊 Test Coverage
+### Test Coverage
 
 - **Aim for 80%+ coverage** for new code
 - **Test both happy path and error cases**
 - **Include edge cases** and boundary conditions
 - **Use table-driven tests** for multiple scenarios
 
-### 🏗️ Test Structure
+### Test Structure
 
 ```go
 func TestConnectionHandler_Connect(t *testing.T) {
@@ -333,14 +332,14 @@ func TestConnectionHandler_Connect(t *testing.T) {
 }
 ```
 
-### 🎯 Test Types
+### Test Types
 
 - **Unit tests**: Test individual functions/methods
 - **Integration tests**: Test component interactions
 - **End-to-end tests**: Test complete workflows
 - **Benchmark tests**: Performance testing
 
-### 🏃 Running Tests
+### Running Tests
 
 ```bash
 # Run all tests
@@ -349,8 +348,8 @@ make test
 # Run tests with coverage
 make test-coverage
 
-# Run specific test
-go test -run TestConnectionHandler_Connect ./internal/connection
+# Run a specific package's tests
+go test ./internal/session/
 
 # Run benchmarks
 make test-bench
@@ -361,9 +360,9 @@ go test -race ./...
 
 ---
 
-## 📚 Documentation
+## Documentation
 
-### 📖 Types of Documentation
+### Types of Documentation
 
 - **Code comments**: Inline documentation
 - **README**: Project overview and quick start
@@ -371,7 +370,7 @@ go test -race ./...
 - **User guides**: Detailed usage instructions
 - **Developer docs**: Architecture and design decisions
 
-### ✍️ Writing Guidelines
+### Writing Guidelines
 
 - **Be clear and concise**
 - **Use examples** to illustrate concepts
@@ -379,7 +378,7 @@ go test -race ./...
 - **Use proper markdown** formatting
 - **Include code snippets** with syntax highlighting
 
-### 🔄 Documentation Updates
+### Documentation Updates
 
 When making changes that affect documentation:
 
@@ -390,36 +389,18 @@ When making changes that affect documentation:
 
 ---
 
-## 🌍 Community
+## Community
 
-### 💬 Communication Channels
+### Communication Channels
 
 - **GitHub Issues**: Bug reports and feature requests
 - **GitHub Discussions**: General questions and ideas
-- **Discord**: Real-time chat and community support
-- **Email**: [support@gocat.dev](mailto:support@gocat.dev)
-
-### 🎉 Recognition
-
-We appreciate all contributions! Contributors are recognized:
-
-- **Contributors list** in README
-- **Release notes** mention significant contributions
-- **Special badges** for regular contributors
-- **Maintainer status** for exceptional contributors
-
-### 📅 Community Events
-
-- **Monthly community calls** - First Friday of each month
-- **Hackathons** - Quarterly virtual events
-- **Conference talks** - We speak at Go conferences
-- **Workshops** - Hands-on learning sessions
 
 ---
 
-## 🚀 Release Process
+## Release Process
 
-### 📋 Version Numbering
+### Version Numbering
 
 We follow [Semantic Versioning](https://semver.org/):
 
@@ -427,32 +408,25 @@ We follow [Semantic Versioning](https://semver.org/):
 - **MINOR**: New features (backward compatible)
 - **PATCH**: Bug fixes (backward compatible)
 
-### 🔄 Release Cycle
+### Release Cycle
 
 - **Major releases**: Every 6-12 months
 - **Minor releases**: Every 1-2 months
 - **Patch releases**: As needed for critical fixes
 - **Pre-releases**: Beta versions before major releases
 
-### 📝 Changelog
+### Changelog
 
-We maintain a [CHANGELOG.md](CHANGELOG.md) with:
-
-- **Added**: New features
-- **Changed**: Changes in existing functionality
-- **Deprecated**: Soon-to-be removed features
-- **Removed**: Removed features
-- **Fixed**: Bug fixes
-- **Security**: Security improvements
+Release notes ship with each GitHub release. Mention behavior changes in your PR description so they can be included.
 
 ---
 
-## ❓ FAQ
+## FAQ
 
-### 🤔 Common Questions
+### Common Questions
 
 **Q: How long does it take for PRs to be reviewed?**
-A: We aim to review PRs within 48 hours. Complex changes may take longer.
+A: There is no fixed SLA; small focused PRs get reviewed fastest.
 
 **Q: Can I work on multiple issues at once?**
 A: Yes, but we recommend focusing on one at a time for better quality.
@@ -468,19 +442,15 @@ A: Don't worry! We'll provide feedback on how to improve it. Rejection is rare a
 
 ---
 
-## 🙏 Thank You!
+## Thank You!
 
-Thank you for taking the time to contribute to GoCat! Every contribution, no matter how small, makes a difference. Together, we're building something amazing! 🚀
+Thank you for contributing to GoCat.
 
 ---
 
-## 📞 Need Help?
+## Need Help?
 
 If you have questions about contributing:
 
-- 📖 Check our [documentation](https://docs.gocat.dev)
-- 💬 Join our [Discord community](https://discord.gg/gocat)
-- 📧 Email us at [contributors@gocat.dev](mailto:contributors@gocat.dev)
-- 🐛 Open an issue with the `question` label
+- Open an issue with the `question` label
 
-**Happy coding!** 🎉

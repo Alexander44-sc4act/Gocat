@@ -9,7 +9,6 @@ local port = tonumber(arg[2]) or 443
 -- Validate
 if not host then
     print("GoCat SSL/TLS Client")
-    print("====================")
     print("")
     print("Usage: gocat script run ssl_client.lua <host> [port]")
     print("")
@@ -27,7 +26,6 @@ end
 -- Main function
 local function main()
     print("GoCat SSL/TLS Client")
-    print("====================")
     print("")
     print("Target: " .. host .. ":" .. port)
     print("")
@@ -54,7 +52,7 @@ local function main()
     end
     
     if resp then
-        print("SSL/TLS Connection Successful!")
+        print("SSL/TLS connection successful.")
         print("")
         print("HTTP Status: " .. (resp.status or "N/A"))
         print("")

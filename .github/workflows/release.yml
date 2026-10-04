@@ -47,7 +47,6 @@ jobs:
             release/*.tar.gz
             release/*.zip
             release/*.deb
-            release/*.rpm
             dist/SHA256SUMS
             dist/MD5SUMS
             dist/SBOM.modules.json

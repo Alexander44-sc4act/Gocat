@@ -8,7 +8,6 @@ local target = arg[1]
 -- Validate
 if not target then
     print("GoCat Service Detector")
-    print("======================")
     print("")
     print("Usage: gocat script run service_detector.lua <target>")
     print("")
@@ -64,7 +63,6 @@ end
 -- Main function
 local function main()
     print("GoCat Service Detector")
-    print("======================")
     print("")
     print("Target: " .. target)
     print("")

@@ -3,9 +3,7 @@
 
 -- File operations menu
 function file_menu()
-    ui.cyan("╔══════════════════════════════════════════╗")
-    ui.cyan("║        GoCat File Manager v1.0          ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("GoCat File Manager v1.0")
     
     print("\nFile Operations:")
     print("1. List files")
@@ -22,7 +20,7 @@ end
 function list_files(path)
     path = path or "."
     
-    ui.info(string.format("\n📁 Listing: %s", path))
+    ui.info(string.format("\nListing: %s", path))
     
     local files = sys.ls(path)
     if not files then
@@ -50,7 +48,7 @@ function list_files(path)
     if #dirs > 0 then
         ui.yellow("\nDirectories:")
         for _, dir in ipairs(dirs) do
-            print(string.format("  📂 %s/", dir.name))
+            print(string.format("  %s/", dir.name))
         end
     end
     
@@ -71,56 +69,56 @@ end
 -- Get file icon based on extension
 function get_file_icon(filename)
     local ext = string.match(filename, "%.([^.]+)$")
-    if not ext then return "📄" end
-    
+    if not ext then return "[F]" end
+
     ext = string.lower(ext)
-    
+
     local icons = {
         -- Code files
-        lua = "🌙",
-        go = "🐹",
-        py = "🐍",
-        js = "📜",
-        html = "🌐",
-        css = "🎨",
-        json = "📊",
-        xml = "📋",
-        
+        lua = "[LUA]",
+        go = "[GO]",
+        py = "[PY]",
+        js = "[JS]",
+        html = "[HTML]",
+        css = "[CSS]",
+        json = "[JSON]",
+        xml = "[XML]",
+
         -- Documents
-        txt = "📝",
-        md = "📖",
-        pdf = "📕",
-        doc = "📘",
-        
+        txt = "[TXT]",
+        md = "[MD]",
+        pdf = "[PDF]",
+        doc = "[DOC]",
+
         -- Archives
-        zip = "📦",
-        tar = "📦",
-        gz = "📦",
-        
+        zip = "[ZIP]",
+        tar = "[ZIP]",
+        gz = "[ZIP]",
+
         -- Images
-        png = "🖼️",
-        jpg = "🖼️",
-        jpeg = "🖼️",
-        gif = "🎞️",
-        
+        png = "[IMG]",
+        jpg = "[IMG]",
+        jpeg = "[IMG]",
+        gif = "[IMG]",
+
         -- Config
-        conf = "⚙️",
-        cfg = "⚙️",
-        ini = "⚙️",
-        yaml = "⚙️",
-        yml = "⚙️",
-        
+        conf = "[CFG]",
+        cfg = "[CFG]",
+        ini = "[CFG]",
+        yaml = "[CFG]",
+        yml = "[CFG]",
+
         -- Scripts
-        sh = "🔧",
-        bash = "🔧",
-        
+        sh = "[SH]",
+        bash = "[SH]",
+
         -- Data
-        sql = "🗄️",
-        db = "🗄️",
-        csv = "📊"
+        sql = "[DB]",
+        db = "[DB]",
+        csv = "[CSV]"
     }
-    
-    return icons[ext] or "📄"
+
+    return icons[ext] or "[F]"
 end
 
 -- Format file size
@@ -138,7 +136,7 @@ end
 
 -- Read and display file content
 function read_file(filepath)
-    ui.info(string.format("\n📖 Reading: %s", filepath))
+    ui.info(string.format("\nReading: %s", filepath))
     
     local content = file.read(filepath)
     if not content then
@@ -167,7 +165,7 @@ end
 
 -- Write content to file
 function write_file(filepath, content)
-    ui.info(string.format("\n✍️ Writing to: %s", filepath))
+    ui.info(string.format("\nWriting to: %s", filepath))
     
     local success = file.write(filepath, content)
     if success then
@@ -176,9 +174,9 @@ function write_file(filepath, content)
         -- Verify
         local verify = file.read(filepath)
         if verify == content then
-            ui.success("✅ Write verified")
+            ui.success("Write verified")
         else
-            ui.warn("⚠️ Verification failed")
+            ui.warn("Verification failed")
         end
     else
         ui.error("Failed to write file")
@@ -189,7 +187,7 @@ end
 
 -- Copy file with progress
 function copy_file(src, dst)
-    ui.info(string.format("\n📋 Copying: %s -> %s", src, dst))
+    ui.info(string.format("\nCopying: %s -> %s", src, dst))
     
     -- Check source exists
     if not file.exists(src) then
@@ -204,14 +202,14 @@ function copy_file(src, dst)
     
     local success = file.copy(src, dst)
     if success then
-        ui.success("✅ File copied successfully")
+        ui.success("File copied successfully")
         
         -- Verify sizes match
         local src_stat = file.stat(src)
         local dst_stat = file.stat(dst)
         
         if src_stat and dst_stat and src_stat.size == dst_stat.size then
-            ui.success(string.format("✅ Verified: %s copied", format_size(src_stat.size)))
+            ui.success(string.format("Verified: %s copied", format_size(src_stat.size)))
         end
     else
         ui.error("Failed to copy file")
@@ -224,7 +222,7 @@ end
 function search_files(pattern, path)
     path = path or "."
     
-    ui.info(string.format("\n🔍 Searching for '%s' in %s", pattern, path))
+    ui.info(string.format("\nSearching for '%s' in %s", pattern, path))
     
     local matches = {}
     local function search_recursive(dir)
@@ -257,7 +255,7 @@ function search_files(pattern, path)
     if #matches > 0 then
         ui.success(string.format("\nFound %d matches:", #matches))
         for _, match in ipairs(matches) do
-            local icon = match.isDir and "📂" or get_file_icon(match.name)
+            local icon = match.isDir and "" or get_file_icon(match.name)
             local size_str = match.isDir and "" or string.format(" (%s)", format_size(match.size or 0))
             print(string.format("  %s %s%s", icon, match.path, size_str))
         end
@@ -273,7 +271,7 @@ function backup_directory(src_dir, backup_name)
     src_dir = src_dir or "."
     backup_name = backup_name or string.format("backup_%s.tar", os.date("%Y%m%d_%H%M%S"))
     
-    ui.info(string.format("\n💾 Creating backup of %s", src_dir))
+    ui.info(string.format("\nCreating backup of %s", src_dir))
     
     -- Get list of files
     local files = sys.ls(src_dir)
@@ -312,7 +310,7 @@ function backup_directory(src_dir, backup_name)
         end
     end
     
-    ui.success(string.format("\n✅ Backup complete: %d/%d files backed up to %s", 
+    ui.success(string.format("\nBackup complete: %d/%d files backed up to %s", 
         backed_up, file_count, backup_dir))
     
     return true
@@ -323,7 +321,7 @@ function interactive_mode()
     file_menu()
     
     -- Demo operations
-    ui.info("\n🎯 Running file management demonstrations...")
+    ui.info("\nRunning file management demonstrations...")
     
     -- List current directory
     ui.yellow("\n=== Directory Listing ===")
@@ -347,10 +345,10 @@ function interactive_mode()
     search_files("%.lua$", ".")
     
     -- Clean up
-    ui.info("\n🧹 Cleaning up test files...")
+    ui.info("\nCleaning up test files...")
     file.delete(test_file)
     file.delete(copy_name)
-    ui.success("✅ Cleanup complete")
+    ui.success("Cleanup complete")
 end
 
 -- Main function

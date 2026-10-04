@@ -94,7 +94,6 @@ end
 -- Main function
 function main()
     print("GoCat TCP Proxy")
-    print("===============")
     print("")
     print(string.format("Listen: 0.0.0.0:%d", config.listen_port))
     print(string.format("Target: %s:%d", config.target_host, config.target_port))

@@ -6,8 +6,8 @@ pkgver=1.0.0
 pkgrel=1
 pkgdesc="Modern netcat alternative written in Go with  features"
 arch=('x86_64' 'aarch64' 'armv7h')
-url="https://github.com/ibrahmsql/gocat"
-license=('MIT')
+url="https://github.com/realibrahimsql/Gocat"
+license=('Apache-2.0')
 depends=('glibc')
 optdepends=(
     'bash-completion: for bash completion support'
@@ -111,11 +111,11 @@ build() {
     # Build flags for optimization
     local ldflags="
         -s -w
-        -X github.com/ibrahmsql/gocat/cmd.version=$pkgver
-        -X github.com/ibrahmsql/gocat/cmd.buildTime=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-        -X github.com/ibrahmsql/gocat/cmd.gitCommit=$(git rev-parse --short HEAD 2>/dev/null || echo 'arch-build')
-        -X github.com/ibrahmsql/gocat/cmd.gitBranch=main
-        -X github.com/ibrahmsql/gocat/cmd.builtBy=makepkg
+        -X main.version=$pkgver
+        -X main.buildTime=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+        -X main.gitCommit=$(git rev-parse --short HEAD 2>/dev/null || echo 'arch-build')
+        -X main.gitBranch=main
+        -X main.builtBy=makepkg
     "
     
     # Build the binary

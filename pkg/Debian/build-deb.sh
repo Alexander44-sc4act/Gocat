@@ -269,7 +269,7 @@ build_package() {
         # Cleanup build directory
         rm -rf "$PACKAGE_DIR"
         
-        echo -e "\n${GREEN}✅ Debian package ready: ${PACKAGE_DIR}.deb${NC}"
+        echo -e "\n${GREEN}Debian package ready: ${PACKAGE_DIR}.deb${NC}"
         echo -e "${YELLOW}Install with: sudo dpkg -i ${PACKAGE_DIR}.deb${NC}"
     else
         log_error "Package build failed"

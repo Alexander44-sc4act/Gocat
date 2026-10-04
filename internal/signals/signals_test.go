@@ -253,7 +253,6 @@ func BenchmarkSetupSignalHandler(b *testing.B) {
 	}
 }
 
-// Test helper function to check if signal handling works
 func TestSignalHandlerExecution(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("Skipping signal test on Windows - signal handling differs")

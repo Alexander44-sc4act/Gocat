@@ -117,9 +117,7 @@ end
 
 -- Analyze crawl results
 function analyze_results()
-    ui.cyan("\n╔══════════════════════════════════════════╗")
-    ui.cyan("║           Crawl Statistics              ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("Crawl Statistics")
     
     print(string.format("\nPages crawled: %d", pages_crawled))
     print(string.format("Unique URLs visited: %d", table_length(visited)))
@@ -158,9 +156,7 @@ function crawl(start_url, options)
     max_depth = options.max_depth or max_depth
     max_pages = options.max_pages or max_pages
     
-    ui.cyan("╔══════════════════════════════════════════╗")
-    ui.cyan("║          GoCat Web Crawler v1.0         ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("GoCat Web Crawler v1.0")
     print()
     
     ui.info(string.format("Starting crawl from: %s", start_url))

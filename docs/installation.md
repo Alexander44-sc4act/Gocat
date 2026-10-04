@@ -1,199 +1,121 @@
-# 📦 Installation Guide
+# Installation Guide
 
 This guide covers all the different ways to install GoCat on your system.
 
-## 🚀 Quick Installation
+## Release Archives
 
-### One-Line Install Script
-
-The fastest way to get GoCat up and running:
+Every tagged release publishes tarballs per platform plus a Debian package
+(see [Releases](https://github.com/realibrahimsql/Gocat/releases)).
+Filenames carry the version, e.g. `gocat-1.0.0-linux-amd64.tar.gz`:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ibrahmsql/gocat/main/pkg/install.sh | bash
+# Linux amd64, version 1.0.0 as example
+wget https://github.com/realibrahimsql/Gocat/releases/download/v1.0.0/gocat-1.0.0-linux-amd64.tar.gz
+tar -xzf gocat-1.0.0-linux-amd64.tar.gz
+sudo install -m 0755 gocat-1.0.0-linux-amd64/gocat /usr/local/bin/gocat
 ```
-
-This script will:
-- 🔍 Detect your operating system and architecture
-- 📥 Download the latest release
-- 📁 Install to `/usr/local/bin/gocat`
-- 🔗 Create a `nc` symlink for compatibility
-- ✅ Verify the installation
 
 ---
 
-## 📦 Package Managers
+## Package Managers
 
-### 🍺 Homebrew (macOS/Linux)
+Build files for Homebrew (`pkg/Formula/gocat.rb`) and Arch (`pkg/arch/PKGBUILD`)
+ship in the repo; no tap or AUR package is published yet, so install from
+source or a release archive for now.
 
-```bash
-# Add our tap
-brew tap ibrahmsql/gocat
-
-# Install GoCat
-brew install gocat
-
-# Update to latest version
-brew upgrade gocat
-```
-
-### 🐧 Arch Linux (AUR)
+### Debian/Ubuntu
 
 ```bash
-# Using yay
-yay -S gocat
-
-# Using paru
-paru -S gocat
-
-# Manual installation
-git clone https://aur.archlinux.org/gocat.git
-cd gocat
-makepkg -si
-```
-
-### 📦 Debian/Ubuntu
-
-```bash
-# Download the .deb package
-wget https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat_amd64.deb
+# Download the .deb package (version 1.0.0 as example)
+wget https://github.com/realibrahimsql/Gocat/releases/download/v1.0.0/gocat-1.0.0_amd64.deb
 
 # Install with dpkg
-sudo dpkg -i gocat_amd64.deb
+sudo dpkg -i gocat-1.0.0_amd64.deb
 
 # Fix dependencies if needed
 sudo apt-get install -f
 ```
 
-### 🎩 RPM (RHEL/CentOS/Fedora)
-
-```bash
-# Download the .rpm package
-wget https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat_amd64.rpm
-
-# Install with rpm
-sudo rpm -i gocat_amd64.rpm
-
-# Or with dnf (Fedora)
-sudo dnf install gocat_amd64.rpm
-
-# Or with yum (RHEL/CentOS)
-sudo yum install gocat_amd64.rpm
-```
-
 ---
 
-## 📥 Manual Download
+## Manual Download
 
 ### Pre-built Binaries
 
 Download the appropriate binary for your platform from our [releases page](https://github.com/realibrahimsql/Gocat/releases):
 
-#### 🐧 Linux
+#### Linux
 
 ```bash
-# x86_64
-wget https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-linux-amd64
-chmod +x gocat-linux-amd64
-sudo mv gocat-linux-amd64 /usr/local/bin/gocat
+# x86_64, version 1.0.0 as example
+wget https://github.com/realibrahimsql/Gocat/releases/download/v1.0.0/gocat-1.0.0-linux-amd64.tar.gz
+tar -xzf gocat-1.0.0-linux-amd64.tar.gz
+sudo install -m 0755 gocat-1.0.0-linux-amd64/gocat /usr/local/bin/gocat
 
 # ARM64
-wget https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-linux-arm64
-chmod +x gocat-linux-arm64
-sudo mv gocat-linux-arm64 /usr/local/bin/gocat
-
-# ARM v7
-wget https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-linux-armv7
-chmod +x gocat-linux-armv7
-sudo mv gocat-linux-armv7 /usr/local/bin/gocat
+wget https://github.com/realibrahimsql/Gocat/releases/download/v1.0.0/gocat-1.0.0-linux-arm64.tar.gz
+tar -xzf gocat-1.0.0-linux-arm64.tar.gz
+sudo install -m 0755 gocat-1.0.0-linux-arm64/gocat /usr/local/bin/gocat
 ```
 
-#### 🍎 macOS
+#### macOS
 
 ```bash
-# Intel Macs
-wget https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-darwin-amd64
-chmod +x gocat-darwin-amd64
-sudo mv gocat-darwin-amd64 /usr/local/bin/gocat
+# Intel Macs, version 1.0.0 as example
+wget https://github.com/realibrahimsql/Gocat/releases/download/v1.0.0/gocat-1.0.0-darwin-amd64.tar.gz
+tar -xzf gocat-1.0.0-darwin-amd64.tar.gz
+sudo install -m 0755 gocat-1.0.0-darwin-amd64/gocat /usr/local/bin/gocat
 
 # Apple Silicon (M1/M2)
-wget https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-darwin-arm64
-chmod +x gocat-darwin-arm64
-sudo mv gocat-darwin-arm64 /usr/local/bin/gocat
+wget https://github.com/realibrahimsql/Gocat/releases/download/v1.0.0/gocat-1.0.0-darwin-arm64.tar.gz
+tar -xzf gocat-1.0.0-darwin-arm64.tar.gz
+sudo install -m 0755 gocat-1.0.0-darwin-arm64/gocat /usr/local/bin/gocat
 ```
 
-#### 🪟 Windows
+#### Windows
 
 **PowerShell:**
 ```powershell
-# x86_64
-Invoke-WebRequest -Uri "https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-windows-amd64.exe" -OutFile "gocat.exe"
-
-# ARM64
-Invoke-WebRequest -Uri "https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-windows-arm64.exe" -OutFile "gocat.exe"
+# x86_64, version 1.0.0 as example (zip archive)
+Invoke-WebRequest -Uri "https://github.com/realibrahimsql/Gocat/releases/download/v1.0.0/gocat-1.0.0-windows-amd64.zip" -OutFile "gocat.zip"
+Expand-Archive gocat.zip .
 ```
 
 **Command Prompt:**
 ```cmd
-curl -L -o gocat.exe https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-windows-amd64.exe
+curl -L -o gocat.zip https://github.com/realibrahimsql/Gocat/releases/download/v1.0.0/gocat-1.0.0-windows-amd64.zip
 ```
 
-#### 🔥 FreeBSD
+#### FreeBSD
 
 ```bash
-# x86_64
-wget https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-freebsd-amd64
-chmod +x gocat-freebsd-amd64
-sudo mv gocat-freebsd-amd64 /usr/local/bin/gocat
+# x86_64, version 1.0.0 as example
+wget https://github.com/realibrahimsql/Gocat/releases/download/v1.0.0/gocat-1.0.0-freebsd-amd64.tar.gz
+tar -xzf gocat-1.0.0-freebsd-amd64.tar.gz
+sudo install -m 0755 gocat-1.0.0-freebsd-amd64/gocat /usr/local/bin/gocat
 ```
 
 ---
 
-## 🐳 Docker
+## Docker
 
-### Using Docker Hub
-
-```bash
-# Pull the latest image
-docker pull ghcr.io/ibrahmsql/gocat:latest
-
-# Run GoCat in a container
-docker run --rm -it ghcr.io/ibrahmsql/gocat:latest
-
-# Run with network access
-docker run --rm -it --network host ghcr.io/ibrahmsql/gocat:latest listen 8080
-```
-
-### Using Docker Compose
+No published image; build locally from the repo Dockerfile:
 
 ```bash
-# Clone the repository
 git clone https://github.com/realibrahimsql/Gocat.git
-cd gocat
-
-# Run with docker-compose
-docker-compose up
-
-# Run specific service
-docker-compose up gocat
-
-# Development mode
-docker-compose --profile dev up
+cd Gocat
+docker build -t gocat .
+docker run --rm -it gocat --help
+docker run --rm -it --network host gocat listen 8080
 ```
-
-### Available Docker Tags
-
-- `latest` - Latest stable release
-- `v1.0.0` - Specific version
-- `dev` - Development build
-- `alpine` - Alpine-based minimal image
 
 ---
 
-## 🛠️ Build from Source
+## Build from Source
 
 ### Prerequisites
 
-- **Go 1.21+**: [Download Go](https://golang.org/dl/)
+- **Go 1.24+**: [Download Go](https://golang.org/dl/)
 - **Git**: [Install Git](https://git-scm.com/downloads)
 - **Make**: Usually pre-installed on Unix systems
 
@@ -235,13 +157,13 @@ VERSION=1.0.0-custom make build
 
 ---
 
-## 🔧 Post-Installation Setup
+## Post-Installation Setup
 
 ### Verify Installation
 
 ```bash
 # Check version
-gocat --version
+gocat version
 
 # Test basic functionality
 gocat --help
@@ -317,47 +239,28 @@ EOF
 
 ---
 
-## 🔄 Updating GoCat
+## Updating GoCat
 
 ### Package Managers
 
-```bash
-# Homebrew
-brew upgrade gocat
-
-# Arch Linux
-yay -Syu gocat
-
-# Debian/Ubuntu
-sudo apt update && sudo apt upgrade gocat
-```
+No tap, AUR, or apt repository is published yet; update by reinstalling
+from a release archive or rebuilding from source.
 
 ### Manual Update
 
-```bash
-# Using install script
-curl -sSL https://raw.githubusercontent.com/ibrahmsql/gocat/main/pkg/install.sh | bash
-
-# Or download latest binary manually
-wget https://github.com/realibrahimsql/Gocat/releases/latest/download/gocat-linux-amd64
-chmod +x gocat-linux-amd64
-sudo mv gocat-linux-amd64 /usr/local/bin/gocat
-```
+Re-download the tarball for your platform from
+[Releases](https://github.com/realibrahimsql/Gocat/releases) and reinstall
+the binary as above.
 
 ### Docker Update
 
 ```bash
-# Pull latest image
-docker pull ghcr.io/ibrahmsql/gocat:latest
-
-# Update docker-compose
-docker-compose pull
-docker-compose up -d
+docker build -t gocat .
 ```
 
 ---
 
-## 🗑️ Uninstalling GoCat
+## Uninstalling GoCat
 
 ### Package Managers
 
@@ -394,7 +297,7 @@ rm -f ~/.bash_completion.d/gocat
 
 ---
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -420,8 +323,7 @@ which gocat
 # Check installation location
 find /usr -name "gocat" 2>/dev/null
 
-# Reinstall if needed
-curl -sSL https://raw.githubusercontent.com/ibrahmsql/gocat/main/pkg/install.sh | bash
+# Reinstall if needed: repeat the release-archive steps above
 ```
 
 #### Network Issues
@@ -441,20 +343,15 @@ gocat connect google.com 443
 
 If you encounter issues:
 
-- 📖 Check our [documentation](https://docs.gocat.dev)
-- 🐛 [Report bugs](https://github.com/realibrahimsql/Gocat/issues/new?template=bug_report.yml)
-- 💬 [Join our Discord](https://discord.gg/gocat)
-- 📧 [Email support](mailto:support@gocat.dev)
+- [Report bugs](https://github.com/realibrahimsql/Gocat/issues/new?template=bug_report.yml)
 
 ---
 
-## 🎯 Next Steps
+## Next Steps
 
 After installation:
 
-1. 📖 Read the [User Guide](user-guide.md)
-2. 🎯 Try the [Quick Start](../README.md#quick-start) examples
-3. 🔧 Explore [Advanced Usage](advanced-usage.md)
-4. 🤝 [Contribute](../CONTRIBUTING.md) to the project
+1. Read the [User Guide](user-guide.md)
+2. Try the [Quick Start](../README.md#quick-start) examples
+3. [Contribute](../CONTRIBUTING.md) to the project
 
-**Happy networking with GoCat!** 🚀

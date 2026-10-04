@@ -117,38 +117,38 @@ func init() {
 	wsEchoCmd.Flags().BoolVar(&wsAllowAllOrigins, "allow-all-origins", false, "Allow all origins (WARNING: insecure, use only for development)")
 }
 
-func runWSServer(cmd *cobra.Command, args []string) error {
-	logger.Info("Starting WebSocket server on port %s%s", wsServerPort, wsServerPath)
+// wsOriginAllowed enforces the Origin allowlist shared by the server and
+// echo upgraders. allowAll is an explicit insecure opt-in for development.
+func wsOriginAllowed(r *http.Request, serverName string) bool {
+	if wsAllowAllOrigins {
+		logger.Warn("%s allowing all origins - this is insecure!", serverName)
+		return true
+	}
+
+	origin := r.Header.Get("Origin")
+	if origin == "" {
+		logger.Debug("WebSocket connection rejected: missing Origin header")
+		return false
+	}
+
+	for _, allowed := range wsAllowedOrigins {
+		if origin == allowed {
+			return true
+		}
+	}
+
+	logger.Warn("WebSocket connection rejected from origin: %s", origin)
+	return false
+}
+
+func runWSServer(cmd *cobra.Command, args []string) error {	logger.Info("Starting WebSocket server on port %s%s", wsServerPort, wsServerPath)
 
 	upgrader := websocket.Upgrader{
 		ReadBufferSize:    wsReadBufferSize,
 		WriteBufferSize:   wsWriteBufferSize,
 		EnableCompression: wsEnableCompression,
 		CheckOrigin: func(r *http.Request) bool {
-			// Allow all origins if explicitly configured (development mode)
-			if wsAllowAllOrigins {
-				logger.Warn("WebSocket server allowing all origins - this is insecure!")
-				return true
-			}
-
-			// Get the origin from the request
-			origin := r.Header.Get("Origin")
-			if origin == "" {
-				// No origin header, reject
-				logger.Debug("WebSocket connection rejected: missing Origin header")
-				return false
-			}
-
-			// Check against allowed origins
-			for _, allowed := range wsAllowedOrigins {
-				if origin == allowed {
-					return true
-				}
-			}
-
-			// Origin not in allowed list
-			logger.Warn("WebSocket connection rejected from origin: %s", origin)
-			return false
+			return wsOriginAllowed(r, "WebSocket server")
 		},
 	}
 
@@ -386,30 +386,7 @@ func runWSEcho(cmd *cobra.Command, args []string) error {
 		WriteBufferSize:   wsWriteBufferSize,
 		EnableCompression: wsEnableCompression,
 		CheckOrigin: func(r *http.Request) bool {
-			// Allow all origins if explicitly configured (development mode)
-			if wsAllowAllOrigins {
-				logger.Warn("WebSocket echo server allowing all origins - this is insecure!")
-				return true
-			}
-
-			// Get the origin from the request
-			origin := r.Header.Get("Origin")
-			if origin == "" {
-				// No origin header, reject
-				logger.Debug("WebSocket connection rejected: missing Origin header")
-				return false
-			}
-
-			// Check against allowed origins
-			for _, allowed := range wsAllowedOrigins {
-				if origin == allowed {
-					return true
-				}
-			}
-
-			// Origin not in allowed list
-			logger.Warn("WebSocket connection rejected from origin: %s", origin)
-			return false
+			return wsOriginAllowed(r, "WebSocket echo server")
 		},
 	}
 

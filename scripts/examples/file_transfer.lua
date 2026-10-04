@@ -39,7 +39,6 @@ end
 -- Send file
 local function send_file()
     print("GoCat File Transfer - Sender")
-    print("============================")
     print("")
     
     -- Check file exists
@@ -121,7 +120,6 @@ end
 -- Receive file
 local function receive_file()
     print("GoCat File Transfer - Receiver")
-    print("==============================")
     print("")
     
     -- Listen for connection

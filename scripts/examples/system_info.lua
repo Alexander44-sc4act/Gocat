@@ -30,18 +30,16 @@ end
 
 -- Display system information
 function display_system_info(info)
-    ui.cyan("╔══════════════════════════════════════════╗")
-    ui.cyan("║         System Information               ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("System Information")
     
-    print("\n📊 Basic Information:")
+    print("\nBasic Information:")
     print(string.format("  Hostname: %s", info.hostname))
     print(string.format("  Platform: %s", info.platform))
     print(string.format("  Process ID: %d", info.pid))
     print(string.format("  Working Directory: %s", info.pwd))
     print(string.format("  Current Time: %s", info.formatted_time))
     
-    print("\n🌍 Environment:")
+    print("\nEnvironment:")
     print(string.format("  User: %s", info.env.user or "N/A"))
     print(string.format("  Home: %s", info.env.home or "N/A"))
     print(string.format("  Shell: %s", info.env.shell or "N/A"))
@@ -93,14 +91,14 @@ function scan_directory(path)
     table.sort(file_list, function(a, b) return a.name < b.name end)
     
     -- Display results
-    print(string.format("\n📁 Directory Statistics:"))
+    print(string.format("\nDirectory Statistics:"))
     print(string.format("  Total entries: %d", stats.total))
     print(string.format("  Directories: %d", stats.dirs))
     print(string.format("  Files: %d", stats.files))
     print(string.format("  Total size: %s", format_size(stats.total_size)))
     
     if #dir_list > 0 then
-        ui.yellow("\n📂 Directories:")
+        ui.yellow("\nDirectories:")
         for i, dir in ipairs(dir_list) do
             if i <= 10 then  -- Show first 10
                 print(string.format("  • %s/", dir))
@@ -112,7 +110,7 @@ function scan_directory(path)
     end
     
     if #file_list > 0 then
-        ui.green("\n📄 Files:")
+        ui.green("\nFiles:")
         for i, file in ipairs(file_list) do
             if i <= 10 then  -- Show first 10
                 print(string.format("  • %s (%s)", file.name, format_size(file.size)))
@@ -141,7 +139,7 @@ end
 
 -- Network interfaces information
 function get_network_info()
-    ui.cyan("\n🌐 Network Information:")
+    ui.cyan("\nNetwork Information:")
     
     -- Try to get network info via system commands
     if sys.platform() == "linux" or sys.platform() == "darwin" then
@@ -168,7 +166,7 @@ end
 
 -- File system usage
 function check_disk_usage()
-    ui.cyan("\n💾 Disk Usage:")
+    ui.cyan("\nDisk Usage:")
     
     local home = sys.env("HOME")
     if home then
@@ -189,7 +187,7 @@ end
 
 -- Process information
 function get_process_info()
-    ui.cyan("\n⚙️ Process Information:")
+    ui.cyan("\nProcess Information:")
     
     local pid = sys.pid()
     print(string.format("  Current PID: %d", pid))
@@ -216,7 +214,7 @@ function generate_report()
     local json_data = json.encode(report)
     
     file.write(filename, json.pretty(json_data))
-    ui.success(string.format("\n📝 Report saved to: %s", filename))
+    ui.success(string.format("\nReport saved to: %s", filename))
     
     -- Also create a text version
     local text_filename = string.format("system_report_%s.txt", os.date("%Y%m%d_%H%M%S"))
@@ -227,14 +225,12 @@ function generate_report()
     text_content = text_content .. string.format("Working Directory: %s\n", report.system.pwd)
     
     file.write(text_filename, text_content)
-    ui.success(string.format("📝 Text report saved to: %s", text_filename))
+    ui.success(string.format("Text report saved to: %s", text_filename))
 end
 
 -- Main function
 function main()
-    ui.cyan("╔══════════════════════════════════════════╗")
-    ui.cyan("║      GoCat System Information v1.0      ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("GoCat System Information v1.0")
     
     -- Gather and display system info
     local info = get_system_info()
@@ -252,7 +248,7 @@ function main()
     -- Generate reports
     generate_report()
     
-    ui.success("\n✅ System information gathering complete!")
+    ui.success("\nSystem information gathering complete!")
 end
 
 -- Run if executed directly

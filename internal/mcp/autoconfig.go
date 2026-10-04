@@ -224,7 +224,7 @@ func AddToClient(client MCPClient, gocatPath string) error {
 		return fmt.Errorf("failed to write config: %w", err)
 	}
 
-	logger.Info("✓ Added GoCat MCP server to %s config", client.Name)
+	logger.Info("Added GoCat MCP server to %s config", client.Name)
 	logger.Info("  Config: %s", client.ConfigPath)
 	logger.Info("  Command: %s mcp", gocatPath)
 
@@ -263,7 +263,7 @@ func RemoveFromClient(client MCPClient) error {
 		return fmt.Errorf("failed to write config: %w", err)
 	}
 
-	logger.Info("✓ Removed GoCat MCP server from %s config", client.Name)
+	logger.Info("Removed GoCat MCP server from %s config", client.Name)
 
 	return nil
 }
@@ -326,7 +326,7 @@ func ShowClientStatus() {
 	clients := DetectMCPClients()
 
 	fmt.Println()
-	fmt.Println("🔍 Detected MCP Clients:")
+	fmt.Println("Detected MCP Clients:")
 	fmt.Println()
 
 	if len(clients) == 0 {
@@ -336,7 +336,7 @@ func ShowClientStatus() {
 	}
 
 	for i, client := range clients {
-		status := "❌ Not Configured"
+		status := "Not configured"
 
 		if fileExists(client.ConfigPath) {
 			// Check if gocat is in config
@@ -345,7 +345,7 @@ func ShowClientStatus() {
 				var config ClientConfig
 				if json.Unmarshal(data, &config) == nil {
 					if _, exists := config.MCPServers["gocat"]; exists {
-						status = "✅ Configured"
+						status = "Configured"
 					}
 				}
 			}
@@ -356,7 +356,7 @@ func ShowClientStatus() {
 		fmt.Printf("     Config: %s\n", client.ConfigPath)
 
 		if !client.Installed {
-			fmt.Printf("     ⚠️  Application not detected\n")
+			fmt.Printf("     Application not detected\n")
 		}
 
 		fmt.Println()

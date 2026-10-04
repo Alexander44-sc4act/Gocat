@@ -138,8 +138,7 @@ func (r *Registry) FormatModuleList() string {
 	}
 
 	var sb strings.Builder
-	sb.WriteString("Available Modules:\n")
-	sb.WriteString(strings.Repeat("═", 80) + "\n\n")
+	sb.WriteString("Available Modules:\n\n")
 
 	catOrder := []Category{CatPrivEsc, CatCredDump, CatAD, CatForensics, CatPivoting, CatPersist, CatRecon, CatExploit, CatMisc}
 
@@ -149,11 +148,11 @@ func (r *Registry) FormatModuleList() string {
 			continue
 		}
 
-		sb.WriteString(fmt.Sprintf("── %s ──\n", cat))
+		sb.WriteString(fmt.Sprintf("%s:\n", cat))
 		for _, m := range mods {
-			status := "✓"
+			status := ""
 			if !m.Enabled {
-				status = "✗"
+				status = ""
 			}
 			os := "All"
 			if len(m.SupportedOS) > 0 {
@@ -584,7 +583,7 @@ func (r *Registry) registerBuiltinModules() {
 
 	r.Register(&Module{
 		Name:        "sysinfo",
-		Description: "Collect comprehensive system information",
+		Description: "Collect system information",
 		Category:    CatRecon,
 		Enabled:     true,
 		SupportedOS: []session.OSType{session.OSUnix, session.OSWindows},
@@ -882,7 +881,7 @@ func enumGroups(osType session.OSType) []enumGroup {
 // sess.Tasks and writes ENUM.md next to the session log.
 func runEnumerate(sess *session.Session) error {
 	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("# Enumeration — session [%d] %s\n", sess.ID, time.Now().Format(time.RFC3339)))
+	sb.WriteString(fmt.Sprintf("# Enumeration: session [%d] %s\n", sess.ID, time.Now().Format(time.RFC3339)))
 	for _, g := range enumGroups(sess.OS) {
 		sb.WriteString(fmt.Sprintf("\n## %s\n", g.title))
 		for _, cmd := range g.cmds {
@@ -914,7 +913,7 @@ func runEnumerate(sess *session.Session) error {
 // enumerate facts when available.
 func runReport(sess *session.Session) error {
 	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("# Host report — session [%d]\n\n", sess.ID))
+	sb.WriteString(fmt.Sprintf("# Host report: session [%d]\n\n", sess.ID))
 	sb.WriteString(fmt.Sprintf("- Target: %s | Host: %s | Arch: %s\n", sess.Target, sess.Hostname, sess.Arch))
 	sb.WriteString(fmt.Sprintf("- OS: %s | System: %s | User: %s\n", sess.OS, sess.System, sess.User))
 	sb.WriteString(fmt.Sprintf("- Shell: %s | PTY: %v | Agent: %v\n", sess.Type, sess.PTYReady, sess.AgentActive))
@@ -924,7 +923,7 @@ func runReport(sess *session.Session) error {
 		sb.WriteString("\n---\n\n")
 		sb.WriteString(facts)
 	} else {
-		sb.WriteString("\nNo cached facts — run the enumerate module first for full detail.\n")
+		sb.WriteString("\nNo cached facts. Run the enumerate module first for full detail.\n")
 	}
 	report := sb.String()
 	fmt.Println(report)
@@ -982,7 +981,7 @@ func runEscalate(sess *session.Session) error {
 			}
 		}
 		if strings.Contains(lower, "all") {
-			logger.Info("sudo NOPASSWD: ALL — 'sudo -i' or 'sudo su -' directly")
+			logger.Info("sudo NOPASSWD: ALL: 'sudo -i' or 'sudo su -' directly")
 		}
 	} else {
 		logger.Info("No NOPASSWD sudo rights visible")

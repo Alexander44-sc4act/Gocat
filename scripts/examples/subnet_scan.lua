@@ -9,7 +9,6 @@ local port = tonumber(arg[2]) or 80
 -- Validate
 if not subnet then
     print("GoCat Subnet Scanner")
-    print("====================")
     print("")
     print("Usage: gocat script run subnet_scan.lua <subnet> [port]")
     print("")
@@ -27,7 +26,6 @@ end
 -- Main function
 local function main()
     print("GoCat Subnet Scanner")
-    print("====================")
     print("")
     print(string.format("Subnet: %s.0/24", subnet))
     print(string.format("Port: %d", port))

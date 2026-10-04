@@ -8,7 +8,6 @@ local url = arg[1]
 -- Validate
 if not url then
     print("GoCat Web Headers Analyzer")
-    print("==========================")
     print("")
     print("Usage: gocat script run web_headers.lua <url>")
     print("")
@@ -43,7 +42,6 @@ local security_headers = {
 -- Main function
 local function main()
     print("GoCat Web Headers Analyzer")
-    print("==========================")
     print("")
     print("URL: " .. url)
     print("")

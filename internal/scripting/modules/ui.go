@@ -12,7 +12,7 @@ import (
 func RegisterUIModule(L *lua.LState) {
 	uiModule := L.NewTable()
 
-	// Output functions
+	// Output
 	L.SetField(uiModule, "print", L.NewFunction(LuaPrint))
 	L.SetField(uiModule, "printf", L.NewFunction(luaPrintf))
 	L.SetField(uiModule, "error", L.NewFunction(luaError))
@@ -21,7 +21,7 @@ func RegisterUIModule(L *lua.LState) {
 	L.SetField(uiModule, "success", L.NewFunction(luaSuccess))
 	L.SetField(uiModule, "debug", L.NewFunction(luaDebug))
 
-	// Color functions
+	// Colors
 	L.SetField(uiModule, "red", L.NewFunction(luaRed))
 	L.SetField(uiModule, "green", L.NewFunction(luaGreen))
 	L.SetField(uiModule, "yellow", L.NewFunction(luaYellow))
@@ -30,7 +30,7 @@ func RegisterUIModule(L *lua.LState) {
 	L.SetField(uiModule, "magenta", L.NewFunction(luaMagenta))
 	L.SetField(uiModule, "white", L.NewFunction(luaWhite))
 
-	// Progress indicators
+	// Progress
 	L.SetField(uiModule, "progress", L.NewFunction(luaProgress))
 	L.SetField(uiModule, "clear", L.NewFunction(luaClear))
 
@@ -70,28 +70,28 @@ func luaPrintf(L *lua.LState) int {
 // luaError implements ui.error(message)
 func luaError(L *lua.LState) int {
 	message := L.ToString(1)
-	color.Red("❌ ERROR: %s", message)
+	color.Red("ERROR: %s", message)
 	return 0
 }
 
 // luaWarn implements ui.warn(message)
 func luaWarn(L *lua.LState) int {
 	message := L.ToString(1)
-	color.Yellow("⚠️  WARN: %s", message)
+	color.Yellow("WARN: %s", message)
 	return 0
 }
 
 // luaInfo implements ui.info(message)
 func luaInfo(L *lua.LState) int {
 	message := L.ToString(1)
-	color.Cyan("ℹ️  INFO: %s", message)
+	color.Cyan("INFO: %s", message)
 	return 0
 }
 
 // luaSuccess implements ui.success(message)
 func luaSuccess(L *lua.LState) int {
 	message := L.ToString(1)
-	color.Green("✅ SUCCESS: %s", message)
+	color.Green("SUCCESS: %s", message)
 	return 0
 }
 

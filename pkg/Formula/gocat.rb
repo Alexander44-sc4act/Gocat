@@ -12,11 +12,11 @@ class Gocat < Formula
     # Build flags
     ldflags = %W[
       -s -w
-      -X github.com/realibrahimsql/Gocat/cmd.version=#{version}
-      -X github.com/realibrahimsql/Gocat/cmd.buildTime=#{Time.now.iso8601}
-      -X github.com/realibrahimsql/Gocat/cmd.gitCommit=homebrew-#{version}
-      -X github.com/realibrahimsql/Gocat/cmd.gitBranch=main
-      -X github.com/realibrahimsql/Gocat/cmd.builtBy=homebrew
+      -X main.version=#{version}
+      -X main.buildTime=#{Time.now.iso8601}
+      -X main.gitCommit=homebrew-#{version}
+      -X main.gitBranch=main
+      -X main.builtBy=homebrew
     ]
 
     # Build the binary

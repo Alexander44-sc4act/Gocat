@@ -292,7 +292,7 @@ function dns_server_test(domain, servers)
         local response_time = (end_time - start_time) * 1000 -- Convert to milliseconds
         
         if records and #records > 0 then
-            log("info", "✅ " .. server .. " - Response time: " .. string.format("%.2f ms", response_time))
+            log("info", "" .. server .. " - Response time: " .. string.format("%.2f ms", response_time))
             table.insert(results, {
                 server = server,
                 status = "SUCCESS",
@@ -300,7 +300,7 @@ function dns_server_test(domain, servers)
                 records = #records
             })
         else
-            log("warn", "❌ " .. server .. " - Failed: " .. (err or "unknown error"))
+            log("warn", "" .. server .. " - Failed: " .. (err or "unknown error"))
             table.insert(results, {
                 server = server,
                 status = "FAILED",

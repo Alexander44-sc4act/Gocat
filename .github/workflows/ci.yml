@@ -45,8 +45,6 @@ jobs:
             exit 1
           fi
 
-      - run: go build ./...
-
       - name: Run tests
         shell: bash
         run: go test -timeout=600s ./...
@@ -54,12 +52,12 @@ jobs:
       - name: Smoke test binary
         shell: bash
         run: |
-          BIN="./gocat"
-          if [ "$RUNNER_OS" = "Windows" ]; then BIN="./gocat.exe"; fi
+          BIN="gocat-smoke"
+          if [ "$RUNNER_OS" = "Windows" ]; then BIN="gocat-smoke.exe"; fi
           go build -o "$BIN" .
           "$BIN" --help >/dev/null
           "$BIN" version
-          for cmd in benchmark broker chat completion connect console convert doctor dns-tunnel distributed interfaces listen mcp metrics multi-listen payload portforward proxy scan script serve session sniffer stabilize transfer tunnel unix verify version websocket; do
+          for cmd in benchmark broker chat completion connect console convert doctor dns-tunnel interfaces listen mcp metrics multi-listen payload portforward proxy scan script serve session sniffer stabilize transfer tunnel unix verify version websocket; do
             "$BIN" "$cmd" --help >/dev/null
           done
 

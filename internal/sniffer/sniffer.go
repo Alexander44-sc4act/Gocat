@@ -1,4 +1,4 @@
-// Package sniffer provides advanced network packet capture and analysis capabilities
+// Package sniffer provides network packet capture and analysis
 package sniffer
 
 import (

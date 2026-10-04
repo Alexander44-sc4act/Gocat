@@ -51,7 +51,6 @@ Examples:
 	Run: runTunnel,
 }
 
-// init registers the tunnel subcommand and configures its command-line flags.
 //
 // It adds tunnelCmd to the root command, defines flags for SSH connection,
 // local/remote addresses, mode toggles (reverse, dynamic), authentication
@@ -75,12 +74,8 @@ func init() {
 	tunnelCmd.MarkFlagRequired("ssh")
 }
 
-// runTunnel establishes an SSH connection based on global flags and starts the selected tunnel mode.
-// It parses the SSH target, constructs client authentication (key and/or password), connects to the SSH server,
-// and dispatches to runLocalTunnel, runReverseTunnel, or runDynamicTunnel according to flags.
-// The function logs a fatal error and exits if required flags are missing, authentication is not configured, or the SSH connection cannot be established.
+// runTunnel establishes the SSH connection and starts the selected tunnel mode.
 func runTunnel(cmd *cobra.Command, args []string) {
-	// Parse SSH connection string
 	user, host, port := parseSSHConnection(tunnelSSH)
 	if tunnelUser != "" {
 		user = tunnelUser
@@ -183,15 +178,13 @@ func createHostKeyCallback() ssh.HostKeyCallback {
 	}
 
 	// Explicit opt-in insecure fallback (with warning)
-	logger.Warn("⚠️  Host key verification disabled - connection may be insecure!")
-	logger.Warn("⚠️  Consider using known_hosts file at: %s", knownHostsPath)
+	logger.Warn("Host key verification disabled - connection may be insecure!")
+	logger.Warn("Consider using known_hosts file at: %s", knownHostsPath)
 	return ssh.InsecureIgnoreHostKey()
 }
 
-// parseSSHConnection parses an SSH connection string of the form "user@host:port".
-// If the user is omitted, the current OS user from $USER is used; if that is empty, "root" is used.
-// If the port is omitted, "22" is used.
-// It returns the parsed user, host, and port.
+// parseSSHConnection parses "user@host:port". Missing user falls back to
+// $USER then "root"; missing port falls back to "22".
 func parseSSHConnection(conn string) (user, host, port string) {
 	// Parse user@host:port
 	parts := strings.Split(conn, "@")
@@ -241,8 +234,7 @@ func runLocalTunnel(client *ssh.Client, localAddr, remoteAddr string) {
 	}
 }
 
-// handleLocalTunnelConnection forwards data between an accepted local connection and a remote address over the provided SSH client.
-// It dials the remote address through the SSH connection, performs bidirectional copying of data until one side closes, and ensures both connections are closed when finished.
+// handleLocalTunnelConnection forwards data between a local connection and a remote address over SSH.
 func handleLocalTunnelConnection(client *ssh.Client, localConn net.Conn, remoteAddr string) {
 	defer localConn.Close()
 

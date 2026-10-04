@@ -50,9 +50,7 @@ function hash_file(filepath)
         sha256 = crypto.sha256(content)
     }
     
-    ui.cyan("\n╔══════════════════════════════════════════╗")
-    ui.cyan("║              File Hashes                 ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("File Hashes")
     
     print(string.format("\nFile: %s", filepath))
     print(string.format("Size: %d bytes", string.len(content)))
@@ -66,11 +64,9 @@ end
 
 -- Encode/Decode utilities
 function encode_decode_tool()
-    ui.cyan("\n╔══════════════════════════════════════════╗")
-    ui.cyan("║         Encode/Decode Utility            ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("Encode/Decode Utility")
     
-    local test_string = "Hello, GoCat! 🚀"
+    local test_string = "Hello, GoCat!"
     
     print(string.format("\nOriginal: %s", test_string))
     print(string.format("Length: %d bytes", string.len(test_string)))
@@ -170,9 +166,7 @@ end
 
 -- Generate cryptographic keys
 function generate_keys()
-    ui.cyan("\n╔══════════════════════════════════════════╗")
-    ui.cyan("║         Cryptographic Key Generator      ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("Cryptographic Key Generator")
     
     -- Generate various key sizes
     local keys = {
@@ -206,9 +200,7 @@ end
 
 -- Main menu
 function main()
-    ui.cyan("╔══════════════════════════════════════════╗")
-    ui.cyan("║       GoCat Crypto Tools v1.0           ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("GoCat Crypto Tools v1.0")
     
     print("\n1. Generate secure password")
     print("2. Hash file")

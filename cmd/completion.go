@@ -175,7 +175,7 @@ autoload -Uz compinit && compinit`, completionDir)
 			return
 		}
 
-		color.Green("✅ Fish completion installed to %s", completionFile)
+		color.Green("Fish completion installed to %s", completionFile)
 		color.Yellow("Fish will automatically load completions from this directory.")
 		return
 
@@ -209,7 +209,7 @@ autoload -Uz compinit && compinit`, completionDir)
 			color.Yellow("Please add the following line to your %s manually:", configFile)
 			fmt.Println(sourceCmd)
 		} else {
-			color.Green("✅ Completion installed successfully!")
+			color.Green("Completion installed.")
 			color.Yellow("Please restart your shell or run:")
 			fmt.Printf("   source %s\n", configFile)
 		}

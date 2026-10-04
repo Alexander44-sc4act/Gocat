@@ -145,9 +145,7 @@ function main(args)
     local port_spec = args and args[2] or nil
     
     -- Header
-    ui.cyan("╔══════════════════════════════════════════╗")
-    ui.cyan("║        Advanced Port Scanner v1.0        ║")
-    ui.cyan("╚══════════════════════════════════════════╝")
+    ui.cyan("Advanced Port Scanner v1.0")
     print()
     
     -- Parse ports

@@ -28,7 +28,7 @@ Features:
   • Interactive prompts (troubleshooting, security audit, guides)
   • Full GoCat functionality accessible to AI
 
-The server communicates via stdio (standard input/output) for seamless
+The server communicates via stdio (standard input/output) for
 integration with MCP clients.
 
 Example:

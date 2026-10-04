@@ -337,11 +337,8 @@ func init() {
 	rootCmd.PersistentFlags().MarkHidden("log-level")
 	rootCmd.PersistentFlags().MarkHidden("config")
 
-	// Initialize configuration on startup
 	cobra.OnInitialize(initConfig)
 }
-
-// initConfig initializes the application configuration
 func initConfig() {
 	if !isValidProfile(runtimeProfile) {
 		logger.Warn("Invalid profile '%s', using '%s'", runtimeProfile, profileStable)

@@ -350,7 +350,7 @@ func reportPortForwardStats() {
 	for range ticker.C {
 		stats.mu.RLock()
 		if stats.TotalConnections > 0 {
-			color.Cyan("\n📊 Port Forwarding Statistics:")
+			color.Cyan("\nPort Forwarding Statistics:")
 			fmt.Printf("  Total Connections: %d\n", stats.TotalConnections)
 			fmt.Printf("  Active Connections: %d\n", stats.ActiveConnections)
 			fmt.Printf("  Data Forwarded: %s\n", formatBytes(stats.BytesForwarded))

@@ -111,18 +111,15 @@ local function print_status()
     local now = os.date("%Y-%m-%d %H:%M:%S")
     
     print("")
-    print("╔══════════════════════════════════════════════════════════════╗")
-    print("║                    SERVICE HEALTH STATUS                     ║")
-    print("╠══════════════════════════════════════════════════════════════╣")
-    print(string.format("║  Time: %-54s ║", now))
-    print("╠══════════════════════════════════════════════════════════════╣")
+    print("Service health status:")
+    print("Time: %-54s")
     
     local healthy_count = 0
     local total_count = #config.services
     
     for _, service in ipairs(config.services) do
         local s = status[service.name] or {healthy = false}
-        local icon = s.healthy and "✓" or "✗"
+        local icon = s.healthy and "[OK]" or "[FAIL]"
         local state = s.healthy and "HEALTHY" or "UNHEALTHY"
         local latency = s.latency and string.format("%.0fms", s.latency) or "N/A"
         
@@ -130,25 +127,22 @@ local function print_status()
             healthy_count = healthy_count + 1
         end
         
-        print(string.format("║  %s %-20s  %-10s  Latency: %-8s    ║", 
+    print("%s %-20s  %-10s  Latency: %-8s")
             icon, service.name, state, latency))
         
         if s.error then
-            print(string.format("║    └─ Error: %-47s ║", 
+    print("Error: %-47s")
                 string.sub(s.error, 1, 47)))
         end
     end
     
-    print("╠══════════════════════════════════════════════════════════════╣")
-    print(string.format("║  Summary: %d/%d services healthy                              ║", 
+    print("Summary: %d/%d services healthy")
         healthy_count, total_count))
-    print("╚══════════════════════════════════════════════════════════════╝")
 end
 
 -- Main monitoring loop
 function main()
     print("GoCat Health Checker")
-    print("====================")
     print("")
     print("Monitoring " .. #config.services .. " services")
     print("Check interval: " .. (config.interval / 1000) .. " seconds")

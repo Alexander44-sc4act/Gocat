@@ -131,7 +131,7 @@ func stabilizeCurrentShell() error {
 func showUpgradeMethods() {
 	theme := logger.GetCurrentTheme()
 
-	theme.Highlight.Print("\n🐚 Reverse Shell Upgrade Methods\n\n")
+	theme.Highlight.Print("\nReverse Shell Upgrade Methods\n\n")
 
 	methods := map[string]string{
 		"Python": `# Method 1: Python PTY
@@ -176,7 +176,7 @@ export TERM=xterm`,
 	if stabilizeMethod == "auto" || stabilizeMethod == "all" {
 		// Show all methods
 		for name, commands := range methods {
-			theme.Success.Printf("═══ %s ═══\n", name)
+			theme.Success.Printf("%s:\n", name)
 			fmt.Println(commands)
 			fmt.Println()
 		}
@@ -203,12 +203,12 @@ export TERM=xterm`,
 		}
 
 		if cmd, ok := methods[methodName]; ok {
-			theme.Success.Printf("═══ %s ═══\n", methodName)
+			theme.Success.Printf("%s:\n", methodName)
 			fmt.Println(cmd)
 		}
 	}
 
-	theme.Highlight.Print("\n💡 Quick Tips:\n")
+	theme.Highlight.Print("\nQuick Tips:\n")
 	fmt.Println("1. Always background (Ctrl+Z) before running 'stty raw -echo'")
 	fmt.Println("2. Type 'reset' if terminal gets messed up")
 	fmt.Println("3. Use 'export TERM=xterm' for proper terminal handling")

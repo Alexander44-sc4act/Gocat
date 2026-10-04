@@ -1,22 +1,22 @@
-# 📖 GoCat User Guide
+# GoCat User Guide
 
-Welcome to the comprehensive GoCat user guide! This document will help you master all aspects of GoCat, from basic usage to advanced techniques.
+This guide covers GoCat usage, from basic commands to advanced techniques.
 
-## 📋 Table of Contents
+## Table of Contents
 
-- [Getting Started](#-getting-started)
-- [Basic Commands](#-basic-commands)
-- [Connection Modes](#-connection-modes)
-- [File Transfer](#-file-transfer)
-- [Port Scanning](#-port-scanning)
-- [Advanced Features](#-advanced-features)
-- [Configuration](#-configuration)
-- [Tips and Tricks](#-tips-and-tricks)
-- [Troubleshooting](#-troubleshooting)
+- [Getting Started](#getting-started)
+- [Basic Commands](#basic-commands)
+- [Connection Modes](#connection-modes)
+- [File Transfer](#file-transfer)
+- [Port Scanning](#port-scanning)
+- [Advanced Features](#advanced-features)
+- [Configuration](#configuration)
+- [Tips and Tricks](#tips-and-tricks)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### First Steps
 
@@ -55,12 +55,11 @@ gocat [global-options] <command> [command-options] [arguments]
 - `-h, --help` - Show help information
 - `--profile stable|experimental` - Label runtime behavior for reporting; existing commands remain available
 - `--config FILE` - Use custom configuration file
-- `--log-file FILE` - Log to specific file
 - `--log-level LEVEL` - Set logging level (debug, info, warn, error)
 
 ---
 
-## 🎯 Basic Commands
+## Basic Commands
 
 ### Connect Command
 
@@ -137,7 +136,7 @@ gocat scan localhost 8000-9000
 
 ---
 
-## 🔗 Connection Modes
+## Connection Modes
 
 ### Client Mode (Connect)
 
@@ -188,7 +187,7 @@ gocat listen -l 8080
 
 ---
 
-## 📁 File Transfer
+## File Transfer
 
 ### Sending Files
 
@@ -232,7 +231,7 @@ gocat listen 8080 | pv > large_file.zip
 
 ---
 
-## 🔍 Port Scanning
+## Port Scanning
 
 ### Single Port
 
@@ -272,22 +271,16 @@ gocat scan -v example.com 1-100
 gocat scan -q example.com 1-1000
 ```
 
-### Scan Output Formats
+### Scan Output
 
 ```bash
-# JSON output
-gocat scan --output json example.com 1-1000
-
-# XML output
-gocat scan --output xml example.com 1-1000
-
 # Save to file
 gocat scan example.com 1-1000 > scan_results.txt
 ```
 
 ---
 
-## 🔧 Advanced Features
+## Advanced Features
 
 ### Proxy Support
 
@@ -359,7 +352,7 @@ gocat connect -t 60s example.com 80
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 ### Configuration File
 
@@ -426,12 +419,12 @@ export GOCAT_PROXY=socks5://localhost:1080
 gocat --config /path/to/config.yaml connect example.com 80
 
 # Override config settings
-gocat --timeout 60s --retry 5 connect example.com 80
+gocat --wait 60s connect --retry 5 example.com 80
 ```
 
 ---
 
-## 💡 Tips and Tricks
+## Tips and Tricks
 
 ### Shell Aliases
 
@@ -459,7 +452,7 @@ echo "Hello World" | gocat listen 8080
 for port in 1000 2000 3000; do gocat connect target.com $port; done
 
 # Banner grab
-echo "" | gocat connect -t 5s target.com 22
+echo "" | gocat connect --wait 5s target.com 22
 
 # HTTP request
 printf "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n" | gocat connect example.com 80
@@ -499,7 +492,7 @@ gocat scan --output json target.com 1-1000 | jq '.open_ports[]'
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -574,7 +567,7 @@ gocat scan -u target.com 1-1000
 
 ---
 
-## 🎯 Use Cases
+## Use Cases
 
 ### Network Testing
 
@@ -624,35 +617,31 @@ printf "GET /api/health HTTP/1.1\r\nHost: api.example.com\r\n\r\n" | gocat conne
 gocat scan target.com 1-65535
 
 # Banner grabbing
-echo "" | gocat connect -t 5s target.com 22
+echo "" | gocat connect --wait 5s target.com 22
 
 # Service enumeration
 for port in $(gocat scan -q target.com 1-1000); do
     echo "Checking port $port"
-    echo "" | gocat connect -t 3s target.com $port
+    echo "" | gocat connect --wait 3s target.com $port
 done
 ```
 
 ---
 
-## 📚 Further Reading
+## Further Reading
 
 - [Installation Guide](installation.md) - How to install GoCat
-- [Advanced Usage](advanced-usage.md) - Advanced features and techniques
-- [API Reference](api-reference.md) - Complete command reference
+- [API Reference](api/README.md) - Package documentation for developers
 - [Contributing](../CONTRIBUTING.md) - How to contribute to GoCat
 - [GitHub Repository](https://github.com/realibrahimsql/Gocat) - Source code and issues
 
 ---
 
-## 🆘 Getting Help
+## Getting Help
 
 If you need help:
 
-- 📖 Check the [documentation](https://docs.gocat.dev)
-- 🐛 [Report bugs](https://github.com/realibrahimsql/Gocat/issues/new?template=bug_report.yml)
-- 💡 [Request features](https://github.com/realibrahimsql/Gocat/issues/new?template=feature_request.yml)
-- 💬 [Join our Discord](https://discord.gg/gocat)
-- 📧 [Email support](mailto:support@gocat.dev)
+- [Report bugs](https://github.com/realibrahimsql/Gocat/issues/new?template=bug_report.yml)
+- [Request features](https://github.com/realibrahimsql/Gocat/issues/new?template=feature_request.yml)
 
-**Happy networking with GoCat!** 🚀
+

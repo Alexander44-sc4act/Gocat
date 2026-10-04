@@ -21,7 +21,7 @@ or
 
 This feature requires libpcap to be installed on your system.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("❌ Sniffer feature not available in this build")
+		fmt.Println("Sniffer feature not available in this build")
 		fmt.Println("\nTo enable packet sniffing:")
 		fmt.Println("  1. Install libpcap:")
 		fmt.Println("     • macOS:   brew install libpcap")

@@ -187,7 +187,7 @@ func runServe(cmd *cobra.Command, args []string) {
 	}
 
 	for _, ip := range ips {
-		theme.Highlight.Printf("🏠 http://%s:%d/", ip, fs.Port)
+		theme.Highlight.Printf("http://%s:%d/", ip, fs.Port)
 		if fs.Prefix != "" {
 			fmt.Printf("%s/", fs.Prefix)
 		}
@@ -195,9 +195,9 @@ func runServe(cmd *cobra.Command, args []string) {
 
 		for urlPath, filePath := range fs.FileMap {
 			info, _ := os.Stat(filePath)
-			icon := "📄"
+			icon := "[F]"
 			if info != nil && info.IsDir() {
-				icon = "📁"
+				icon = "[D]"
 			}
 
 			fullURL := fmt.Sprintf("http://%s:%d%s", ip, fs.Port, urlPath)
@@ -218,8 +218,6 @@ func runServe(cmd *cobra.Command, args []string) {
 				fullURL, filepath.Base(urlPath))
 			fmt.Println()
 		}
-
-		fmt.Println(strings.Repeat("─", 60))
 	}
 
 	// Create HTTP handler

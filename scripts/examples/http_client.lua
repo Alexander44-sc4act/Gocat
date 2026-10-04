@@ -11,7 +11,6 @@ local data = arg[3] or ""
 -- Validate
 if not url then
     print("GoCat HTTP Client")
-    print("=================")
     print("")
     print("Usage: gocat script run http_client.lua <url> [method] [data]")
     print("")
@@ -52,7 +51,6 @@ end
 -- Main function
 local function main()
     print("GoCat HTTP Client")
-    print("=================")
     print("")
     print("Request:")
     print("  Method: " .. method:upper())

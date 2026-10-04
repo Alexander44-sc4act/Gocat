@@ -180,13 +180,12 @@ func listScripts(cmd *cobra.Command, args []string) {
 
 	// Display scripts with descriptions
 	fmt.Println("Available Lua Scripts:")
-	fmt.Println(strings.Repeat("=", 50))
 
 	for _, script := range luaScripts {
 		scriptPath := filepath.Join(scriptsDir, script)
 		description := getScriptDescription(scriptPath)
 
-		fmt.Printf("📜 %s\n", script)
+		fmt.Printf("%s\n", script)
 		if description != "" {
 			fmt.Printf("   %s\n", description)
 		}
@@ -218,7 +217,6 @@ func showScriptInfo(cmd *cobra.Command, args []string) {
 	info := parseScriptInfo(string(content))
 
 	fmt.Printf("Script Information: %s\n", filepath.Base(resolvedPath))
-	fmt.Println(strings.Repeat("=", 50))
 
 	if info.Purpose != "" {
 		fmt.Printf("Purpose: %s\n", info.Purpose)
@@ -283,7 +281,7 @@ func validateScript(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	logger.Info("✅ Script validation passed - syntax is correct")
+	logger.Info("Script validation passed: syntax is correct")
 }
 
 // resolveScriptPath resolves script path with fallback logic

@@ -215,7 +215,6 @@ func (c *WebSocketToHTTPConverter) convertAndForward(message []byte, _ int) *Res
 		return response
 	}
 
-	// Set headers
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("User-Agent", "GoCat-WebSocket-Converter/1.0")
 	req.Header.Set("X-Forwarded-Proto", "websocket")

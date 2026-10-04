@@ -82,8 +82,8 @@ func runBenchmark(cmd *cobra.Command, args []string) {
 		logger.Fatal("Target host is required")
 	}
 
-	logger.Warn("⚠️  Starting benchmark against %s:%d", benchTarget, benchPort)
-	logger.Warn("⚠️  Only use this tool against systems you own or have permission to test")
+	logger.Warn("Starting benchmark against %s:%d", benchTarget, benchPort)
+	logger.Warn("Only use this tool against systems you own or have permission to test")
 
 	time.Sleep(3 * time.Second) // Give user time to cancel
 
@@ -300,7 +300,7 @@ func reportBenchProgress(ctx context.Context) {
 			connsPerSec := float64(atomic.LoadInt64(&benchResults.TotalConnections)) / elapsed.Seconds()
 			bytesPerSec := float64(atomic.LoadInt64(&benchResults.TotalBytes)) / elapsed.Seconds()
 
-			fmt.Printf("\r⚡ Connections: %d | Success: %d | Failed: %d | %.1f conn/s | %s/s",
+			fmt.Printf("\rConnections: %d | Success: %d | Failed: %d | %.1f conn/s | %s/s",
 				atomic.LoadInt64(&benchResults.TotalConnections),
 				atomic.LoadInt64(&benchResults.SuccessfulConns),
 				atomic.LoadInt64(&benchResults.FailedConns),
@@ -322,7 +322,7 @@ func printBenchmarkResults() {
 		fmt.Printf("Rate Limit: %d req/s\n", benchRate)
 	}
 
-	fmt.Println("\n📊 Connection Statistics:")
+	fmt.Println("\nConnection Statistics:")
 	fmt.Printf("  Total Attempts: %d\n", benchResults.TotalConnections)
 	if benchResults.TotalConnections > 0 {
 		fmt.Printf("  Successful: %d (%.1f%%)\n",
@@ -336,7 +336,7 @@ func printBenchmarkResults() {
 		fmt.Printf("  Failed: %d (n/a, no attempts)\n", benchResults.FailedConns)
 	}
 
-	fmt.Println("\n📈 Performance Metrics:")
+	fmt.Println("\nPerformance Metrics:")
 	if duration.Seconds() > 0 && benchResults.TotalConnections > 0 {
 		fmt.Printf("  Connections/sec: %.2f\n",
 			float64(benchResults.TotalConnections)/duration.Seconds())
@@ -353,14 +353,14 @@ func printBenchmarkResults() {
 	fmt.Printf("  Packets sent: %d\n", benchResults.TotalPackets)
 
 	if benchResults.SuccessfulConns > 0 {
-		fmt.Println("\n⏱️  Latency Statistics:")
+		fmt.Println("\nLatency Statistics:")
 		fmt.Printf("  Min: %v\n", benchResults.MinLatency)
 		fmt.Printf("  Max: %v\n", benchResults.MaxLatency)
 		fmt.Printf("  Avg: %v\n", benchResults.AvgLatency)
 	}
 
 	if len(benchResults.Errors) > 0 {
-		fmt.Println("\n❌ Recent Errors:")
+		fmt.Println("\nRecent Errors:")
 		for _, err := range benchResults.Errors {
 			fmt.Printf("  - %s\n", err)
 		}
@@ -375,7 +375,7 @@ func printBenchmarkResults() {
 		grade = "N/A (no attempts)"
 	}
 
-	fmt.Printf("\n🏆 Performance Grade: %s\n", grade)
+	fmt.Printf("\nPerformance Grade: %s\n", grade)
 }
 
 func getPerformanceGrade(successRate float64) string {

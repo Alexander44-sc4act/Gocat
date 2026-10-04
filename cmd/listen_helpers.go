@@ -91,12 +91,10 @@ func loadIPsFromFile(filename string) ([]string, error) {
 
 // matchesIPPattern checks if an IP matches a pattern (supports CIDR notation)
 func matchesIPPattern(ip, pattern string) bool {
-	// Exact match
 	if ip == pattern {
 		return true
 	}
 
-	// CIDR match
 	if strings.Contains(pattern, "/") {
 		_, ipNet, err := net.ParseCIDR(pattern)
 		if err != nil {
@@ -118,7 +116,6 @@ func matchesIPPattern(ip, pattern string) bool {
 func applyProtocolWrappers(conn net.Conn) net.Conn {
 	finalConn := conn
 
-	// Apply telnet wrapper
 	if listenTelnetMode {
 		logger.Debug("Telnet mode enabled for listener")
 		finalConn = newTelnetConn(finalConn)

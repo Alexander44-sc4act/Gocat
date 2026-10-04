@@ -55,7 +55,7 @@ function grab_banner(host, port, protocol, expected_banner, request_template, ti
         return nil
     end
     
-    log("debug", "🔍 Attempting to grab banner from " .. host .. ":" .. port .. " (" .. protocol .. ")")
+    log("debug", "Attempting to grab banner from " .. host .. ":" .. port .. " (" .. protocol .. ")")
     
     local conn, err
     local retry_count = 0
@@ -74,7 +74,7 @@ function grab_banner(host, port, protocol, expected_banner, request_template, ti
     end
     
     if not conn then
-        log("debug", "❌ Failed to connect to " .. host .. ":" .. port .. " - " .. (err or "connection failed"))
+        log("debug", "Failed to connect to " .. host .. ":" .. port .. " - " .. (err or "connection failed"))
         return nil
     end
     
@@ -86,12 +86,12 @@ function grab_banner(host, port, protocol, expected_banner, request_template, ti
     
     if initial_banner and #initial_banner > 0 then
         banner = initial_banner
-        log("debug", "📨 Received initial banner from " .. host .. ":" .. port)
+        log("debug", "Received initial banner from " .. host .. ":" .. port)
     else
         -- If no initial banner, try sending a request
         if request_template then
             local request = string.format(request_template, host)
-            log("debug", "📤 Sending request to " .. host .. ":" .. port)
+            log("debug", "Sending request to " .. host .. ":" .. port)
             local bytes_sent, send_err = send(conn, request)
             
             if bytes_sent and bytes_sent > 0 then
@@ -107,10 +107,10 @@ function grab_banner(host, port, protocol, expected_banner, request_template, ti
     
     if banner and #banner > 0 then
         banner = clean_banner(banner)
-        log("info", "✅ Banner grabbed from " .. host .. ":" .. port)
+        log("info", "Banner grabbed from " .. host .. ":" .. port)
         return banner
     else
-        log("debug", "⚠️  No banner received from " .. host .. ":" .. port)
+        log("debug", "No banner received from " .. host .. ":" .. port)
         return nil
     end
 end
@@ -132,8 +132,8 @@ function grab_common_services(host)
         return {}
     end
     
-    log("info", "🚀 Starting banner grabbing for common services on " .. host)
-    log("info", "📋 Scanning " .. #SERVICES .. " common services")
+    log("info", "Starting banner grabbing for common services on " .. host)
+    log("info", "Scanning " .. #SERVICES .. " common services")
     
     local results = {}
     local found_services = 0
@@ -145,7 +145,7 @@ function grab_common_services(host)
         local expected = service[4]
         local request = service[5]
         
-        log("info", "[" .. i .. "/" .. #SERVICES .. "] 🔍 Checking " .. name .. " on port " .. port)
+        log("info", "[" .. i .. "/" .. #SERVICES .. "] Checking " .. name .. " on port " .. port)
         
         -- First check if port is open
         if is_port_open(host, port) then
@@ -169,7 +169,7 @@ function grab_common_services(host)
                     display_banner = string.sub(display_banner, 1, 97) .. "..."
                 end
                 
-                log("info", "🎯 " .. name .. " (" .. port .. "/" .. protocol .. "): " .. display_banner)
+                log("info", "" .. name .. " (" .. port .. "/" .. protocol .. "): " .. display_banner)
             else
                 log("debug", "No banner received from " .. name .. " service")
             end
@@ -183,8 +183,8 @@ function grab_common_services(host)
         end
     end
     
-    log("info", "✅ Banner grabbing completed for " .. host)
-    log("info", "📊 Found " .. found_services .. " services with banners out of " .. #SERVICES .. " checked")
+    log("info", "Banner grabbing completed for " .. host)
+    log("info", "Found " .. found_services .. " services with banners out of " .. #SERVICES .. " checked")
     
     return results
 end
@@ -192,14 +192,14 @@ end
 -- Generate summary report
 function generate_report(host, results)
     if not results or #results == 0 then
-        log("info", "📝 No services found to report")
+        log("info", "No services found to report")
         return
     end
     
-    log("info", "📝 === BANNER GRABBING REPORT ===")
-    log("info", "🎯 Target: " .. host)
-    log("info", "📅 Scan Date: " .. os.date("%Y-%m-%d %H:%M:%S"))
-    log("info", "📊 Services Found: " .. #results)
+    log("info", "=== BANNER GRABBING REPORT ===")
+    log("info", "Target: " .. host)
+    log("info", "Scan Date: " .. os.date("%Y-%m-%d %H:%M:%S"))
+    log("info", "Services Found: " .. #results)
     log("info", "")
     
     for i, result in ipairs(results) do
@@ -208,19 +208,19 @@ function generate_report(host, results)
         log("info", "")
     end
     
-    log("info", "📝 === END OF REPORT ===")
+    log("info", "=== END OF REPORT ===")
 end
 
 -- Main execution
 if CONFIG.host and CONFIG.host ~= "" then
-    log("info", "🚀 GoCat Banner Grabber v2.0 starting...")
-    log("info", "🎯 Target: " .. CONFIG.host)
-    log("info", "⏱️  Timeout: " .. CONFIG.timeout .. "s")
+    log("info", "GoCat Banner Grabber v2.0 starting...")
+    log("info", "Target: " .. CONFIG.host)
+    log("info", "Timeout: " .. CONFIG.timeout .. "s")
     
     local results = grab_common_services(CONFIG.host)
     generate_report(CONFIG.host, results)
     
-    log("info", "🏁 Banner grabbing finished.")
+    log("info", "Banner grabbing finished.")
 else
     log("error", "Invalid configuration. Please set a valid host in CONFIG section.")
 end

@@ -344,8 +344,7 @@ func getOrCreateSession(sessionID string) *dnsSession {
 	return session
 }
 
-// readTargetResponses reads from the session's target TCP connection and appends any received bytes to the session's buffer until the connection is closed or a read error occurs.
-// It acquires the session mutex when mutating the buffer or closing the connection to ensure concurrent safety and logs read errors and lifecycle events.
+// readTargetResponses appends bytes from the session's target TCP connection to the session buffer.
 func readTargetResponses(session *dnsSession, _ *net.UDPConn, _ *net.UDPAddr) {
 	buf := make([]byte, 200) // Small chunks for DNS
 	for {
@@ -580,10 +579,8 @@ func dnsTunnelServerAddr() string {
 // for a reply, and parses the TXT data using parseDNSResponse. It returns nil if sending,
 // receiving, or parsing fails.
 func sendDNSQueryAndWait(domain string) []byte {
-	// Build DNS query
 	query := buildDNSQuery(domain)
 
-	// Send to DNS server
 	dnsServer := dnsTunnelServerAddr()
 	conn, err := net.Dial("udp", dnsServer)
 	if err != nil {
@@ -599,7 +596,6 @@ func sendDNSQueryAndWait(domain string) []byte {
 		return nil
 	}
 
-	// Read response
 	buf := make([]byte, 512)
 	n, err := conn.Read(buf)
 	if err != nil {

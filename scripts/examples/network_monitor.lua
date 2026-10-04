@@ -10,7 +10,6 @@ local count = tonumber(arg[3]) or 10
 -- Validate
 if not host then
     print("GoCat Network Monitor")
-    print("=====================")
     print("")
     print("Usage: gocat script run network_monitor.lua <host> [interval] [count]")
     print("")
@@ -70,7 +69,6 @@ end
 -- Main function
 local function main()
     print("GoCat Network Monitor")
-    print("=====================")
     print("")
     print("Target: " .. host)
     print("Interval: " .. interval .. " seconds")

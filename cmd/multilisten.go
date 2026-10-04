@@ -78,9 +78,7 @@ func init() {
 	multiListenCmd.Flags().StringVar(&multiBindAddress, "bind", "0.0.0.0", "Bind address")
 }
 
-// runMultiListen parses configured ports and port ranges, starts a listener on each port, and waits for all listeners to finish.
-//
-// It reads port configuration from package-level flags (individual ports and a range), exits with a fatal log on invalid or missing port configuration, optionally starts the periodic statistics reporter, launches one listener goroutine per port, and blocks until those listeners exit (typically via interruption).
+// runMultiListen starts a listener on each configured port and waits for them to finish.
 func runMultiListen(cmd *cobra.Command, args []string) {
 	// Parse ports
 	var ports []int
@@ -143,7 +141,6 @@ func startPortListener(port int) {
 	}
 	defer listener.Close()
 
-	// Initialize stats
 	mlStats.mu.Lock()
 	mlStats.portStats[port] = &portStats{
 		Port: port,
@@ -340,22 +337,18 @@ func reportMultiListenStats() {
 	for range ticker.C {
 		mlStats.mu.RLock()
 		theme := logger.GetCurrentTheme()
-		theme.Info.Println("\n╔═══════════════════════════════════════════════════════════════╗")
-		theme.Info.Println("║          Multi-Port Listener Statistics                    ║")
-		theme.Info.Println("╠═══════════════════════════════════════════════════════════════╣")
+		theme.Info.Println("\nMulti-port listener statistics:")
 
 		for port, stats := range mlStats.portStats {
-			theme.Success.Printf("║ Port %-5d │ ", port)
-			theme.Highlight.Printf("Total: %-6d │ ", stats.TotalConns)
-			theme.Info.Printf("Active: %-4d │ ", stats.ActiveConns)
-			theme.Debug.Printf("RX: %-8d │ TX: %-8d ║\n", stats.BytesReceived, stats.BytesSent)
+			theme.Success.Printf("Port %-5d ", port)
+			theme.Highlight.Printf("total %-6d ", stats.TotalConns)
+			theme.Info.Printf("active %-4d ", stats.ActiveConns)
+			theme.Debug.Printf("rx %-8d tx %-8d\n", stats.BytesReceived, stats.BytesSent)
 			if !stats.LastConnection.IsZero() {
-				theme.Debug.Printf("║           └─ Last connection: %s                          ║\n",
+				theme.Debug.Printf("  last connection: %s\n",
 					stats.LastConnection.Format("2006-01-02 15:04:05"))
 			}
 		}
-
-		theme.Info.Println("╚═══════════════════════════════════════════════════════════════╝")
 		mlStats.mu.RUnlock()
 	}
 }

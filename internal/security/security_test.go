@@ -377,7 +377,6 @@ func TestIsPrivateIP(t *testing.T) {
 	}
 }
 
-// Helper function to compare int slices
 func equalIntSlices(a, b []int) bool {
 	if len(a) != len(b) {
 		return false

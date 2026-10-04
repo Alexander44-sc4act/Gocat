@@ -30,7 +30,6 @@ end
 -- Main function
 function main()
     print("GoCat WebSocket Client")
-    print("======================")
     print("")
     print("Connecting to: " .. config.url)
     

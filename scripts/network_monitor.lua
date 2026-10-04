@@ -47,7 +47,7 @@ function update_target_status(target, is_up, message)
     
     if is_up then
         if status.consecutive_failures > 0 then
-            log("info", "✅ " .. target.name .. " is back online!")
+            log("info", "" .. target.name .. " is back online!")
         end
         status.consecutive_failures = 0
         status.last_status = "UP"
@@ -57,9 +57,9 @@ function update_target_status(target, is_up, message)
         status.last_status = "DOWN"
         
         if status.consecutive_failures == 1 then
-            log("warn", "⚠️  " .. target.name .. " is down: " .. message)
+            log("warn", " " .. target.name .. " is down: " .. message)
         elseif status.consecutive_failures >= monitor_config.max_failures then
-            log("error", "🚨 " .. target.name .. " has been down for " .. status.consecutive_failures .. " consecutive checks!")
+            log("error", "" .. target.name .. " has been down for " .. status.consecutive_failures .. " consecutive checks!")
         end
     end
 end
@@ -79,9 +79,9 @@ function monitor_targets()
             update_target_status(target, is_up, message)
             
             if is_up then
-                log("debug", "✅ " .. target.name .. " - OK")
+                log("debug", "" .. target.name .. " - OK")
             else
-                log("warn", "❌ " .. target.name .. " - " .. message)
+                log("warn", "" .. target.name .. " - " .. message)
             end
             
             -- Small delay between checks
@@ -99,7 +99,7 @@ function monitor_targets()
 end
 
 function show_monitoring_summary()
-    log("info", "=== Network Monitoring Summary ===")
+    log("info", "Network monitoring summary:")
     
     for key, status in pairs(target_status) do
         local uptime_percent = 0
@@ -107,7 +107,7 @@ function show_monitoring_summary()
             uptime_percent = ((status.total_checks - status.total_failures) / status.total_checks) * 100
         end
         
-        local status_icon = status.last_status == "UP" and "✅" or "❌"
+        local status_icon = status.last_status == "UP" and "[UP]" or "[DOWN]"
         
         log("info", string.format("%s %s - Status: %s, Uptime: %.1f%%, Failures: %d/%d",
             status_icon,
@@ -119,7 +119,6 @@ function show_monitoring_summary()
         ))
     end
     
-    log("info", "================================")
 end
 
 function ping_test(host, count)

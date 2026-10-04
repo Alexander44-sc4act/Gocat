@@ -21,7 +21,7 @@ var (
 	spaceRunRegex      = regexp.MustCompile(` +`)
 )
 
-// SecurityValidator provides comprehensive input validation functions
+// SecurityValidator validates user input
 type SecurityValidator interface {
 	ValidateHostname(hostname string) error
 	ValidatePort(port string) (int, error)

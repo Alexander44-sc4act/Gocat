@@ -43,7 +43,6 @@ var commandInventory = map[string]commandMeta{
 
 	"console":      {Class: classExperimental, Reason: "interactive session control is still being hardened"},
 	"dns-tunnel":   {Class: classExperimental, Reason: "tunneling transports require explicit opt-in"},
-	"distributed":  {Class: classExperimental, Reason: "distributed execution surfaces are experimental"},
 	"mcp":          {Class: classExperimental, Reason: "MCP automation should be enabled deliberately"},
 	"multi-listen": {Class: classExperimental, Reason: "multi-listener orchestration is experimental"},
 	"payload":      {Class: classExperimental, Reason: "payload generation is outside the stable-safe profile"},

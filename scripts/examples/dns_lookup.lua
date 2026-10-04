@@ -8,7 +8,6 @@ local domain = arg[1]
 -- Validate
 if not domain then
     print("GoCat DNS Lookup")
-    print("================")
     print("")
     print("Usage: gocat script run dns_lookup.lua <domain>")
     print("")
@@ -41,7 +40,6 @@ end
 -- Main function
 local function main()
     print("GoCat DNS Lookup")
-    print("================")
     print("")
     print("Domain: " .. domain)
     print("")

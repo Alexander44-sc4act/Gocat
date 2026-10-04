@@ -27,11 +27,11 @@ function scan_port(host, port)
     
     local conn, err = connect(host, port, "tcp")
     if conn then
-        log("info", "✅ Port " .. port .. " is OPEN")
+        log("info", "Port " .. port .. " is OPEN")
         close(conn)
         return true
     else
-        log("debug", "❌ Port " .. port .. " is closed: " .. (err or "connection failed"))
+        log("debug", "Port " .. port .. " is closed: " .. (err or "connection failed"))
         return false
     end
 end
@@ -58,7 +58,7 @@ function scan_range(host, start_port, end_port, options)
         end_port = 65535
     end
     
-    log("info", "🎯 Starting port scan on " .. host .. " (" .. start_port .. "-" .. end_port .. ")")
+    log("info", "Starting port scan on " .. host .. " (" .. start_port .. "-" .. end_port .. ")")
     
     local open_ports = {}
     local total_ports = end_port - start_port + 1
@@ -75,7 +75,7 @@ function scan_range(host, start_port, end_port, options)
         -- Progress reporting
         if scanned % progress_interval == 0 or scanned == total_ports then
             local progress_pct = math.floor((scanned / total_ports) * 100)
-            log("info", "📊 Progress: " .. scanned .. "/" .. total_ports .. " (" .. progress_pct .. "%) - Found " .. #open_ports .. " open ports")
+            log("info", "Progress: " .. scanned .. "/" .. total_ports .. " (" .. progress_pct .. "%) - Found " .. #open_ports .. " open ports")
         end
         
         -- Rate limiting
@@ -85,13 +85,13 @@ function scan_range(host, start_port, end_port, options)
     end
     
     local elapsed_time = os.time() - start_time
-    log("info", "✅ Scan completed in " .. elapsed_time .. " seconds")
-    log("info", "📋 Found " .. #open_ports .. " open ports out of " .. total_ports .. " scanned")
+    log("info", "Scan completed in " .. elapsed_time .. " seconds")
+    log("info", "Found " .. #open_ports .. " open ports out of " .. total_ports .. " scanned")
     
     if #open_ports > 0 then
-        log("info", "🔓 Open ports: " .. table.concat(open_ports, ", "))
+        log("info", "Open ports: " .. table.concat(open_ports, ", "))
     else
-        log("info", "🔒 No open ports found")
+        log("info", "No open ports found")
     end
     
     return open_ports
@@ -101,7 +101,7 @@ end
 function scan_common_ports(host)
     local common_ports = {21, 22, 23, 25, 53, 80, 110, 143, 443, 993, 995, 3389, 5432, 3306}
     
-    log("info", "🎯 Scanning common ports on " .. host)
+    log("info", "Scanning common ports on " .. host)
     
     local open_ports = {}
     for _, port in ipairs(common_ports) do
@@ -116,13 +116,13 @@ end
 
 -- Main execution
 if CONFIG.host and CONFIG.start_port and CONFIG.end_port then
-    log("info", "🚀 GoCat Port Scanner v2.0 starting...")
-    log("info", "🎯 Target: " .. CONFIG.host)
-    log("info", "📡 Range: " .. CONFIG.start_port .. "-" .. CONFIG.end_port)
+    log("info", "GoCat Port Scanner v2.0 starting...")
+    log("info", "Target: " .. CONFIG.host)
+    log("info", "Range: " .. CONFIG.start_port .. "-" .. CONFIG.end_port)
     
     local results = scan_range(CONFIG.host, CONFIG.start_port, CONFIG.end_port, CONFIG)
     
-    log("info", "🏁 Port scan finished. Total open ports: " .. #results)
+    log("info", "Port scan finished. Total open ports: " .. #results)
 else
     log("error", "Invalid configuration. Please check CONFIG section.")
 end

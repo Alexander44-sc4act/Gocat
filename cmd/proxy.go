@@ -80,7 +80,6 @@ Examples:
 	Run: runProxy,
 }
 
-// init registers the proxy command with the root command and defines its CLI flags.
 // It binds command-line options (listen address, target/backends, load-balancing algorithm,
 // health check path, timeouts, connection limits, header modification, request logging, and TLS
 // certificate/key) to the package-level configuration variables with their default values.

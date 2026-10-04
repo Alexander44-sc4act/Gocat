@@ -684,7 +684,7 @@ func handleSessionConnection(conn net.Conn) {
 	// Determine OS and shell type
 	logger.Info("Determining shell type for %s...", remote)
 	if !sess.Determine() {
-		logger.Error("Failed to determine shell type for %s — dropping", remote)
+		logger.Error("Failed to determine shell type for %s, dropping", remote)
 		conn.Close()
 		return
 	}
@@ -727,7 +727,7 @@ func handleSessionConnection(conn net.Conn) {
 		}(sess.ID)
 	}
 
-	// Keep connection alive — read from the session and pipe to stdout if attached
+	// Keep connection alive: read from the session and pipe to stdout if attached
 	sess.PumpActive = true
 	buf := make([]byte, 16384)
 	for {
@@ -821,7 +821,7 @@ func handleNormal(conn net.Conn) error {
 	editor.SetIgnoreCase(true)                                   // Case-insensitive completion
 	editor.SetSyntaxHighlighter(readline.ShellSyntaxHighlighter) // Syntax highlighting
 
-	// Comprehensive command completions
+	// Shell command completions
 	completions := []string{
 		// File operations
 		"ls", "dir", "pwd", "cd", "mkdir", "rmdir", "rm", "cp", "mv", "cat", "echo",

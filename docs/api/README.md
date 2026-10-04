@@ -2,7 +2,7 @@
 
 ## Overview
 
-GoCat is a modern, feature-rich netcat alternative written in Go. This document provides comprehensive API documentation for developers.
+GoCat is a netcat alternative written in Go. This document describes the API for developers.
 
 ## Package Structure
 
@@ -209,7 +209,7 @@ err := errors.NetworkError("NET001", "Connection failed")
 err = err.WithContext("host", "example.com")
 
 // Check error type
-if errors.IsNetworkError(err) {
+if errors.GetErrorType(err) == errors.ErrorTypeNetwork {
     // Handle network error
 }
 ```

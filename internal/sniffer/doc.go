@@ -1,8 +1,4 @@
-// Package sniffer provides advanced network packet capture and analysis capabilities.
-//
-// The sniffer package offers a comprehensive solution for capturing, filtering,
-// and analyzing network packets. It supports BPF filtering, protocol detection,
-// and real-time statistics.
+// Package sniffer provides network packet capture and analysis.
 //
 // # Basic Usage
 //

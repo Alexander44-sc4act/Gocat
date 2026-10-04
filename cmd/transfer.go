@@ -29,7 +29,7 @@ var (
 var transferCmd = &cobra.Command{
 	Use:   "transfer [mode] [options]",
 	Short: "File transfer operations",
-	Long: `Transfer files over network connections with advanced features.
+	Long: `Transfer files over network connections.
 
 Modes:
   send <file> <host> <port>    Send a file to remote host
@@ -50,8 +50,6 @@ Examples:
 	Run:  runTransfer,
 }
 
-// init registers the transfer command with the root command and defines its CLI flags.
-// Flags configured: file, output, progress, resume, checksum, compress, transfer-timeout, and buffer size.
 func init() {
 	rootCmd.AddCommand(transferCmd)
 
@@ -265,7 +263,6 @@ func transferFileData(src io.Reader, dst io.Writer, totalSize int64, operation s
 			}
 			transferred += int64(n)
 
-			// Show progress every second
 			if transferProgress && time.Since(lastProgress) >= time.Second {
 				showTransferProgress(operation, transferred, totalSize, startTime)
 				lastProgress = time.Now()
@@ -280,10 +277,9 @@ func transferFileData(src io.Reader, dst io.Writer, totalSize int64, operation s
 		}
 	}
 
-	// Final progress report
 	if transferProgress {
 		showTransferProgress(operation, transferred, totalSize, startTime)
-		fmt.Println() // New line after progress
+		fmt.Println()
 	}
 
 	duration := time.Since(startTime)
@@ -296,15 +292,12 @@ func transferFileData(src io.Reader, dst io.Writer, totalSize int64, operation s
 // showTransferProgress prints an inline progress line for a transfer operation.
 // It writes a carriage-returned line to stdout containing a 40-character ASCII
 // progress bar, percent complete, current throughput in MB/s and an ETA when
-// computable. `operation` is used as the label, `transferred` and `total` are
-// byte counts, and `startTime` is used to derive elapsed time and speed.
-// This function has no return value and performs direct output via fmt.Printf.
+// computable.
 func showTransferProgress(operation string, transferred, total int64, startTime time.Time) {
 	percent := float64(transferred) / float64(total) * 100
 	duration := time.Since(startTime)
 	speed := float64(transferred) / duration.Seconds() / (1024 * 1024) // MB/s
 
-	// Create progress bar
 	barWidth := 40
 	filledWidth := int(percent / 100 * float64(barWidth))
 	bar := "["

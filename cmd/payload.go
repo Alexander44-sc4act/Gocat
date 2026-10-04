@@ -96,7 +96,7 @@ func runPayload(cmd *cobra.Command, args []string) {
 
 	theme := logger.GetCurrentTheme()
 
-	theme.Highlight.Printf("\n🎯 Reverse Shell Payloads for %s:%s\n\n", host, port)
+	theme.Highlight.Printf("\nReverse Shell Payloads for %s:%s\n\n", host, port)
 
 	payloadType := strings.ToLower(payloadType)
 	if payloadAll {
@@ -134,7 +134,7 @@ type payload struct {
 }
 
 func printPayload(p payload, theme *logger.ColorTheme) {
-	theme.Success.Printf("═══ %s (%s) ═══\n", p.Name, p.Platform)
+	theme.Success.Printf("%s (%s):\n", p.Name, p.Platform)
 	if payloadEncode && p.Encoded != "" {
 		fmt.Println(p.Encoded)
 	} else {

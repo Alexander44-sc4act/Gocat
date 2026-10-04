@@ -91,7 +91,7 @@ func (m *Manager) AddSession(sess *Session) int {
 	// skip the cap when unknown.
 	if sess.Name != "" && m.MaxSessions >= 0 {
 		if len(m.Hosts[sess.Name]) >= m.MaxSessions {
-			logger.Warn("Max sessions (%d) reached for %s — rejecting new session",
+			logger.Warn("Max sessions (%d) reached for %s, rejecting new session",
 				m.MaxSessions, sess.Name)
 			return -1
 		}

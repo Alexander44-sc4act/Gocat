@@ -10,9 +10,9 @@ Expose all GoCat network tools to AI assistants like Claude, enabling them to pe
 
 **Model Context Protocol** is Anthropic's standard for connecting AI assistants to external tools and data sources. GoCat's MCP server allows AI assistants to:
 
-- 🔧 **Execute network tools** (scan ports, connect, proxy, etc.)
-- 📊 **Read resources** (metrics, system info, scan results)
-- 💡 **Access prompts** (troubleshooting guides, security audits)
+- **Execute network tools** (scan ports, connect, proxy, etc.)
+- **Read resources** (metrics, system info, scan results)
+- **Access prompts** (troubleshooting guides, security audits)
 
 ---
 
@@ -37,17 +37,17 @@ gocat mcp setup --client all
 ```
 
 **Supported AI Clients:**
-- ✅ Claude Desktop
-- ✅ Cursor
-- ✅ Continue
-- ✅ Zed Editor  
-- ✅ Windsurf
+- Claude Desktop
+- Cursor
+- Continue
+- Zed Editor  
+- Windsurf
 
 The setup command will:
-1. 🔍 Detect installed AI clients
-2. 📝 Show current configuration status
-3. ⚙️ Automatically configure selected clients
-4. ✅ Verify the setup
+1. Detect installed AI clients
+2. Show current configuration status
+3. Automatically configure selected clients
+4. Verify the setup
 
 ### Manual Setup
 
@@ -101,7 +101,7 @@ Create a WebSocket server on port 8080
 
 ---
 
-## Available Tools (20+)
+## Available Tools (19)
 
 ### Network Scanning
 - **scan_ports** - Scan TCP/UDP ports with concurrency
@@ -427,7 +427,7 @@ gocat mcp --debug 2> gocat-mcp.log
 ### In Container
 
 ```dockerfile
-FROM golang:1.21-alpine
+FROM golang:1.24-alpine
 COPY gocat /usr/local/bin/
 ENTRYPOINT ["gocat", "mcp"]
 ```
@@ -487,4 +487,4 @@ go build -o gocat
 # Use GoCat to scan example.com ports 1-1000"
 ```
 
-**Happy AI-powered networking! 🚀🤖**
+

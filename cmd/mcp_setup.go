@@ -58,10 +58,9 @@ func init() {
 }
 
 func runMCPSetup(cmd *cobra.Command, args []string) {
-	logger.Info("🔧 GoCat MCP Setup")
+	logger.Info("GoCat MCP Setup")
 	logger.Info("")
 
-	// Get GoCat executable path
 	gocatPath, err := mcp.GetGoCatPath()
 	if err != nil {
 		logger.Error("Failed to determine GoCat path: %v", err)
@@ -88,13 +87,11 @@ func runMCPSetup(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	// Handle --list flag
 	if mcpSetupList {
 		showDetailedStatus(clients, gocatPath)
 		return
 	}
 
-	// Handle --remove flag
 	if mcpSetupRemove {
 		if mcpSetupClient == "" {
 			logger.Error("Please specify --client when using --remove")
@@ -104,7 +101,6 @@ func runMCPSetup(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	// Handle --client flag
 	if mcpSetupClient != "" {
 		if mcpSetupClient == "all" {
 			setupAllClients(clients, gocatPath)
@@ -120,8 +116,7 @@ func runMCPSetup(cmd *cobra.Command, args []string) {
 
 func showDetailedStatus(clients []mcp.MCPClient, gocatPath string) {
 	fmt.Println()
-	fmt.Println("📊 MCP Client Status")
-	fmt.Println("═══════════════════════════════════════════════════════")
+	fmt.Println("MCP Client Status")
 	fmt.Println()
 
 	for i, client := range clients {
@@ -132,9 +127,9 @@ func showDetailedStatus(clients []mcp.MCPClient, gocatPath string) {
 		fmt.Printf("   ├─ Status: %s\n", status)
 
 		if !client.Installed {
-			fmt.Printf("   └─ ⚠️  Application not detected\n")
+			fmt.Printf("   └─ Application not detected\n")
 		} else {
-			fmt.Printf("   └─ ✓ Application detected\n")
+			fmt.Printf("   └─ Application detected\n")
 		}
 		fmt.Println()
 	}
@@ -145,40 +140,38 @@ func showDetailedStatus(clients []mcp.MCPClient, gocatPath string) {
 
 func checkClientStatus(client mcp.MCPClient) string {
 	if !mcp.FileExists(client.ConfigPath) {
-		return "❌ Not configured"
+		return "Not configured"
 	}
 
 	data, err := os.ReadFile(client.ConfigPath)
 	if err != nil {
-		return "❌ Cannot read config"
+		return "Cannot read config"
 	}
 
 	var config mcp.ClientConfig
 	if err := json.Unmarshal(data, &config); err != nil {
-		return "❌ Invalid config"
+		return "Invalid config"
 	}
 
 	if _, exists := config.MCPServers["gocat"]; exists {
-		return "✅ Configured"
+		return "Configured"
 	}
 
-	return "❌ Not configured"
+	return "Not configured"
 }
 
 func runInteractiveSetup(clients []mcp.MCPClient, gocatPath string) {
 	fmt.Println()
-	fmt.Println("🤖 Interactive MCP Setup")
-	fmt.Println("═══════════════════════════════════════════════════════")
+	fmt.Println("Interactive MCP Setup")
 	fmt.Println()
 	fmt.Println("Select a client to configure:")
 	fmt.Println()
 
-	// Show menu
 	for i, client := range clients {
 		status := checkClientStatus(client)
 		installedMark := ""
 		if !client.Installed {
-			installedMark = " ⚠️"
+			installedMark = " (not installed)"
 		}
 		fmt.Printf("  %d. %s %s%s\n", i+1, client.Name, status, installedMark)
 	}
@@ -227,7 +220,7 @@ func runInteractiveSetup(clients []mcp.MCPClient, gocatPath string) {
 	}
 
 	fmt.Println()
-	logger.Info("✅ Setup completed!")
+	logger.Info("Setup completed.")
 	fmt.Println()
 	showPostSetupInstructions(selectedClient)
 }
@@ -251,12 +244,11 @@ func setupAllClients(clients []mcp.MCPClient, gocatPath string) {
 		fmt.Println()
 	}
 
-	logger.Info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 	logger.Info("Summary: %d configured, %d failed", successCount, failCount)
 
 	if successCount > 0 {
 		fmt.Println()
-		logger.Info("✅ Setup completed!")
+		logger.Info("Setup completed.")
 		fmt.Println()
 		logger.Info("Next steps:")
 		logger.Info("  1. Restart your AI client(s)")
@@ -296,7 +288,7 @@ func setupSpecificClient(clients []mcp.MCPClient, clientName string, gocatPath s
 	}
 
 	fmt.Println()
-	logger.Info("✅ Setup completed!")
+	logger.Info("Setup completed.")
 	fmt.Println()
 	showPostSetupInstructions(*selectedClient)
 }
@@ -315,7 +307,7 @@ func removeFromClients(clients []mcp.MCPClient, clientName string) {
 			fmt.Println()
 		}
 
-		logger.Info("✅ Removal completed!")
+		logger.Info("Removal completed.")
 		return
 	}
 
@@ -343,11 +335,11 @@ func removeFromClients(clients []mcp.MCPClient, clientName string) {
 		return
 	}
 
-	logger.Info("✅ Removal completed!")
+	logger.Info("Removal completed.")
 }
 
 func showPostSetupInstructions(client mcp.MCPClient) {
-	logger.Info("📝 Next Steps:")
+	logger.Info("Next Steps:")
 	logger.Info("")
 	logger.Info("  1. Restart %s", client.Name)
 	logger.Info("  2. Open a new conversation/chat")

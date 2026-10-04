@@ -46,7 +46,6 @@ Examples:
 	Run: runConvert,
 }
 
-// init registers the "convert" command with the root command and defines its CLI flags.
 //
 // It adds the --from and --to string flags for specifying source and target
 // protocol:address pairs (required), and the --buffer int flag for configuring
@@ -62,8 +61,7 @@ func init() {
 	convertCmd.MarkFlagRequired("to")
 }
 
-// runConvert parses the global convertFrom and convertTo flags, logs the conversion start, and dispatches to the appropriate protocol conversion handler.
-// It invokes the corresponding converter (e.g., tcpToUDP, httpToWebSocket) and exits with a fatal log if the source or target protocol is unsupported.
+// runConvert dispatches to the protocol conversion handler for the --from/--to flags.
 func runConvert(cmd *cobra.Command, args []string) {
 	fromProto, fromAddr := parseProtocolAddress(convertFrom)
 	toProto, toAddr := parseProtocolAddress(convertTo)
@@ -591,9 +589,7 @@ func httpToWebSocket(httpAddr, wsURL string) {
 	}
 }
 
-// webSocketToTCP upgrades incoming HTTP requests at wsAddr to WebSocket connections and proxies bidirectional binary data between each WebSocket client and a TCP server at tcpAddr.
-//
-// For each upgraded WebSocket connection a TCP connection to tcpAddr is established; messages received from the WebSocket are written to the TCP connection, and bytes read from the TCP connection are sent back to the WebSocket as binary messages. The function starts an HTTP server that listens on wsAddr and blocks until the server stops; errors are logged and fatal errors terminate the process.
+// webSocketToTCP proxies bidirectional binary data between WebSocket clients at wsAddr and a TCP server at tcpAddr.
 func webSocketToTCP(wsAddr, tcpAddr string) {
 	upgrader := websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool { return true },

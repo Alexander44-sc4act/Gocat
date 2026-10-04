@@ -1,158 +1,212 @@
 #compdef gocat
+compdef _gocat gocat
 
-_gocat() {
-    local -a commands
-    commands=(
-        'connect:Connect to a remote host'
-        'listen:Listen for incoming connections'
-        'scan:Scan ports on target host'
-        'benchmark:Run network benchmarks'
-        'broker:Start connection broker'
-        'chat:Start chat server'
-        'completion:Generate shell completions'
-        'console:Start interactive session console'
-        'convert:Convert between protocols'
-        'tunnel:Create SSH tunnels'
-        'dns-tunnel:Create DNS tunnels'
-        'distributed:Run distributed mode'
-        'doctor:Run diagnostics'
-        'interfaces:List network interfaces'
-        'mcp:Start MCP server'
-        'metrics:Expose metrics'
-        'multi-listen:Listen on multiple ports'
-        'payload:Generate payload hints'
-        'portforward:Forward ports'
-        'proxy:Start HTTP reverse proxy'
-        'transfer:Transfer files'
-        'script:Execute Lua script'
-        'serve:Start HTTP file server'
-        'session:Manage sessions'
-        'sniffer:Capture packets'
-        'stabilize:Stabilize an interactive shell'
-        'unix:Use Unix domain sockets'
-        'verify:Run local self-tests'
-        'version:Show version information'
-        'websocket:Use WebSocket transport'
-        'help:Show help information'
-    )
+# zsh completion for gocat                                -*- shell-script -*-
 
-    local -a global_opts
-    global_opts=(
-        '(-4 --ipv4)'{-4,--ipv4}'[Use IPv4 only]'
-        '(-6 --ipv6)'{-6,--ipv6}'[Use IPv6 only]'
-        '(-u --udp)'{-u,--udp}'[Use UDP instead of TCP]'
-        '--sctp[Use SCTP protocol]'
-        '(-l --listen)'{-l,--listen}'[Listen mode]'
-        '(-k --keep-open)'{-k,--keep-open}'[Accept multiple connections]'
-        '(-v --verbose)'{-v,--verbose}'[Verbose output]'
-        '--debug[Debug mode]'
-        '(-q --quiet)'{-q,--quiet}'[Quiet mode]'
-        '--ssl[Use SSL/TLS]'
-        '--ssl-cert[SSL certificate file]:file:_files'
-        '--ssl-key[SSL private key file]:file:_files'
-        '--ssl-verify[Verify SSL certificates]'
-        '(-w --wait)'{-w,--wait}'[Connection timeout]:duration:'
-        '--proxy[Use proxy]:url:'
-        '--rate-limit[Rate limit]:rate:'
-        '--allow[Allow IP addresses]:ip:'
-        '--deny[Deny IP addresses]:ip:'
-        '--config[Configuration file]:file:_files'
-        '--theme[Color theme file]:file:_files'
-        '--json[JSON output]'
-        '--no-color[Disable colors]'
-        '--profile[Runtime profile]:profile:(stable experimental)'
-        '(-h --help)'{-h,--help}'[Show help]'
-    )
-
-    _arguments -C \
-        "1: :->command" \
-        "*::arg:->args" \
-        $global_opts
-
-    case $state in
-        command)
-            _describe 'command' commands
-            ;;
-        args)
-            case $words[1] in
-                connect)
-                    _arguments \
-                        '(-s --shell)'{-s,--shell}'[Shell to use]:shell:_command_names' \
-                        '(-t --timeout)'{-t,--timeout}'[Connection timeout]:duration:' \
-                        '(-r --retry)'{-r,--retry}'[Retry attempts]:count:' \
-                        '--keep-alive[Enable keep-alive]' \
-                        '1:host:_hosts' \
-                        '2:port:' \
-                        $global_opts
-                    ;;
-                listen)
-                    _arguments \
-                        '(-e --exec)'{-e,--exec}'[Execute command]:command:_command_names' \
-                        '(-i --interactive)'{-i,--interactive}'[Interactive mode]' \
-                        '(-b --bind)'{-b,--bind}'[Bind address]:address:' \
-                        '(-m --max-conn)'{-m,--max-conn}'[Max connections]:count:' \
-                        '1:port:' \
-                        $global_opts
-                    ;;
-                scan)
-                    _arguments \
-                        '(-t --timeout)'{-t,--timeout}'[Scan timeout]:duration:' \
-                        '(-c --concurrent)'{-c,--concurrent}'[Concurrent scans]:count:' \
-                        '(-o --output)'{-o,--output}'[Output format]:format:(text json xml)' \
-                        '1:host:_hosts' \
-                        '2:ports:' \
-                        $global_opts
-                    ;;
-                proxy)
-                    _arguments \
-                        '--listen[Listen address]:address:' \
-                        '--target[Target URL]:url:' \
-                        '--backends[Backend URLs]:urls:' \
-                        '--lb-algorithm[Load balancing algorithm]:algorithm:(round-robin least-connections random ip-hash)' \
-                        '--health-check[Health check path]:path:' \
-                        $global_opts
-                    ;;
-                tunnel)
-                    _arguments \
-                        '--ssh[SSH server]:server:' \
-                        '--local[Local port]:port:' \
-                        '--remote[Remote address]:address:' \
-                        '--dynamic[Dynamic SOCKS port]:port:' \
-                        '--reverse[Reverse forwarding]' \
-                        '--key[SSH key file]:file:_files' \
-                        $global_opts
-                    ;;
-                convert)
-                    _arguments \
-                        '--from[Source protocol]:protocol:' \
-                        '--to[Target protocol]:protocol:' \
-                        $global_opts
-                    ;;
-                script)
-                    _arguments \
-                        '1:script:_files -g "*.lua"' \
-                        $global_opts
-                    ;;
-                payload)
-                    _arguments \
-                        '(-I --interface)'{-I,--interface}'[Network interface]:interface:' \
-                        '(-f --format)'{-f,--format}'[Output format]:format:(text json oneliner)' \
-                        '(-E --encode)'{-E,--encode}'[Base64 encode payloads]' \
-                        '(-a --all)'{-a,--all}'[Show all payload types]' \
-                        '(-T --type)'{-T,--type}'[Payload type]:type:(all bash bash-udp nc nc-e nc-c ncat powershell ps-iex python python3 perl ruby php java lua go awk socat telnet msfvenom metasploit conpty)' \
-                        $global_opts
-                    ;;
-                doctor)
-                    _arguments \
-                        '--commands[Include command inventory]' \
-                        $global_opts
-                    ;;
-                *)
-                    _arguments $global_opts
-                    ;;
-            esac
-            ;;
-    esac
+__gocat_debug()
+{
+    local file="$BASH_COMP_DEBUG_FILE"
+    if [[ -n ${file} ]]; then
+        echo "$*" >> "${file}"
+    fi
 }
 
-_gocat "$@"
+_gocat()
+{
+    local shellCompDirectiveError=1
+    local shellCompDirectiveNoSpace=2
+    local shellCompDirectiveNoFileComp=4
+    local shellCompDirectiveFilterFileExt=8
+    local shellCompDirectiveFilterDirs=16
+    local shellCompDirectiveKeepOrder=32
+
+    local lastParam lastChar flagPrefix requestComp out directive comp lastComp noSpace keepOrder
+    local -a completions
+
+    __gocat_debug "\n========= starting completion logic =========="
+    __gocat_debug "CURRENT: ${CURRENT}, words[*]: ${words[*]}"
+
+    # The user could have moved the cursor backwards on the command-line.
+    # We need to trigger completion from the $CURRENT location, so we need
+    # to truncate the command-line ($words) up to the $CURRENT location.
+    # (We cannot use $CURSOR as its value does not work when a command is an alias.)
+    words=("${=words[1,CURRENT]}")
+    __gocat_debug "Truncated words[*]: ${words[*]},"
+
+    lastParam=${words[-1]}
+    lastChar=${lastParam[-1]}
+    __gocat_debug "lastParam: ${lastParam}, lastChar: ${lastChar}"
+
+    # For zsh, when completing a flag with an = (e.g., gocat -n=<TAB>)
+    # completions must be prefixed with the flag
+    setopt local_options BASH_REMATCH
+    if [[ "${lastParam}" =~ '-.*=' ]]; then
+        # We are dealing with a flag with an =
+        flagPrefix="-P ${BASH_REMATCH}"
+    fi
+
+    # Prepare the command to obtain completions
+    requestComp="${words[1]} __complete ${words[2,-1]}"
+    if [ "${lastChar}" = "" ]; then
+        # If the last parameter is complete (there is a space following it)
+        # We add an extra empty parameter so we can indicate this to the go completion code.
+        __gocat_debug "Adding extra empty parameter"
+        requestComp="${requestComp} \"\""
+    fi
+
+    __gocat_debug "About to call: eval ${requestComp}"
+
+    # Use eval to handle any environment variables and such
+    out=$(eval ${requestComp} 2>/dev/null)
+    __gocat_debug "completion output: ${out}"
+
+    # Extract the directive integer following a : from the last line
+    local lastLine
+    while IFS='\n' read -r line; do
+        lastLine=${line}
+    done < <(printf "%s\n" "${out[@]}")
+    __gocat_debug "last line: ${lastLine}"
+
+    if [ "${lastLine[1]}" = : ]; then
+        directive=${lastLine[2,-1]}
+        # Remove the directive including the : and the newline
+        local suffix
+        (( suffix=${#lastLine}+2))
+        out=${out[1,-$suffix]}
+    else
+        # There is no directive specified.  Leave $out as is.
+        __gocat_debug "No directive found.  Setting do default"
+        directive=0
+    fi
+
+    __gocat_debug "directive: ${directive}"
+    __gocat_debug "completions: ${out}"
+    __gocat_debug "flagPrefix: ${flagPrefix}"
+
+    if [ $((directive & shellCompDirectiveError)) -ne 0 ]; then
+        __gocat_debug "Completion received error. Ignoring completions."
+        return
+    fi
+
+    local activeHelpMarker="_activeHelp_ "
+    local endIndex=${#activeHelpMarker}
+    local startIndex=$((${#activeHelpMarker}+1))
+    local hasActiveHelp=0
+    while IFS='\n' read -r comp; do
+        # Check if this is an activeHelp statement (i.e., prefixed with $activeHelpMarker)
+        if [ "${comp[1,$endIndex]}" = "$activeHelpMarker" ];then
+            __gocat_debug "ActiveHelp found: $comp"
+            comp="${comp[$startIndex,-1]}"
+            if [ -n "$comp" ]; then
+                compadd -x "${comp}"
+                __gocat_debug "ActiveHelp will need delimiter"
+                hasActiveHelp=1
+            fi
+
+            continue
+        fi
+
+        if [ -n "$comp" ]; then
+            # If requested, completions are returned with a description.
+            # The description is preceded by a TAB character.
+            # For zsh's _describe, we need to use a : instead of a TAB.
+            # We first need to escape any : as part of the completion itself.
+            comp=${comp//:/\\:}
+
+            local tab="$(printf '\t')"
+            comp=${comp//$tab/:}
+
+            __gocat_debug "Adding completion: ${comp}"
+            completions+=${comp}
+            lastComp=$comp
+        fi
+    done < <(printf "%s\n" "${out[@]}")
+
+    # Add a delimiter after the activeHelp statements, but only if:
+    # - there are completions following the activeHelp statements, or
+    # - file completion will be performed (so there will be choices after the activeHelp)
+    if [ $hasActiveHelp -eq 1 ]; then
+        if [ ${#completions} -ne 0 ] || [ $((directive & shellCompDirectiveNoFileComp)) -eq 0 ]; then
+            __gocat_debug "Adding activeHelp delimiter"
+            compadd -x "--"
+            hasActiveHelp=0
+        fi
+    fi
+
+    if [ $((directive & shellCompDirectiveNoSpace)) -ne 0 ]; then
+        __gocat_debug "Activating nospace."
+        noSpace="-S ''"
+    fi
+
+    if [ $((directive & shellCompDirectiveKeepOrder)) -ne 0 ]; then
+        __gocat_debug "Activating keep order."
+        keepOrder="-V"
+    fi
+
+    if [ $((directive & shellCompDirectiveFilterFileExt)) -ne 0 ]; then
+        # File extension filtering
+        local filteringCmd
+        filteringCmd='_files'
+        for filter in ${completions[@]}; do
+            if [ ${filter[1]} != '*' ]; then
+                # zsh requires a glob pattern to do file filtering
+                filter="\*.$filter"
+            fi
+            filteringCmd+=" -g $filter"
+        done
+        filteringCmd+=" ${flagPrefix}"
+
+        __gocat_debug "File filtering command: $filteringCmd"
+        _arguments '*:filename:'"$filteringCmd"
+    elif [ $((directive & shellCompDirectiveFilterDirs)) -ne 0 ]; then
+        # File completion for directories only
+        local subdir
+        subdir="${completions[1]}"
+        if [ -n "$subdir" ]; then
+            __gocat_debug "Listing directories in $subdir"
+            pushd "${subdir}" >/dev/null 2>&1
+        else
+            __gocat_debug "Listing directories in ."
+        fi
+
+        local result
+        _arguments '*:dirname:_files -/'" ${flagPrefix}"
+        result=$?
+        if [ -n "$subdir" ]; then
+            popd >/dev/null 2>&1
+        fi
+        return $result
+    else
+        __gocat_debug "Calling _describe"
+        if eval _describe $keepOrder "completions" completions $flagPrefix $noSpace; then
+            __gocat_debug "_describe found some completions"
+
+            # Return the success of having called _describe
+            return 0
+        else
+            __gocat_debug "_describe did not find completions."
+            __gocat_debug "Checking if we should do file completion."
+            if [ $((directive & shellCompDirectiveNoFileComp)) -ne 0 ]; then
+                __gocat_debug "deactivating file completion"
+
+                # We must return an error code here to let zsh know that there were no
+                # completions found by _describe; this is what will trigger other
+                # matching algorithms to attempt to find completions.
+                # For example zsh can match letters in the middle of words.
+                return 1
+            else
+                # Perform file completion
+                __gocat_debug "Activating file completion"
+
+                # We must return the result of this command, so it must be the
+                # last command, or else we must store its result to return it.
+                _arguments '*:filename:_files'" ${flagPrefix}"
+            fi
+        fi
+    fi
+}
+
+# don't run the completion function when being source-ed or eval-ed
+if [ "$funcstack[1]" = "_gocat" ]; then
+    _gocat
+fi

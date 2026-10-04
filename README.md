@@ -73,7 +73,6 @@ Flags: `--ports`, `--concurrency` (default 100), `--verbose-scan`, `--open`, `--
 ![Payload Demo](demos/gifs/payload.gif)
 
 ```bash
-gocat payload 10.10.14.5 4444               # All payloads
 gocat payload 10.10.14.5 4444 --type bash   # Specific type
 gocat payload 10.10.14.5 4444 --type powershell --encode
 ```
@@ -130,8 +129,8 @@ gocat transfer receive 9999 output.bin
 ![Stabilize Demo](demos/gifs/stabilize.gif)
 
 ```bash
-gocat stabilize --method all      # Show all methods
-gocat stabilize --method python   # Specific method
+gocat stabilize --upgrade --method all   # Show all methods
+gocat stabilize --upgrade --method python  # Specific method
 ```
 </details>
 
@@ -200,15 +199,6 @@ docker run --rm -it gocat --help
 ---
 
 ## Quick Start
-
-### Check the Install
-
-```bash
-gocat version
-gocat version --json
-gocat doctor
-gocat verify
-```
 
 ### Connect and Listen
 

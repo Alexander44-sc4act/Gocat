@@ -10,7 +10,6 @@ local count = tonumber(arg[3]) or 5
 -- Validate
 if not host or not port then
     print("GoCat TCP Ping")
-    print("==============")
     print("")
     print("Usage: gocat script run tcp_ping.lua <host> <port> [count]")
     print("")
@@ -50,9 +49,8 @@ end
 -- Main function
 local function main()
     print("GoCat TCP Ping")
-    print("==============")
     print("")
-    print(string.format("TCP PING %s:%d", host, port))
+    print(string.format("TCP ping %s:%d", host, port))
     print("")
     
     for i = 1, count do

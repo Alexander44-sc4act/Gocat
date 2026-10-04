@@ -10,7 +10,6 @@ local ports_arg = arg[2] or "1-1024"
 -- Validate arguments
 if not target then
     print("GoCat Port Scanner")
-    print("==================")
     print("")
     print("Usage: gocat script run port_scanner.lua <target> [ports]")
     print("")
@@ -99,7 +98,6 @@ local function scan()
     local ports = parse_ports(ports_arg)
     
     print("GoCat Port Scanner")
-    print("==================")
     print("")
     print("Target: " .. target)
     print("Ports: " .. #ports .. " ports to scan")

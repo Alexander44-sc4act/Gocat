@@ -104,9 +104,7 @@ func runConsole() {
 	}
 
 	theme := logger.GetCurrentTheme()
-	theme.Highlight.Print("\n╔══════════════════════════════════════════╗\n")
-	theme.Highlight.Print("║       GoCat Interactive Console          ║\n")
-	theme.Highlight.Print("╚══════════════════════════════════════════╝\n\n")
+	theme.Highlight.Print("\nGoCat Interactive Console\n\n")
 	fmt.Println("Type 'help' for commands, 'exit' to quit.")
 	fmt.Printf("Default LHOST: %s\n\n", consoleSettings["lhost"])
 
@@ -237,7 +235,8 @@ func handleConsoleCommand(line string) bool {
 
 func printConsoleHelp() {
 	fmt.Println(`
- ═══ Session Management ═══════════════════════════════════════
+  Session Management
+
    listen [host] <port>                 Start a reverse-shell listener
    connect <host> <port>                Connect to a bind shell
    interfaces                            Show local network interfaces
@@ -249,7 +248,8 @@ func printConsoleHelp() {
    detach                               Detach from current session
    kill <id> | killall                  Remove sessions
 
- ═══ Session Operations ════════════════════════════════════════
+  Session Operations
+
    exec <id> <command>                  Execute a command through the session
    script <id> <file|URL>              Run a local/remote script in memory (Unix)
    open <id> <remote_path> [dir]        Download a remote file and open it locally
@@ -259,22 +259,26 @@ func printConsoleHelp() {
   spawn <id>                           Spawn a new reverse shell from session
   maintain <id> [N]                    Keep N sessions alive per host (default 1)
 
-═══ Agent & Tunneling ═════════════════════════════════════════
+  Agent & Tunneling
+
   agent <id> [lhost] [lport]           Deploy Python reverse agent
   portfwd <id> <lport> <rhost:rport>   Forward local TCP through agent
 
-═══ Modules & Payloads ════════════════════════════════════════
+  Modules & Payloads
+
   modules                              List post-exploitation modules
   run <module> <id> [args...]          Run a module
   payloads [host] [port]               Print reverse-shell payloads
 
- ═══ Configuration ═════════════════════════════════════════════
+   Configuration
+
    set <key> <value>                    Set a console variable
    show [settings|listeners|sessions]   Show current state
    help | ?                             This help
    exit                                 Stop listeners and quit
 
- ═══ Shortcuts ═════════════════════════════════════════════════
+   Shortcuts
+
    Ctrl+C                               Cancel current line (console stays open)
    Ctrl+D (empty line)                  Quit console
    Ctrl+R                               Reverse history search
