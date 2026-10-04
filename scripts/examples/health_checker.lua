@@ -106,13 +106,12 @@ local function check_service(service)
     }
 end
 
--- Print status
 local function print_status()
     local now = os.date("%Y-%m-%d %H:%M:%S")
     
     print("")
     print("Service health status:")
-    print("Time: %-54s")
+    print(string.format("Time: %s", now))
     
     local healthy_count = 0
     local total_count = #config.services
@@ -127,11 +126,11 @@ local function print_status()
             healthy_count = healthy_count + 1
         end
         
-    print("%s %-20s  %-10s  Latency: %-8s")
+        print(string.format("%s %-20s  %-10s  Latency: %-8s",
             icon, service.name, state, latency))
         
         if s.error then
-    print("Error: %-47s")
+            print(string.format("Error: %s",
                 string.sub(s.error, 1, 47)))
         end
     end
@@ -154,7 +153,6 @@ function main()
             status[service.name] = check_service(service)
         end
         
-        -- Print status
         print_status()
         
         -- Wait for next check

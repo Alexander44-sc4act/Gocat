@@ -64,10 +64,10 @@ local function parse_ports(spec)
     
     -- Split by comma
     for part in spec:gmatch("[^,]+") do
-        part = part:match("^%s*(.-)%s*$")  -- trim
+        local trimmed = part:match("^%s*(.-)%s*$")
         
         -- Check if range
-        local start_port, end_port = part:match("(%d+)%-(%d+)")
+        local start_port, end_port = trimmed:match("(%d+)%-(%d+)")
         if start_port and end_port then
             start_port = tonumber(start_port)
             end_port = tonumber(end_port)
@@ -78,7 +78,7 @@ local function parse_ports(spec)
             end
         else
             -- Single port
-            local p = tonumber(part)
+            local p = tonumber(trimmed)
             if p and p > 0 and p <= 65535 then
                 table.insert(ports, p)
             end

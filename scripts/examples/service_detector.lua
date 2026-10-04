@@ -2,7 +2,6 @@
 -- Usage: gocat script run service_detector.lua <target>
 -- Example: gocat script run service_detector.lua 192.168.1.1
 
--- Parse arguments
 local target = arg[1]
 
 -- Validate

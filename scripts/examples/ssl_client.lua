@@ -2,7 +2,6 @@
 -- Usage: gocat script run ssl_client.lua <host> [port]
 -- Example: gocat script run ssl_client.lua google.com 443
 
--- Parse arguments
 local host = arg[1]
 local port = tonumber(arg[2]) or 443
 

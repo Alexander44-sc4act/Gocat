@@ -21,7 +21,6 @@ local stats = {
     start_time = 0
 }
 
--- Format bytes
 local function format_bytes(bytes)
     local units = {"B", "KB", "MB", "GB"}
     local unit = 1

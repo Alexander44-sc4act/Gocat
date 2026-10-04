@@ -3,7 +3,6 @@
 -- Example: gocat script run http_client.lua https://httpbin.org/get
 -- Example: gocat script run http_client.lua https://httpbin.org/post POST '{"key":"value"}'
 
--- Parse arguments
 local url = arg[1]
 local method = arg[2] or "GET"
 local data = arg[3] or ""
@@ -27,7 +26,6 @@ if not url then
     return
 end
 
--- Format headers for display
 local function format_headers(headers)
     if not headers then return "" end
     local result = {}
@@ -38,7 +36,6 @@ local function format_headers(headers)
     return table.concat(result, "\n")
 end
 
--- Format body for display
 local function format_body(body, max_len)
     if not body then return "(empty)" end
     max_len = max_len or 2000

@@ -22,7 +22,6 @@ local function on_error(err)
     print("[!] Error: " .. err)
 end
 
--- Close handler
 local function on_close(code, reason)
     print(string.format("[*] Connection closed: %d - %s", code or 0, reason or ""))
 end

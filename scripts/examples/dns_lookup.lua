@@ -2,7 +2,6 @@
 -- Usage: gocat script run dns_lookup.lua <domain>
 -- Example: gocat script run dns_lookup.lua google.com
 
--- Parse arguments
 local domain = arg[1]
 
 -- Validate

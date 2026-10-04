@@ -2,7 +2,6 @@ module github.com/realibrahimsql/Gocat
 
 go 1.24.2
 
-toolchain go1.25.0
 
 require (
 	github.com/creack/pty v1.1.24

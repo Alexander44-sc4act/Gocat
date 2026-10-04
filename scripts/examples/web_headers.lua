@@ -2,7 +2,6 @@
 -- Usage: gocat script run web_headers.lua <url>
 -- Example: gocat script run web_headers.lua https://google.com
 
--- Parse arguments
 local url = arg[1]
 
 -- Validate

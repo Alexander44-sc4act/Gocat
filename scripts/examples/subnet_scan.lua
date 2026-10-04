@@ -2,7 +2,6 @@
 -- Usage: gocat script run subnet_scan.lua <subnet> [port]
 -- Example: gocat script run subnet_scan.lua 192.168.1 22
 
--- Parse arguments
 local subnet = arg[1]
 local port = tonumber(arg[2]) or 80
 

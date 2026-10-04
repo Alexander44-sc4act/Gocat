@@ -438,7 +438,7 @@ A: No, we don't require a Contributor License Agreement.
 A: Regular contributors who demonstrate expertise and commitment may be invited to become maintainers.
 
 **Q: What if my PR is rejected?**
-A: Don't worry! We'll provide feedback on how to improve it. Rejection is rare and usually due to scope or timing issues.
+A: Rejection is rare and usually due to scope or timing. You will get feedback on how to improve it.
 
 ---
 

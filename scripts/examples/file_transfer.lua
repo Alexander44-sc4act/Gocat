@@ -16,7 +16,6 @@ local config = {
     timeout = 30000
 }
 
--- Format bytes
 local function format_bytes(bytes)
     local units = {"B", "KB", "MB", "GB"}
     local unit = 1
@@ -27,7 +26,6 @@ local function format_bytes(bytes)
     return string.format("%.2f %s", bytes, units[unit])
 end
 
--- Calculate file checksum
 local function calculate_checksum(filepath)
     local content, err = file.read(filepath)
     if not content then

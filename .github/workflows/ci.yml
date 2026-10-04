@@ -82,10 +82,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      # golangci-lint must run on Go >= the repo toolchain (see go.mod)
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.25.x'
+          go-version: ${{ env.GO_VERSION }}
           cache: true
 
       - uses: golangci/golangci-lint-action@v6

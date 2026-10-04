@@ -2,7 +2,6 @@
 -- Usage: gocat script run tcp_ping.lua <host> <port> [count]
 -- Example: gocat script run tcp_ping.lua google.com 443 10
 
--- Parse arguments
 local host = arg[1]
 local port = tonumber(arg[2])
 local count = tonumber(arg[3]) or 5

@@ -140,7 +140,6 @@ end
 
 -- Main function
 function main(args)
-    -- Parse arguments
     local host = args and args[1] or "127.0.0.1"
     local port_spec = args and args[2] or nil
     

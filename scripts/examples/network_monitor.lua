@@ -2,7 +2,6 @@
 -- Usage: gocat script run network_monitor.lua <host> [interval]
 -- Example: gocat script run network_monitor.lua google.com 5
 
--- Parse arguments
 local host = arg[1]
 local interval = tonumber(arg[2]) or 5
 local count = tonumber(arg[3]) or 10
@@ -55,7 +54,6 @@ local function check_host()
     return false, elapsed
 end
 
--- Format time
 local function format_time(ms)
     if ms < 1 then
         return string.format("%.2f ms", ms)

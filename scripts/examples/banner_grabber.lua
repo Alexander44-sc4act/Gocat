@@ -2,7 +2,6 @@
 -- Usage: gocat script run banner_grabber.lua <target> [ports]
 -- Example: gocat script run banner_grabber.lua 192.168.1.1 22,80,21
 
--- Parse arguments
 local target = arg[1]
 local ports_arg = arg[2] or "21,22,25,80,110,143,443"
 

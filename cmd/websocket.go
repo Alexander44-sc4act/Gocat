@@ -141,7 +141,8 @@ func wsOriginAllowed(r *http.Request, serverName string) bool {
 	return false
 }
 
-func runWSServer(cmd *cobra.Command, args []string) error {	logger.Info("Starting WebSocket server on port %s%s", wsServerPort, wsServerPath)
+func runWSServer(cmd *cobra.Command, args []string) error {
+	logger.Info("Starting WebSocket server on port %s%s", wsServerPort, wsServerPath)
 
 	upgrader := websocket.Upgrader{
 		ReadBufferSize:    wsReadBufferSize,
