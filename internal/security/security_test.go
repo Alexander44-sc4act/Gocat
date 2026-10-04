@@ -288,7 +288,7 @@ func TestInputValidator_SanitizeInput(t *testing.T) {
 }
 
 // RateLimiter tests moved to ratelimit_test.go
-// See ratelimit_test.go for comprehensive rate limiting tests
+// Rate limiting tests live in ratelimit_test.go
 
 func TestGenerateSecureToken(t *testing.T) {
 	tests := []struct {

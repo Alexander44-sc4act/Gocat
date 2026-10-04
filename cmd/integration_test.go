@@ -483,7 +483,7 @@ func TestProxyLoadBalancing(t *testing.T) {
 	t.Logf("Proxy Load Balancing test passed (%d/3 requests successful)", successCount)
 }
 
-// TestScanWithDifferentFlags tests scan command with various flags
+// TestScanWithDifferentFlags tests scan command flags
 func TestScanWithDifferentFlags(t *testing.T) {
 	// Start a listener for scanning
 	listener, err := net.Listen("tcp", "127.0.0.1:18088")

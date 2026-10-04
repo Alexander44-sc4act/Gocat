@@ -191,7 +191,7 @@ gocat scan %s --ports 22,80,443
 # Test specific port
 gocat connect --wait 5s %s <port>
 
-# Comprehensive scan
+# Full scan
 gocat scan %s --ports 1-65535 --concurrency 500
 
 # Monitor connection

@@ -16,7 +16,7 @@ import (
 var completionCmd = &cobra.Command{
 	Use:   "completion",
 	Short: "Generate shell completion scripts",
-	Long: `Generate shell completion scripts for various shells.
+	Long: `Generate shell completion scripts.
 
 The completion script can be sourced to enable tab completion for gocat commands.`,
 	Example: `  # Bash completion

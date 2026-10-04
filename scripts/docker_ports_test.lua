@@ -84,7 +84,7 @@ end
 
 function calculate_overall_accuracy()
     log("info", "")
-    log("info", "Comprehensive accuracy test")
+    log("info", "Accuracy test")
     
     local tp, fn = test_known_open_ports()
     local tn, fp = test_known_closed_ports()
@@ -115,8 +115,8 @@ function calculate_overall_accuracy()
     return accuracy
 end
 
--- Run comprehensive tests
-log("info", "Starting GoCat Comprehensive Accuracy Test...")
+-- Run accuracy tests
+log("info", "Starting accuracy test...")
 log("info", "Testing against real system port status (from ss output)")
 
 local final_accuracy = calculate_overall_accuracy()

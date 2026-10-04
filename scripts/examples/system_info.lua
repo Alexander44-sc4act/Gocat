@@ -1,4 +1,4 @@
--- Gathers and displays comprehensive system information
+-- Gathers and displays system information
 
 -- Get system information
 function get_system_info()

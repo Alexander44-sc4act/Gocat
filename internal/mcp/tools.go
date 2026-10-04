@@ -104,7 +104,7 @@ func registerScanTools(server *MCPServer) {
 func registerConnectionTools(server *MCPServer) {
 	server.RegisterTool(&Tool{
 		Name:        "connect",
-		Description: "Connect to a remote host and port. Supports TCP, UDP, SSL/TLS, and various proxies.",
+		Description: "Connect to a remote host and port. Supports TCP, UDP, SSL/TLS, and proxies.",
 		InputSchema: map[string]interface{}{
 			"type": "object",
 			"properties": map[string]interface{}{
@@ -281,7 +281,7 @@ func registerProxyTools(server *MCPServer) {
 
 	server.RegisterTool(&Tool{
 		Name:        "convert_protocol",
-		Description: "Convert between different network protocols (TCP↔UDP, HTTP↔WebSocket)",
+		Description: "Convert between network protocols (TCP/UDP, HTTP/WebSocket)",
 		InputSchema: map[string]interface{}{
 			"type": "object",
 			"properties": map[string]interface{}{

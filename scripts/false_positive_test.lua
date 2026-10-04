@@ -87,7 +87,7 @@ function test_random_high_ports()
     return false_positives
 end
 
--- Run comprehensive false positive tests
+-- Run false positive tests
 log("info", "Starting GoCat False Positive Detection Tests...")
 
 local fp1 = test_false_positives()
