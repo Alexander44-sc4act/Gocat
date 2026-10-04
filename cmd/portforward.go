@@ -41,13 +41,13 @@ var portforwardCmd = &cobra.Command{
 	
 Supports TCP and UDP port forwarding with connection pooling and statistics.`,
 	Example: `  # Forward local port 8080 to remote server
-  gocat portforward -l 8080 -r example.com:80
+  gocat portforward --local-port 8080 -r example.com:80
   
   # UDP port forwarding
-  gocat portforward -l 53 -r 8.8.8.8:53 --udp
+  gocat portforward --local-port 53 -r 8.8.8.8:53 --udp
   
   # With connection limit
-  gocat portforward -l 3306 -r db.internal:3306 --max-conns 10`,
+  gocat portforward --local-port 3306 -r db.internal:3306 --max-conns 10`,
 	Run: runPortForward,
 }
 

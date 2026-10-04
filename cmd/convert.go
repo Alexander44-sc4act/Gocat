@@ -26,22 +26,22 @@ var (
 var convertCmd = &cobra.Command{
 	Use:     "convert",
 	Aliases: []string{"conv", "protocol-convert"},
-	Short:   "Convert between different network protocols",
-	Long: `Convert network traffic between different protocols.
+	Short:   "Convert between network protocols",
+	Long: `Convert network traffic between protocols.
 Supports TCP, UDP, HTTP, and WebSocket conversions.
 
 Examples:
   # TCP to UDP
-  gocat convert --from tcp:8080 --to udp:9000
+  gocat convert --from tcp:127.0.0.1:8080 --to udp:127.0.0.1:9000
 
   # UDP to TCP
-  gocat convert --from udp:8080 --to tcp:9000
+  gocat convert --from udp:127.0.0.1:8080 --to tcp:127.0.0.1:9000
 
   # HTTP to WebSocket
-  gocat convert --from http:8080 --to ws://backend:9000/ws
+  gocat convert --from http:127.0.0.1:8080 --to ws://backend:9000/ws
 
   # WebSocket to TCP
-  gocat convert --from ws:8080 --to tcp:backend:9000
+  gocat convert --from ws:127.0.0.1:8080 --to tcp:backend:9000
 `,
 	Run: runConvert,
 }

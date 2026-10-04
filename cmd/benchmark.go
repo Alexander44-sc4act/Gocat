@@ -52,13 +52,13 @@ var benchmarkCmd = &cobra.Command{
 
 WARNING: Only use against systems you own or have permission to test.`,
 	Example: `  # Basic TCP benchmark
-  gocat benchmark -t example.com -p 80 -c 100 -d 30s
+  gocat benchmark --target example.com --port 80 --connections 100 --duration 30s
   
   # UDP stress test
-  gocat benchmark -t 192.168.1.1 -p 53 --protocol udp -c 1000
+  gocat benchmark --target 192.168.1.1 --port 53 --protocol udp --connections 1000
   
   # Rate-limited test
-  gocat benchmark -t localhost -p 8080 --rate 100 --packet-size 1024`,
+  gocat benchmark --target localhost --port 8080 --rate 100 --packet-size 1024`,
 	Run: runBenchmark,
 }
 

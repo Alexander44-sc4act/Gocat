@@ -38,10 +38,10 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: |
-          UNFMT=$(gofmt -s -l $(find . -name '*.go' -not -path './vendor/*'))
+          UNFMT=$(gofmt -s -l $(git ls-files '*.go'))
           if [ -n "$UNFMT" ]; then
             echo "Unformatted files:"
-            echo "$UNFMT"
+            printf '%s\n' "$UNFMT"
             exit 1
           fi
 
