@@ -77,7 +77,7 @@ func consolePrompt() string {
 
 func consoleCommands() []string {
 	return []string{
-		"help", "exit", "quit",
+		"help", "exit", "quit", "clear",
 		"listen", "listeners", "connect", "interfaces",
 		"sessions", "ls", "list", "info",
 		"interact", "use", "attach", "detach",
@@ -163,6 +163,8 @@ func handleConsoleCommand(line string) bool {
 	switch cmd {
 	case "help", "?":
 		printConsoleHelp()
+	case "clear", "cls":
+		fmt.Print("\033[2J\033[H")
 	case "exit", "quit":
 		stopConsoleListeners()
 		session.DefaultManager.StopAll()
@@ -237,6 +239,7 @@ func printConsoleHelp() {
 	fmt.Println(`
   Session Management
 
+   clear                                Clear the screen
    listen [host] <port>                 Start a reverse-shell listener
    connect <host> <port>                Connect to a bind shell
    interfaces                            Show local network interfaces
@@ -247,6 +250,7 @@ func printConsoleHelp() {
    interact|use <id>                    Attach (F12/Ctrl+] detaches, Ctrl+C forwarded)
    detach                               Detach from current session
    kill <id> | killall                  Remove sessions
+   clear                               Clear the screen
 
   Session Operations
 
