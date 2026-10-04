@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -105,13 +106,19 @@ func TestHandleUploadPUTSanitizesFilename(t *testing.T) {
 }
 
 func TestSanitizeUploadFilename(t *testing.T) {
+	// On Windows, backslash is a separator so Base() yields the safe
+	// basename "evil.exe"; on Unix the whole string is rejected.
+	backslashWant := ""
+	if runtime.GOOS == "windows" {
+		backslashWant = "evil.exe"
+	}
 	cases := []struct {
 		in   string
 		want string
 	}{
 		{"tool.sh", "tool.sh"},
 		{"../../owned.txt", "owned.txt"},
-		{"..\\..\\evil.exe", ""},
+		{`..\..\evil.exe`, backslashWant},
 		{"/etc/cron.d/x", "x"},
 		{"", ""},
 		{".", ""},

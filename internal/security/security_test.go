@@ -3,6 +3,7 @@ package security
 import (
 	"crypto/tls"
 	"net"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -214,6 +215,13 @@ func TestInputValidator_ValidateCommand(t *testing.T) {
 	}
 }
 
+func absTestPath() string {
+	if runtime.GOOS == "windows" {
+		return `C:\Users\test\file.txt`
+	}
+	return "/home/user/file.txt"
+}
+
 func TestInputValidator_ValidateFilePath(t *testing.T) {
 	validator := NewInputValidator()
 
@@ -224,7 +232,7 @@ func TestInputValidator_ValidateFilePath(t *testing.T) {
 		errCode string
 	}{
 		{"valid relative path", "file.txt", false, ""},
-		{"valid absolute path", "/home/user/file.txt", false, ""},
+		{"valid absolute path", absTestPath(), false, ""},
 		{"empty path", "", true, "VAL018"},
 		{"too long path", strings.Repeat("a", 5000), true, "VAL019"},
 		{"path traversal", "../etc/passwd", true, "SEC012"},

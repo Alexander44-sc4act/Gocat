@@ -3,6 +3,7 @@
 package terminal
 
 import (
+	"fmt"
 	"os"
 	"syscall"
 	"unsafe"
@@ -47,6 +48,9 @@ func GetState(fd int) (*TerminalState, error) {
 
 // Restore restores the terminal to its previous state (Windows)
 func (ts *TerminalState) Restore() error {
+	if ts == nil {
+		return fmt.Errorf("cannot restore terminal: nil state")
+	}
 	if ts.state != nil {
 		if err := term.Restore(ts.fd, ts.state); err != nil {
 			return err
