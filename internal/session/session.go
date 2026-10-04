@@ -416,6 +416,16 @@ func (s *Session) HandleOutput(data []byte) {
 }
 
 // Determine detects the OS and shell type of the session
+func matchedShellMarker(respStr, v2, v4 string) bool {
+	if strings.Contains(respStr, v2+v4) {
+		return true
+	}
+	if strings.Contains(respStr, "is not recognized as an internal or external command") {
+		return true
+	}
+	return regexp.MustCompile(`PS.*>`).MatchString(respStr)
+}
+
 func (s *Session) Determine() bool {
 	v1 := randomString(4)
 	v2 := randomString(4)
@@ -424,23 +434,35 @@ func (s *Session) Determine() bool {
 
 	cmd := fmt.Sprintf(" %s=%s %s=%s; echo ${%s}${%s}\n", v1, v2, v3, v4, v1, v3)
 
-	_, err := s.Send([]byte(cmd))
-	if err != nil {
+	sendProbe := func() error {
+		_, err := s.Send([]byte(cmd))
+		return err
+	}
+	if err := sendProbe(); err != nil {
 		return false
 	}
 
-	// Read response
+	// Read response. Slow shells (heavy rc files, loaded hosts) can take
+	// many seconds before answering, so allow 15s and re-send the probe
+	// every 5s; input arriving late still gets answered.
 	buf := make([]byte, 16384)
 	var response []byte
-	deadline := time.Now().Add(4 * time.Second)
+	deadline := time.Now().Add(15 * time.Second)
+	nextProbe := time.Now().Add(5 * time.Second)
 
 	for time.Now().Before(deadline) {
 		s.Socket.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
 		n, err := s.Socket.Read(buf)
 		if err != nil {
 			if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-				if len(response) > 0 {
+				if len(response) > 0 && matchedShellMarker(string(response), v2, v4) {
 					break
+				}
+				if time.Now().After(nextProbe) {
+					if err := sendProbe(); err != nil {
+						break
+					}
+					nextProbe = time.Now().Add(5 * time.Second)
 				}
 				continue
 			}
@@ -449,13 +471,7 @@ func (s *Session) Determine() bool {
 		response = append(response, buf[:n]...)
 
 		respStr := string(response)
-		if strings.Contains(respStr, v2+v4) {
-			break
-		}
-		if strings.Contains(respStr, "is not recognized as an internal or external command") {
-			break
-		}
-		if regexp.MustCompile(`PS.*>`).MatchString(respStr) {
+		if matchedShellMarker(respStr, v2, v4) {
 			break
 		}
 	}

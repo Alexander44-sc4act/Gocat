@@ -28,6 +28,7 @@ import (
 	"github.com/realibrahimsql/Gocat/internal/signals"
 	"github.com/realibrahimsql/Gocat/internal/terminal"
 	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
@@ -775,6 +776,10 @@ func handleNormal(conn net.Conn) error {
 		stdoutWriter = &hexDumper{writer: hexFile, original: stdoutWriter}
 	}
 	if listenCRLFMode {
+		stdoutWriter = &crlfWriter{writer: stdoutWriter}
+	} else if f, ok := stdoutWriter.(*os.File); ok && term.IsTerminal(int(f.Fd())) {
+		// Remote shells without a PTY send bare LF; terminals need CRLF,
+		// otherwise output slides diagonally across the screen.
 		stdoutWriter = &crlfWriter{writer: stdoutWriter}
 	}
 
