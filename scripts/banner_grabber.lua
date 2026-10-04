@@ -1,4 +1,3 @@
--- Banner Grabber Script for GoCat
 -- Purpose: Service fingerprinting through banner collection
 -- Feature: Multi-protocol banner grabbing (FTP, SSH, HTTP, SMTP, etc.)
 -- Feature: Smart protocol detection and appropriate requests

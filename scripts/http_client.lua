@@ -1,4 +1,3 @@
--- HTTP Client Script for GoCat
 -- Simple HTTP client implementation
 
 function http_request(host, port, method, path, headers, body)

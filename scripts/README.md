@@ -1,6 +1,6 @@
 # GoCat Lua Scripts
 
-This directory contains Lua scripts designed for **GoCat**. These scripts use GoCat’s Lua engine feature to automate various network tasks.
+This directory contains Lua scripts for **GoCat**. These scripts use GoCat's Lua engine to automate network tasks.
 
 ## Available Scripts
 
@@ -218,4 +218,3 @@ log("info", "Encoded: " .. encoded)
 log("info", "Decoded: " .. decoded)
 ```
 
-These scripts demonstrate GoCat’s powerful Lua scripting capabilities and help automate a wide range of network tasks.

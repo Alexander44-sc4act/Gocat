@@ -1,4 +1,3 @@
--- Web Crawler Script for GoCat
 -- Crawls websites and extracts information
 
 local visited = {}

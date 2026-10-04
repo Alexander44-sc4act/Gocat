@@ -1,5 +1,4 @@
--- Port Scanner Script for GoCat
--- Purpose: Performs comprehensive port scanning on target hosts
+-- Purpose: Port scanning on target hosts
 -- Feature: TCP connection-based port detection
 -- Feature: Configurable scan ranges and timing
 -- Feature: Progress reporting and result summary

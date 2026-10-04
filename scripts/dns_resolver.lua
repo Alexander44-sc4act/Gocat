@@ -1,4 +1,3 @@
--- DNS Resolver Script for GoCat
 -- Performs DNS queries and analysis
 
 local dns_record_types = {

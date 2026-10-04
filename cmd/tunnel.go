@@ -51,7 +51,6 @@ Examples:
 	Run: runTunnel,
 }
 
-//
 // It adds tunnelCmd to the root command, defines flags for SSH connection,
 // local/remote addresses, mode toggles (reverse, dynamic), authentication
 // options (key, password, user), and compression, and marks the "ssh" flag

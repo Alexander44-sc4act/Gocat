@@ -1,5 +1,4 @@
--- Data Encoder/Decoder Script for GoCat
--- Provides various encoding and decoding utilities
+-- Encoding and decoding utilities
 
 function url_encode(str)
     if not str then return "" end

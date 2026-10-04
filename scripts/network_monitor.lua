@@ -1,4 +1,3 @@
--- Network Monitor Script for GoCat
 -- Monitors network connectivity and logs status
 
 local monitor_config = {

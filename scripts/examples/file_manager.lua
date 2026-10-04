@@ -1,4 +1,3 @@
--- File Manager Script for GoCat
 -- Advanced file operations and management
 
 -- File operations menu

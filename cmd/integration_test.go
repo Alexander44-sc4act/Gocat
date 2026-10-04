@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 	"testing"
@@ -19,6 +20,14 @@ var (
 	binaryErr  error
 )
 
+// binaryName is gocat with .exe on Windows so exec works there.
+func binaryName() string {
+	if runtime.GOOS == "windows" {
+		return "gocat.exe"
+	}
+	return "gocat"
+}
+
 // getBinaryPath returns the path to the gocat binary
 func getBinaryPath() string {
 	binaryOnce.Do(func() {
@@ -27,7 +36,7 @@ func getBinaryPath() string {
 			binaryErr = err
 			return
 		}
-		out := filepath.Join(tmpDir, "gocat")
+		out := filepath.Join(tmpDir, binaryName())
 		buildCmd := exec.Command("go", "build", "-o", out, "..")
 		if output, err := buildCmd.CombinedOutput(); err == nil {
 			binaryPath = out
@@ -60,9 +69,9 @@ func getBinaryPath() string {
 	}
 
 	// If binary not found, try to build it
-	buildCmd := exec.Command("go", "build", "-o", "gocat", "..")
+	buildCmd := exec.Command("go", "build", "-o", binaryName(), "..")
 	if err := buildCmd.Run(); err == nil {
-		return "./gocat"
+		return "./" + binaryName()
 	}
 
 	return ""

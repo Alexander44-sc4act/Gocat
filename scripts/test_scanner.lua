@@ -1,4 +1,3 @@
--- Test Port Scanner Script for GoCat
 -- Purpose: Quick port scanning test with limited range
 
 -- Configuration

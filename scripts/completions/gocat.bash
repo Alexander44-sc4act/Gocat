@@ -940,69 +940,6 @@ _gocat_convert()
     noun_aliases=()
 }
 
-_gocat_distributed()
-{
-    last_command="gocat_distributed"
-
-    command_aliases=()
-
-    commands=()
-
-    flags=()
-    two_word_flags=()
-    local_nonpersistent_flags=()
-    flags_with_completion=()
-    flags_completion=()
-
-    flags+=("--id=")
-    two_word_flags+=("--id")
-    local_nonpersistent_flags+=("--id")
-    local_nonpersistent_flags+=("--id=")
-    flags+=("--master=")
-    two_word_flags+=("--master")
-    local_nonpersistent_flags+=("--master")
-    local_nonpersistent_flags+=("--master=")
-    flags+=("--max-workers=")
-    two_word_flags+=("--max-workers")
-    local_nonpersistent_flags+=("--max-workers")
-    local_nonpersistent_flags+=("--max-workers=")
-    flags+=("--mode=")
-    two_word_flags+=("--mode")
-    local_nonpersistent_flags+=("--mode")
-    local_nonpersistent_flags+=("--mode=")
-    flags+=("--port=")
-    two_word_flags+=("--port")
-    local_nonpersistent_flags+=("--port")
-    local_nonpersistent_flags+=("--port=")
-    flags+=("--token=")
-    two_word_flags+=("--token")
-    local_nonpersistent_flags+=("--token")
-    local_nonpersistent_flags+=("--token=")
-    flags+=("--debug")
-    flags+=("--keep-open")
-    flags+=("-k")
-    flags+=("--listen")
-    flags+=("-l")
-    flags+=("--port-range=")
-    two_word_flags+=("--port-range")
-    flags+=("--profile=")
-    two_word_flags+=("--profile")
-    flags+=("--scan")
-    flags+=("-z")
-    flags+=("--ssl")
-    flags+=("--udp")
-    flags+=("-u")
-    flags+=("--verbose")
-    flags+=("-v")
-    flags+=("--wait=")
-    two_word_flags+=("--wait")
-    two_word_flags+=("-w")
-
-    must_have_one_flag=()
-    must_have_one_noun=()
-    noun_aliases=()
-}
-
 _gocat_dns-tunnel()
 {
     last_command="gocat_dns-tunnel"
@@ -3514,13 +3451,6 @@ _gocat_root_command()
         aliashash["conv"]="convert"
         command_aliases+=("protocol-convert")
         aliashash["protocol-convert"]="convert"
-    fi
-    commands+=("distributed")
-    if [[ -z "${BASH_VERSION:-}" || "${BASH_VERSINFO[0]:-}" -gt 3 ]]; then
-        command_aliases+=("cluster")
-        aliashash["cluster"]="distributed"
-        command_aliases+=("dist")
-        aliashash["dist"]="distributed"
     fi
     commands+=("dns-tunnel")
     if [[ -z "${BASH_VERSION:-}" || "${BASH_VERSINFO[0]:-}" -gt 3 ]]; then

@@ -46,7 +46,6 @@ Examples:
 	Run: runConvert,
 }
 
-//
 // It adds the --from and --to string flags for specifying source and target
 // protocol:address pairs (required), and the --buffer int flag for configuring
 // the data transfer buffer size.

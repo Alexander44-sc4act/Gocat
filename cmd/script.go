@@ -23,9 +23,8 @@ var scriptCmd = &cobra.Command{
 	Short: "Lua script management and execution",
 	Long: `Execute and manage Lua scripts for network automation.
 
-GoCat provides a powerful Lua scripting engine that allows you to automate
-various network tasks such as port scanning, banner grabbing, HTTP requests,
-and more.
+The Lua scripting engine automates network tasks such as port scanning,
+banner grabbing, and HTTP requests.
 
 Available operations:
   run      Execute a Lua script

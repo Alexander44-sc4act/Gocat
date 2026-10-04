@@ -1,5 +1,4 @@
--- Cryptographic Tools Script for GoCat
--- Various encryption, hashing, and encoding utilities
+-- Encryption, hashing, and encoding utilities
 
 -- Generate secure password
 function generate_password(length, options)
@@ -168,7 +167,7 @@ end
 function generate_keys()
     ui.cyan("Cryptographic Key Generator")
     
-    -- Generate various key sizes
+    -- Key sizes to generate
     local keys = {
         {size = 16, name = "AES-128"},
         {size = 24, name = "AES-192"},

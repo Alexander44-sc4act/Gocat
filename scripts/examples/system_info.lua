@@ -1,4 +1,3 @@
--- System Information Script for GoCat
 -- Gathers and displays comprehensive system information
 
 -- Get system information
