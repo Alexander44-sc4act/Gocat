@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 	"unicode"
@@ -70,6 +71,7 @@ type Editor struct {
 	yankPos           int
 	hintFn            func(string) string
 	validatorFn       func(string) bool
+	outMu             sync.Mutex
 }
 
 // undoState stores state for undo/redo
@@ -323,6 +325,24 @@ func (e *Editor) Readline() (string, error) {
 	}
 }
 
+// PrintAbove prints a message above the readline prompt without tearing
+// the line being typed: it clears the current line, prints the message,
+// then redraws the prompt, buffer and cursor position.
+func (e *Editor) PrintAbove(s string) {
+	if !term.IsTerminal(int(os.Stdin.Fd())) {
+		fmt.Print(s)
+		return
+	}
+	e.outMu.Lock()
+	fmt.Print("\r\033[K")
+	if !strings.HasSuffix(s, "\n") {
+		s += "\n"
+	}
+	fmt.Print(strings.ReplaceAll(s, "\n", "\r\n"))
+	e.outMu.Unlock()
+	e.refreshLine()
+}
+
 // AddHistoryEntry adds a command to history with deduplication
 func (e *Editor) AddHistoryEntry(entry string) {
 	entry = strings.TrimSpace(entry)
@@ -392,6 +412,12 @@ func (e *Editor) readChar() (byte, error) {
 
 // displayPrompt displays the prompt with optional coloring
 func (e *Editor) displayPrompt(prompt string) {
+	e.outMu.Lock()
+	defer e.outMu.Unlock()
+	e.displayPromptLocked(prompt)
+}
+
+func (e *Editor) displayPromptLocked(prompt string) {
 	if e.colorPrompt && e.promptColor != nil {
 		e.promptColor.Print(prompt)
 	} else {
@@ -443,11 +469,13 @@ func (e *Editor) killWordBackward() {
 
 // refreshLine redraws the current line with proper cursor positioning
 func (e *Editor) refreshLine() {
+	e.outMu.Lock()
+	defer e.outMu.Unlock()
 	// Clear current line
 	fmt.Print("\r\033[K")
 	// Redraw prompt and line
 	prompt := e.processPrompt(e.prompt)
-	e.displayPrompt(prompt)
+	e.displayPromptLocked(prompt)
 
 	// Apply syntax highlighting if available
 	lineStr := string(e.currentLine)
@@ -493,7 +521,9 @@ func (e *Editor) refreshLine() {
 
 // clearScreen clears the terminal screen
 func (e *Editor) clearScreen() {
+	e.outMu.Lock()
 	fmt.Print("\033[2J\033[H")
+	e.outMu.Unlock()
 	prompt := e.processPrompt(e.prompt)
 	e.displayPrompt(prompt)
 	fmt.Print(string(e.currentLine))

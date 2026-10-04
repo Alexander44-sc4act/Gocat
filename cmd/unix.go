@@ -199,6 +199,7 @@ func runUnixConnect(cmd *cobra.Command, args []string) error {
 	defer cancel()
 
 	// Read from socket, write to stdout
+	out := &relayWriter{inner: os.Stdout}
 	go func() {
 		buffer := make([]byte, unixBufferSize)
 		for {
@@ -212,7 +213,7 @@ func runUnixConnect(cmd *cobra.Command, args []string) error {
 			}
 
 			if n > 0 {
-				if _, err := os.Stdout.Write(buffer[:n]); err != nil {
+				if _, err := out.Write(buffer[:n]); err != nil {
 					logger.Error("Stdout write error: %v", err)
 					cancel()
 					return
@@ -324,6 +325,7 @@ func handleUnixConnection(conn net.Conn) {
 	defer cancel()
 
 	// Read from connection, write to stdout
+	out := &relayWriter{inner: os.Stdout}
 	go func() {
 		buffer := make([]byte, unixBufferSize)
 		for {
@@ -337,7 +339,7 @@ func handleUnixConnection(conn net.Conn) {
 			}
 
 			if n > 0 {
-				if _, err := os.Stdout.Write(buffer[:n]); err != nil {
+				if _, err := out.Write(buffer[:n]); err != nil {
 					logger.Error("Stdout write error: %v", err)
 					cancel()
 					return
