@@ -692,9 +692,11 @@ type relayWriter struct {
 }
 
 func (w *relayWriter) Write(p []byte) (int, error) {
-	fmt.Fprintf(os.Stderr, "[DBG] len=%d %q\n", len(p), string(p))
 	if w.ed == nil || !term.IsTerminal(int(os.Stdout.Fd())) {
-		return w.inner.Write(dropNoiseLines(p))
+		if _, err := w.inner.Write(dropNoiseLines(p)); err != nil {
+			return 0, err
+		}
+		return len(p), nil
 	}
 	clean := dropNoiseLines(p)
 	if len(clean) > 0 {
